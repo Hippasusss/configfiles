@@ -306,7 +306,7 @@ let g:startify_lists = [
 
 "--netrw
 let g:netrw_liststyle=3
-let g:netrw_altv=1
+let g:netrw_browse_split=0
 
 "-----------------------------------------------------------------------------------------------------"
 "-------------------------------------------------MAP-------------------------------------------------"
@@ -346,7 +346,7 @@ nnoremap <leader>= :call AutoResizeWindow(0)<CR>
 
 "--Wee Remaps
 noremap <C-V> <Esc>"*p
-nnoremap <leader>er :Lexplore<CR>:vertical resize 30<CR>
+nnoremap <leader>er :Sexplore<CR>
 nnoremap <C-j> <C-f>
 nnoremap <C-k> <C-b>
 
