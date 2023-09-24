@@ -1,0 +1,50 @@
+
+
+let mapleader = ","
+set cursorline
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set smartindent
+set backspace=2
+set number
+set encoding=utf8
+set nowrap
+set foldenable
+set foldmethod=manual
+set foldlevelstart =10
+set laststatus=2
+set guifont=InputMono_Black:h10:b:cANSI
+set scrolloff=10
+set ignorecase
+
+inoremap <Esc> <Nop>
+inoremap jj <Esc>
+
+nnoremap ;w :w<Enter>
+nnoremap ;wq :wq<Enter>
+
+no <down> ddp
+no <up> ddkP
+nnoremap ; :
+
+nnoremap <leader>v <C-q>
+nnoremap <leader>a :vsc EditorContextMenus.CodeWindow.ToggleHeaderCodeFile<CR>
+
+nnoremap tl :vsc Window.NextDocumentWindow<CR>
+nnoremap th :vsc Window.PreviousDocumentWindow<CR>
+
+nnoremap H <C-w>h
+nnoremap J <C-d>
+nnoremap K <C-u>k
+nnoremap L <C-w>l
+
+nnoremap D d$
+
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+
+nnoremap gcc :vsc Edit.ToggleComment<CR>
+vnoremap gc :vsc Edit.ToggleComment<CR><Esc><Esc>
+
+nmap v V
+
