@@ -6,5 +6,6 @@
     "suggest.noselect": true,
     "diagnostic.errorSign": "!",
     "cmake.cmakePath": "C:\\Program Files\\CMake\\bin\\cmake.exe",
-    "diagnostic.warningSign" : "?"
+    "diagnostic.warningSign" : "?",
+    "powershell.integratedConsole.showOnStartup": false
 }
