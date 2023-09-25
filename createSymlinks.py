@@ -17,10 +17,11 @@ for key, value in FilesDestination.items():
     # check for preexisting file and delete it if there to be replaced with link
     if os.path.isfile(destination):
         print(f"file {destination} already exits")
-        print(f"deleting {destination}")
-        if os.path.islink(destination):
-            os.unlink(destination)
+        if os.path.samefile(source, destination):
+            print("already linked!")
+            continue
         else:
+            print(f"different file: deleting {destination}")
             os.remove(destination)
 
     #create links
