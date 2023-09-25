@@ -36,7 +36,8 @@ filetype plugin indent on
 filetype plugin on
 
 let mapleader = ","
-colorscheme TomorrowNight
+set runtimepath+=$HOME\vimfiles\colors\
+colorscheme Tomorrow-Night
 syntax on
 
 "-----------------------------------------------------------------------------------------------------"
