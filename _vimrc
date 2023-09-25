@@ -306,7 +306,6 @@ let g:startify_lists = [
 
 "--netrw
 let g:netrw_liststyle=3
-let g:netrw_browse_split=0
 
 "-----------------------------------------------------------------------------------------------------"
 "-------------------------------------------------MAP-------------------------------------------------"
@@ -325,6 +324,7 @@ nnoremap ;w :w<CR>
 nnoremap ;wq :wq<CR>
 nnoremap ;ewq :wqa<CR>
 nnoremap ;;c :pclose<space>\|<space>cclose<space>\|<space>helpclose<CR>
+nnoremap <leader>cd :lcd %:p:h<CR>:pwd<CR>
 
 "--Window Navigation Modification
 nnoremap H <C-w>h
@@ -346,7 +346,7 @@ nnoremap <leader>= :call AutoResizeWindow(0)<CR>
 
 "--Wee Remaps
 noremap <C-V> <Esc>"*p
-nnoremap <leader>er :Sexplore<CR>
+nnoremap <leader>er :Explore<CR>
 nnoremap <C-j> <C-f>
 nnoremap <C-k> <C-b>
 
@@ -363,10 +363,10 @@ nnoremap <leader>fr :OverCommandLine<CR>%s/
 nnoremap <leader>gm :call ShowMarksToggle()<CR>
 nnoremap <leader>gl :call ToggleLines()<CR>
 nnoremap <leader>gg :GitGutterSignsToggle<CR>
-nnoremap <leader>gh :GitGutterLineHighlightsToggle<CR>
 
 "--Fugitive
 nnoremap ;gac :Git add -- .<CR> :Git commit -m '
+nnoremap ;gc :Git commit -m '
 nnoremap ;gg :Git<CR>
 
 "--A.Vim Switch .h .cpp
