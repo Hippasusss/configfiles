@@ -8,5 +8,5 @@ FilesDestination = {
     ".bashrc"                          : HOME,
     "Tomorrow-Night.vim"               : os.path.join(HOME, "vimfiles\\colors"),
     "coc-settings.json "               : os.path.join(HOME, "vimfiles"),
-    "Microsoft.PowerShell_profile.ps1" : os.path.join(HOME, "Documents\\WindowsPowerShell"),
+    "Microsoft.PowerShell_profile.ps1" : os.path.join(HOME, "Documents\\PowerShell"),
 }
