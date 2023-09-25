@@ -369,6 +369,7 @@ nnoremap <leader>gg :GitGutterSignsToggle<CR>
 nnoremap ;gac :Git add -- .<CR> :Git commit -m '
 nnoremap ;gc :Git commit -m '
 nnoremap ;gg :Git<CR>
+nnoremap ;gp :Git push<CR>
 
 "--A.Vim Switch .h .cpp
 nnoremap <leader>a :A<CR>
