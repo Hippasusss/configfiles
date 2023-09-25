@@ -30,6 +30,7 @@ Plug 'ReekenX/vim-rename2' "allow renaming of current file with :Rename
 Plug 'mhinz/vim-startify' "start screen
 Plug 'gillyb/stable-windows' "keep Windows aligned when new split
 Plug 'neoclide/coc.nvim', { 'merged': 0, 'rev': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} "lsp
+Plug 'PProvost/vim-ps1'
 call plug#end()
 
 filetype plugin indent on
