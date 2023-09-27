@@ -395,8 +395,8 @@ map  N <Plug>(easymotion-prev)
 
 "--coc
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gn <Plug>(coc-type-definition)
+nmap <silent> gs <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gl :call CocAction('diagnosticNext')<cr>
 nmap <silent> gh :call CocAction('diagnosticPrevious')<cr>
