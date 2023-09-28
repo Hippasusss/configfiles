@@ -1,36 +1,40 @@
-"-----------------------------------------------------------------------------------------------------"
 "------------------------------------------------PLUGIN-----------------------------------------------"
 "-----------------------------------------------------------------------------------------------------"
 call plug#begin()
 Plug 'tpope/vim-fugitive' "Git Integration
-Plug 'tpope/vim-rhubarb' "DEP 
-Plug 'tpope/vim-surround' "Surround things
-Plug 'tpope/vim-commentary' "Comment Things Out with gc
-Plug 'tpope/vim-vinegar' "Netrw better
 Plug 'tpope/vim-dispatch' "DEP asynch
-Plug 'tpope/vim-repeat' "Repeat with . for plugins
+Plug 'tpope/vim-rhubarb' "DEP github 
 Plug 'xolox/vim-misc' "Xolox Dependency DEP
 Plug 'xolox/vim-shell' "Fullscreen Support
+
 Plug 'vim-airline/vim-airline' "Status Bar
 Plug 'vim-airline/vim-airline-themes' "Status Bar
 Plug 'enricobacis/vim-airline-clock' "Status Bar Clock
-Plug 'Raimondi/delimitMate' "Brace/Quote/etc Completion
-Plug 'ctrlpvim/ctrlp.vim' "Search for files
-Plug 'OrangeT/vim-csharp' "Better C#
+
 Plug 'easymotion/vim-easymotion' "Search For Characters/Patterns
 Plug 'osyo-manga/vim-over' "Find Replace
 Plug 'Yggdroot/indentLine' "Indent Markers
-Plug 'vim-scripts/a.vim' "Switch between .h and .cpp
 Plug 'sheerun/vim-polyglot' "language packs
-Plug 'jacquesbh/vim-showmarks' "Show marks in file
+Plug 'vim-scripts/a.vim' "Switch between .h and .cpp
 Plug 'tenfyzhong/vim-gencode-cpp' "Generate cpp function definitions
-Plug 'airblade/vim-gitgutter' "Git In The Gutteer
+
+Plug 'jacquesbh/vim-showmarks' "Show marks in Gutter 
+Plug 'airblade/vim-gitgutter' "Git In The Gutter
+
+Plug 'tpope/vim-commentary' "Comment Things Out with gc
+Plug 'tpope/vim-surround' "Surround things
 Plug 'godlygeek/tabular' "aligning :Tabularize
 Plug 'ReekenX/vim-rename2' "allow renaming of current file with :Rename
+Plug 'gillyb/stable-windows' "keep lines in window aligned when new split
+"
 Plug 'mhinz/vim-startify' "start screen
-Plug 'gillyb/stable-windows' "keep Windows aligned when new split
 Plug 'neoclide/coc.nvim', { 'merged': 0, 'rev': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} "lsp
-Plug 'PProvost/vim-ps1'
+Plug '/lambdalisue/fern.vim' "file tree
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "search for files faster
+Plug 'ctrlpvim/ctrlp.vim' "Search for files
+Plug 'tacahiroy/ctrlp-funky' "Search for funtions
+Plug 'FelikZ/ctrlp-py-matcher' "CtrlP faster with python"
 call plug#end()
 
 filetype plugin indent on
@@ -139,40 +143,32 @@ function! ShowMarksToggle()
     endif
 endfunction
 
-"--Resize Window To Fit
-function! Sum(vals)
-    let acc = 0
-    for val in a:vals
-        let acc += val
-    endfor
-    return acc
-endfunction
-
 "---------------------------------------private
-function! LogicalLineCounts()
-    if &wrap
-        let width = winwidth(0)
-        let line_counts = map(range(1, line('$')), "foldclosed(v:val)==v:val?1:(virtcol([v:val, '$'])/width)+1")
-    else
-        let line_counts = [line('$')]
-    endif
-    return line_counts
-endfunction
-
-function! LinesHiddenByFoldsCount()
-    let lines = range(1, line('$'))
-    call filter(lines, "foldclosed(v:val) > 0 && foldclosed(v:val) != v:val")
-    return len(lines)
-endfunction
 
 function! AutoResizeWindow(vert)
     if a:vert
         let longest = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
         exec "vertical resize " . (longest+4)
     else
-        let line_counts  = LogicalLineCounts()
-        let folded_lines = LinesHiddenByFoldsCount()
-        let lines        = Sum(line_counts) - folded_lines
+        let line_counts = 0
+        if &wrap
+            let width = winwidth(0)
+            let line_counts = map(range(1, line('$')), "foldclosed(v:val)==v:val?1:(virtcol([v:val, '$'])/width)+1")
+        else
+            let line_counts = [line('$')]
+        endif
+
+        let acc = 0
+        for val in a:line_counts
+            let acc += val
+        endfor
+
+
+        let folded_lines = range(1, line('$'))
+        call filter(folded_lines, "foldclosed(v:val) > 0 && foldclosed(v:val) != v:val")
+        let folded_lines_count = len(lines)
+
+        let lines = acc - folded_lines_count
         exec 'resize ' . lines
         1
     endif
@@ -193,9 +189,8 @@ set columns=160
 set scrolloff=4
 set backspace=2
 set shiftwidth=4 softtabstop=4 expandtab
-set foldenable foldmethod=manual foldlevelstart=10 foldcolumn=1
 set wrap linebreak
-set smartindent ignorecase smartcase
+set smartindent smartcase
 set sessionoptions+=resize,winpos
 set splitbelow splitright
 
@@ -206,9 +201,8 @@ set cursorline
 set noshowmode
 set encoding=utf-8
 set guifont=InputMono_Medium:h10:cANSI:qDRAFT
-set updatetime=100
+set updatetime=1000
 set incsearch
-set nohlsearch
 set completeopt+=preview
 
 "--Remove Elements
@@ -257,6 +251,8 @@ let g:cursormode_color_map = {
 
 let g:coc_notify_error_icon=":("
 
+"--CtrlP Funky
+let g:ctrlp_funky_syntax_highlight = 1
 
 "--GitGutter
 let g:gitgutter_enabled = 1
@@ -315,7 +311,6 @@ let g:netrw_liststyle=3
 
 "---Mode
 inoremap <Esc> <Nop>
-nnoremap <Space> <Esc>
 inoremap jj <Esc>
 nnoremap v V
 nnoremap V <C-q>
@@ -324,7 +319,6 @@ nnoremap V <C-q>
 nnoremap ; :
 nnoremap ;w :w<CR>
 nnoremap ;wq :wq<CR>
-nnoremap ;ewq :wqa<CR>
 nnoremap ;;c :pclose<space>\|<space>cclose<space>\|<space>helpclose<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>:pwd<CR>
 
@@ -348,15 +342,15 @@ nnoremap <leader>= :call AutoResizeWindow(0)<CR>
 
 "--Wee Remaps
 noremap <C-V> <Esc>"*p
-nnoremap <leader>er :Explore<CR>
-nnoremap <C-j> <C-f>
-nnoremap <C-k> <C-b>
+nnoremap <leader>er :Fern . -drawer<CR>
+nmap <leader>j <c-f>
+nmap <leader>k <c-b>
 
 "--Edit Vimrc and Color
 nnoremap <leader>ev :e $HOME/configfiles/_vimrc<CR>
 nnoremap <leader>eb :e $HOME/.bashrc<CR>
-nnoremap <leader>rv :so $MYVIMRC<CR> :Fullscreen<CR> :Fullscreen<CR>
 nnoremap <Leader>ec :e <C-R>=get(split(globpath(&runtimepath, 'colors/' . g:colors_name . '.vim'), "\n"), 0, '')<CR><CR>
+nnoremap <leader>rv :so $MYVIMRC<CR> :Fullscreen<CR> :Fullscreen<CR>
 
 "--Find And Replace
 nnoremap <leader>fr :OverCommandLine<CR>%s/
@@ -367,31 +361,21 @@ nnoremap <leader>gl :call ToggleLines()<CR>
 nnoremap <leader>gg :GitGutterSignsToggle<CR>
 
 "--Fugitive
-nnoremap ;gac :Git add -- .<CR> :Git commit -m '
-nnoremap ;gc :Git commit -m '
-nnoremap ;gg :Git<CR>
-nnoremap ;gp :Git push<CR>
+nnoremap ;gg :G<CR>
+nnoremap ;gp :G push<CR>
 
 "--A.Vim Switch .h .cpp
 nnoremap <leader>a :A<CR>
 nnoremap <leader><leader>a :AV<CR>
 
-"--Buffers
-nnoremap <leader>bl :bprevious<CR>
-nnoremap <leader>bh :bnext<CR>
-nnoremap <leader>bs :buffers<CR>
-
 "--Ctrl P
-nnoremap ;;p :CtrlP<CR>
+nnoremap <leader>cp :CtrlP<CR>
+nnoremap <Leader>cf :CtrlPFunky<Cr>
 
 "--Easy Motion
 nmap s <Plug>(easymotion-s)
-nmap <leader>j <Plug>(easymotion-j)
-nmap <leader>k <Plug>(easymotion-k)
 nmap / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
 
 "--coc
 nmap <silent> gd <Plug>(coc-definition)
@@ -400,5 +384,4 @@ nmap <silent> gs <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gl :call CocAction('diagnosticNext')<cr>
 nmap <silent> gh :call CocAction('diagnosticPrevious')<cr>
-nmap <silent> gq <C-o>
 nnoremap <silent> gi :call ShowDocumentation()<CR>
