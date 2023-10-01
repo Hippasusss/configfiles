@@ -7,4 +7,6 @@ foreach($install in $installArray)
     [console]::beep(100,100)
 }
 
+Install-Module -Name CompletionPredictor                                                                    ─╯
+
 python3 .\createSymlinks.py
