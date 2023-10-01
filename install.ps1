@@ -7,6 +7,8 @@ foreach($install in $installArray)
     [console]::beep(100,100)
 }
 
-Install-Module -Name CompletionPredictor
+Install-Module -Name CompletionPredictor -Repository PSGallery
+Import-Module -Name CompletionPredictor
+Set-PSReadLineOption -PredictionSource Plugin
 
 python3 .\createSymlinks.py
