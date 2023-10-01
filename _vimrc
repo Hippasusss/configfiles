@@ -190,7 +190,8 @@ set scrolloff=4
 set backspace=2
 set shiftwidth=4 softtabstop=4 expandtab
 set wrap linebreak
-set smartindent smartcase
+set ignorecase smartcase
+set smartindent 
 set sessionoptions+=resize,winpos
 set splitbelow splitright
 
@@ -342,7 +343,6 @@ nnoremap <leader>= :call AutoResizeWindow(0)<CR>
 
 "--Wee Remaps
 noremap <C-V> <Esc>"*p
-nnoremap <leader>er :Fern . -drawer<CR>
 nmap <leader>j <c-f>
 nmap <leader>k <c-b>
 
@@ -371,11 +371,15 @@ nnoremap <leader><leader>a :AV<CR>
 "--Ctrl P
 nnoremap <leader>cp :CtrlP<CR>
 nnoremap <Leader>cf :CtrlPFunky<Cr>
+nnoremap <leader>cz :FZF ~ <CR>
 
 "--Easy Motion
 nmap s <Plug>(easymotion-s)
 nmap / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
+
+"--Fern
+nmap <silent> <Leader>er :Fern . <CR>
 
 "--coc
 nmap <silent> gd <Plug>(coc-definition)
@@ -385,3 +389,4 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gl :call CocAction('diagnosticNext')<cr>
 nmap <silent> gh :call CocAction('diagnosticPrevious')<cr>
 nnoremap <silent> gi :call ShowDocumentation()<CR>
+
