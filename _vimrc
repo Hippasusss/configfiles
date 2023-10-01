@@ -347,7 +347,7 @@ nmap <leader>j <c-f>
 nmap <leader>k <c-b>
 
 "--Edit Vimrc and Color
-nnoremap <leader>ev :e $HOME/configfiles/_vimrc<CR>
+nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>eb :e $HOME/.bashrc<CR>
 nnoremap <Leader>ec :e <C-R>=get(split(globpath(&runtimepath, 'colors/' . g:colors_name . '.vim'), "\n"), 0, '')<CR><CR>
 nnoremap <leader>rv :so $MYVIMRC<CR> :Fullscreen<CR> :Fullscreen<CR>
