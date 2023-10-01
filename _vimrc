@@ -357,7 +357,6 @@ nnoremap <leader>fr :OverCommandLine<CR>%s/
 
 "--Gutter
 nnoremap <leader>gm :call ShowMarksToggle()<CR>
-nnoremap <leader>gl :call ToggleLines()<CR>
 nnoremap <leader>gg :GitGutterSignsToggle<CR>
 
 "--Fugitive
@@ -382,11 +381,11 @@ omap / <Plug>(easymotion-tn)
 nmap <silent> <Leader>er :Fern . <CR>
 
 "--coc
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gn <Plug>(coc-type-definition)
-nmap <silent> gs <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gl :call CocAction('diagnosticNext')<cr>
-nmap <silent> gh :call CocAction('diagnosticPrevious')<cr>
-nnoremap <silent> gi :call ShowDocumentation()<CR>
+nmap <silent><leader>gd <Plug>(coc-definition)
+nmap <silent><leader>gn <Plug>(coc-type-definition)
+nmap <silent><leader>gs <Plug>(coc-implementation)
+nmap <silent><leader>gr <Plug>(coc-references)
+nmap <silent><leader>gl :call CocAction('diagnosticNext')<cr>
+nmap <silent><leader>gh :call CocAction('diagnosticPrevious')<cr>
+nnoremap <silent><leader> gi :call ShowDocumentation()<CR>
 
