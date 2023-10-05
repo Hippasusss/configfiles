@@ -26,9 +26,9 @@
           "type": "path"
         },
         {
-          "background": "#8fd4db",
+          "background": "#fff4fb",
           "background_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#e3c06d{{ end }}",
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#e3f09d{{ end }}",
             "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#f26d50{{ end }}",
             "{{ if gt .Ahead 0 }}#89d1dc{{ end }}",
             "{{ if gt .Behind 0 }}#4e9a06{{ end }}"
@@ -39,8 +39,7 @@
             "branch_icon": "\uf126 ",
             "fetch_stash_count": true,
             "fetch_status": true,
-            "fetch_upstream_icon": true,
-            "commit_icon": "V"
+            "fetch_upstream_icon": true
 
           },
           "style": "powerline",
