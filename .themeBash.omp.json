@@ -6,7 +6,7 @@
       "alignment": "left",
       "segments": [
         {
-          "background": "#d3d7cf",
+          "background": "#dddddd",
           "foreground": "#000000",
           "leading_diamond": "\u256d\u2500\ue0b2",
           "style": "diamond",
@@ -14,8 +14,8 @@
           "type": "os"
         },
         {
-          "background": "#ab7e7e",
-          "foreground": "#e4e4e4",
+          "background": "#ffffff",
+          "foreground": "#000000",
           "powerline_symbol": "\ue0b0",
           "properties": {
             "home_icon": "~",

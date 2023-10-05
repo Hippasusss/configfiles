@@ -1,3 +1,3 @@
-eval "$(oh-my-posh --init --shell bash --config ~/.mytheme2.omp.json)"
+eval "$(oh-my-posh --init --shell bash --config ~/.themeBash.omp.json)"
 
 alias ll="ls -al"
