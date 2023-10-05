@@ -331,7 +331,7 @@ nnoremap L <C-w>l
 nnoremap tl :tabnext<CR>
 nnoremap th :tabprevious<CR>
 nnoremap tn :tabnew<CR>
-nnoremap tq :tabclose<CR>
+nnoremap tw <C-W>T
 nnoremap { {zz
 nnoremap } }zz
 nnoremap - <C-w><
@@ -366,6 +366,7 @@ nnoremap ;gp :G push<CR>
 "--A.Vim Switch .h .cpp
 nnoremap <leader>a :A<CR>
 nnoremap <leader><leader>a :AV<CR>
+nnoremap <leader>A :GenDefinition<CR>
 
 "--Ctrl P
 nnoremap <leader>cp :CtrlP<CR>
@@ -378,14 +379,15 @@ nmap / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
 "--Fern
-nmap <silent> <Leader>er :Fern . <CR>
+nmap <silent><Leader>er :Fern . <CR>
 
 "--coc
 nmap <silent><leader>gd <Plug>(coc-definition)
 nmap <silent><leader>gn <Plug>(coc-type-definition)
 nmap <silent><leader>gs <Plug>(coc-implementation)
 nmap <silent><leader>gr <Plug>(coc-references)
+nmap <silent><leader>gf <Plug>(coc-fix-current)
 nmap <silent><leader>gl :call CocAction('diagnosticNext')<cr>
 nmap <silent><leader>gh :call CocAction('diagnosticPrevious')<cr>
-nnoremap <silent><leader> gi :call ShowDocumentation()<CR>
+nnoremap <silent><leader>gi :call ShowDocumentation()<CR>
 
