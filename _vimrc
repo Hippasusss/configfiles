@@ -378,6 +378,9 @@ nmap s <Plug>(easymotion-s)
 nmap / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
+"--Startify
+nnoremap <leader>wq :SSave!<CR> :SClose<CR> :q!<CR>
+
 "--Fern
 nmap <silent><Leader>er :Fern . <CR>
 
