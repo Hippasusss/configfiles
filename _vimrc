@@ -29,7 +29,6 @@ Plug 'gillyb/stable-windows' "keep lines in window aligned when new split
 "
 Plug 'mhinz/vim-startify' "start screen
 Plug 'neoclide/coc.nvim', { 'merged': 0, 'rev': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} "lsp
-Plug '/lambdalisue/fern.vim' "file tree
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "search for files faster
 Plug 'ctrlpvim/ctrlp.vim' "Search for files
@@ -380,9 +379,6 @@ omap / <Plug>(easymotion-tn)
 
 "--Startify
 nnoremap <leader>wq :SSave!<CR> :SClose<CR> :q!<CR>
-
-"--Fern
-nmap <silent><Leader>er :Fern . <CR>
 
 "--coc
 nmap <silent><leader>gd <Plug>(coc-definition)
