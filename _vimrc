@@ -386,6 +386,7 @@ nmap <silent><leader>gn <Plug>(coc-type-definition)
 nmap <silent><leader>gs <Plug>(coc-implementation)
 nmap <silent><leader>gr <Plug>(coc-references)
 nmap <silent><leader>gf <Plug>(coc-fix-current)
+nmap <silent><leader>gc <Plug>(coc-rename)
 nmap <silent><leader>gl :call CocAction('diagnosticNext')<cr>
 nmap <silent><leader>gh :call CocAction('diagnosticPrevious')<cr>
 nnoremap <silent><leader>gi :call ShowDocumentation()<CR>
