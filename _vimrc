@@ -2,8 +2,6 @@ call plug#begin()
 Plug 'tpope/vim-fugitive' "Git Integration
 Plug 'tpope/vim-dispatch' "DEP asynch
 Plug 'tpope/vim-rhubarb' "DEP github 
-Plug 'xolox/vim-misc' "Xolox Dependency DEP
-Plug 'xolox/vim-shell' "Fullscreen Support
 
 Plug 'vim-airline/vim-airline' "Status Bar
 Plug 'vim-airline/vim-airline-themes' "Status Bar
@@ -23,10 +21,9 @@ Plug 'tpope/vim-commentary' "Comment Things Out with gc
 Plug 'tpope/vim-surround' "Surround things
 Plug 'godlygeek/tabular' "aligning :Tabularize
 Plug 'ReekenX/vim-rename2' "allow renaming of current file with :Rename
-Plug 'gillyb/stable-windows' "keep lines in window aligned when new split
-"
+
 Plug 'mhinz/vim-startify' "start screen
-Plug 'neoclide/coc.nvim', { 'merged': 0, 'rev': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} "lsp
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "search for files faster
 Plug 'junegunn/fzf.vim'
 call plug#end()
@@ -48,28 +45,11 @@ augroup ClearHighlight
     autocmd BufWrite,InsertEnter,WinLeave * let @/=""
 augroup END
 
-augroup FulscreenOnEnter
-    if has("gui_running")
-        autocmd!
-        autocmd VimEnter * silent execute("Fullscreen")
-    endif
-augroup END
-
-augroup HelpMax
-    autocmd!
-    autocmd BufWinEnter * if &l:buftype==#'help' | wincmd _ | endif
-augroup END
-
 augroup PreviewWindow
     autocmd!
     autocmd BufCreate * if &previewwindow && (!bufexists(bufname('')) || expand('%:e')==#'tmp') | call FormatPreviewWindowDocs()|endif
     autocmd BufWrite * pclose | setlocal laststatus=2
     autocmd BufWinLeave * setlocal laststatus=2
-augroup END
-
-augroup FugitiveWindow
-    autocmd!
-    autocmd WinEnter * if &previewwindow && &filetype==?'gitcommit' | wincmd J |endif
 augroup END
 
 augroup RememberLineNrWhenReopeningFile
@@ -249,9 +229,6 @@ let g:cursormode_color_map = {
 
 let g:coc_notify_error_icon=":("
 
-"--CtrlP Funky
-let g:ctrlp_funky_syntax_highlight = 1
-
 "--GitGutter
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
@@ -262,10 +239,6 @@ let g:gitgutter_sign_modified = 'o'
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = 'x1'
 let g:gitgutter_sign_modified_removed = 'xo'
-
-"--Delimitmate
-let delimitMate_expand_cr = 1
-let delimitMate_matchpairs = "(:),[:],{:}"
 
 "--Fulscreen
 let g:shell_fullscreen_items = 'mt'
@@ -346,7 +319,7 @@ nmap <leader>k <c-b>
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>eb :e $HOME/.bashrc<CR>
 nnoremap <Leader>ec :e <C-R>=get(split(globpath(&runtimepath, 'colors/' . g:colors_name . '.vim'), "\n"), 0, '')<CR><CR>
-nnoremap <leader>rv :so $MYVIMRC<CR> :Fullscreen<CR> :Fullscreen<CR>
+nnoremap <leader>rv :so $MYVIMRC<CR>;
 
 "--Find And Replace
 nnoremap <leader>fr :OverCommandLine<CR>%s/
