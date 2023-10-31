@@ -321,9 +321,6 @@ nnoremap <leader>eb :e $HOME/.bashrc<CR>
 nnoremap <Leader>ec :e <C-R>=get(split(globpath(&runtimepath, 'colors/' . g:colors_name . '.vim'), "\n"), 0, '')<CR><CR>
 nnoremap <leader>rv :so $MYVIMRC<CR>;
 
-"--Find And Replace
-nnoremap <leader>fr :OverCommandLine<CR>%s/
-
 "--Gutter
 nnoremap <leader>gm :call ShowMarksToggle()<CR>
 nnoremap <leader>gg :GitGutterSignsToggle<CR>
