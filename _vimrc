@@ -185,7 +185,7 @@ set directory=$VIM\\back
 "--Window Config
 set pumheight=10 pumwidth=40
 set columns=160
-set scrolloff=4
+set scrolloff=100
 set backspace=2
 set shiftwidth=4 softtabstop=4 expandtab
 set wrap linebreak
@@ -339,6 +339,7 @@ nnoremap _ <C-w>-
 nnoremap + <C-w>+
 nnoremap <leader>- :call AutoResizeWindow(1)<CR>
 nnoremap <leader>= :call AutoResizeWindow(0)<CR>
+nnoremap <leader>s <C-6>
 
 "--Wee Remaps
 noremap <C-V> <Esc>"*p
