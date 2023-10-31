@@ -288,5 +288,7 @@
         }
     ],
     "themes": [],
-    "windowingBehavior": "useAnyExisting"
+    "windowingBehavior": "useAnyExisting",
+    "padding": "0",
+    "scrollbarstate": "hidden"
 }
