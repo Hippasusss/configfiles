@@ -1,5 +1,3 @@
-"------------------------------------------------PLUGIN-----------------------------------------------"
-"-----------------------------------------------------------------------------------------------------"
 call plug#begin()
 Plug 'tpope/vim-fugitive' "Git Integration
 Plug 'tpope/vim-dispatch' "DEP asynch
@@ -38,7 +36,7 @@ filetype plugin on
 
 let mapleader = ","
 set runtimepath+=$HOME\vimfiles\colors\
-colorscheme Tomorrow-Night
+colorscheme Tomorrow-Night 
 syntax on
 
 "-----------------------------------------------------------------------------------------------------"
@@ -51,8 +49,10 @@ augroup ClearHighlight
 augroup END
 
 augroup FulscreenOnEnter
-    autocmd!
-    autocmd VimEnter * silent execute("Fullscreen")
+    if has("gui_running")
+        autocmd!
+        autocmd VimEnter * silent execute("Fullscreen")
+    endif
 augroup END
 
 augroup HelpMax
@@ -388,3 +388,17 @@ nmap <silent><leader>gl :call CocAction('diagnosticNext')<cr>
 nmap <silent><leader>gh :call CocAction('diagnosticPrevious')<cr>
 nnoremap <silent><leader>gi :call ShowDocumentation()<CR>
 
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Highlight'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
