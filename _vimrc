@@ -8,7 +8,6 @@ Plug 'vim-airline/vim-airline-themes' "Status Bar
 Plug 'enricobacis/vim-airline-clock' "Status Bar Clock
 
 Plug 'easymotion/vim-easymotion' "Search For Characters/Patterns
-Plug 'osyo-manga/vim-over' "Find Replace
 Plug 'Yggdroot/indentLine' "Indent Markers
 Plug 'sheerun/vim-polyglot' "language packs
 Plug 'vim-scripts/a.vim' "Switch between .h and .cpp
@@ -170,6 +169,7 @@ set ignorecase smartcase
 set smartindent 
 set sessionoptions+=resize,winpos
 set splitbelow splitright
+set nohlsearch
 
 "--Global Settings
 set visualbell
