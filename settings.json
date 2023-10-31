@@ -6,10 +6,26 @@
         {
             "command": 
             {
+                "action": "moveFocus",
+                "direction": "down"
+            },
+            "keys": "ctrl+j"
+        },
+        {
+            "command": 
+            {
                 "action": "copy",
                 "singleLine": false
             },
             "keys": "ctrl+c"
+        },
+        {
+            "command": 
+            {
+                "action": "moveFocus",
+                "direction": "up"
+            },
+            "keys": "ctrl+k"
         },
         {
             "command": "paste",
@@ -27,12 +43,29 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
+        },
+        {
+            "command": 
+            {
+                "action": "moveFocus",
+                "direction": "right"
+            },
+            "keys": "ctrl+l"
+        },
+        {
+            "command": 
+            {
+                "action": "moveFocus",
+                "direction": "left"
+            },
+            "keys": "ctrl+h"
         }
     ],
     "centerOnLaunch": true,
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "experimental.rendering.forceFullRepaint": true,
     "firstWindowPreference": "persistedWindowLayout",
     "launchMode": "fullscreen",
     "newTabMenu": 
@@ -63,6 +96,8 @@
                 "hidden": false,
                 "intenseTextStyle": "all",
                 "name": "PowerShell",
+                "padding": "0, 0, 0, -3",
+                "scrollbarState": "hidden",
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
@@ -288,7 +323,5 @@
         }
     ],
     "themes": [],
-    "windowingBehavior": "useAnyExisting",
-    "padding": "0",
-    "scrollbarstate": "hidden"
+    "windowingBehavior": "useAnyExisting"
 }
