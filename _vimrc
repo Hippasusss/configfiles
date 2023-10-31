@@ -29,11 +29,8 @@ Plug 'gillyb/stable-windows' "keep lines in window aligned when new split
 "
 Plug 'mhinz/vim-startify' "start screen
 Plug 'neoclide/coc.nvim', { 'merged': 0, 'rev': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} "lsp
-
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "search for files faster
-Plug 'ctrlpvim/ctrlp.vim' "Search for files
-Plug 'tacahiroy/ctrlp-funky' "Search for funtions
-Plug 'FelikZ/ctrlp-py-matcher' "CtrlP faster with python"
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 filetype plugin indent on
@@ -185,7 +182,7 @@ set directory=$VIM\\back
 "--Window Config
 set pumheight=10 pumwidth=40
 set columns=160
-set scrolloff=100
+set scrolloff=999
 set backspace=2
 set shiftwidth=4 softtabstop=4 expandtab
 set wrap linebreak
@@ -214,6 +211,7 @@ set guioptions-=L  "remove left-hand scroll bar
 "-----------------------------------------------------------------------------------------------------"
 "-------------------------------------------------LET-------------------------------------------------"
 "-----------------------------------------------------------------------------------------------------"
+"
 
 "--Airline
 let g:airline_right_sep=''
@@ -331,8 +329,6 @@ nnoremap tl :tabnext<CR>
 nnoremap th :tabprevious<CR>
 nnoremap tn :tabnew<CR>
 nnoremap tw <C-W>T
-nnoremap { {zz
-nnoremap } }zz
 nnoremap - <C-w><
 nnoremap = <C-w>>
 nnoremap _ <C-w>-
@@ -368,10 +364,10 @@ nnoremap <leader>a :A<CR>
 nnoremap <leader><leader>a :AV<CR>
 nnoremap <leader>A :GenDefinition<CR>
 
-"--Ctrl P
-nnoremap <leader>cp :CtrlP<CR>
-nnoremap <Leader>cf :CtrlPFunky<Cr>
-nnoremap <leader>cz :FZF ~ <CR>
+"--FZF
+nnoremap <leader>cp :FZF <CR>
+nnoremap <leader>ch :FZF ~ <CR>
+nnoremap <leader>cg :Rg <CR>
 
 "--Easy Motion
 nmap s <Plug>(easymotion-s)
