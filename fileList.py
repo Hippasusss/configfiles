@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 HOME = Path.home()
-FilesDestination = {
+HardLinkFilesDestination = {
     "_vimrc"                           : HOME,
     "_vsvimrc"                         : HOME,
     ".bashrc"                          : HOME,
@@ -12,4 +12,7 @@ FilesDestination = {
     ".theme.omp.json"                  : HOME,
     ".themeBash.omp.json"              : HOME,
     "settings.json"                    : os.path.join(HOME, "AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState")
+}
+
+SoftLinkFilesDestination = {
 }
