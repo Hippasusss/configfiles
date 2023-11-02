@@ -292,6 +292,7 @@ nnoremap ;w :w<CR>
 nnoremap ;wq :wq<CR>
 nnoremap ;;c :pclose<space>\|<space>cclose<space>\|<space>helpclose<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>:pwd<CR>
+nnoremap <leader>yp :let @" = expand("%")<CR>
 
 "--Window Navigation Modification
 nnoremap H <C-w>h
