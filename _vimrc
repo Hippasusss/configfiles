@@ -284,7 +284,8 @@ let g:netrw_liststyle=3
 inoremap <Esc> <Nop>
 inoremap jj <Esc>
 nnoremap v V
-nnoremap V <C-q>
+nnoremap V v
+nnoremap <C-v> <C-q>
 
 "--File Save Exit
 nnoremap ; :
@@ -336,9 +337,9 @@ nnoremap <leader><leader>a :AV<CR>
 nnoremap <leader>A :GenDefinition<CR>
 
 "--FZF
-nnoremap <leader>cp :FZF <CR>
-nnoremap <leader>ch :FZF ~ <CR>
-nnoremap <leader>cg :Rg <CR>
+nnoremap <leader>fp :FZF <CR>
+nnoremap <leader>fh :FZF ~ <CR>
+nnoremap <leader>fg :Rg <CR>
 
 "--Easy Motion
 nmap s <Plug>(easymotion-s)
