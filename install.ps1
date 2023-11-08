@@ -1,5 +1,5 @@
 
-$installArray = @("vim.vim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell", "Microsoft.PowerToys", "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh -s winget", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat")
+$installArray = @("vim.vim", "Neovim.Neovim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell", "Microsoft.PowerToys", "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh -s winget", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat")
 
 foreach($install in $installArray)
 {
