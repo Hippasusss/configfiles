@@ -13,7 +13,6 @@ Plug 'sheerun/vim-polyglot' "language packs
 Plug 'vim-scripts/a.vim' "Switch between .h and .cpp
 Plug 'tenfyzhong/vim-gencode-cpp' "Generate cpp function definitions
 
-Plug 'jacquesbh/vim-showmarks' "Show marks in Gutter 
 Plug 'airblade/vim-gitgutter' "Git In The Gutter
 
 Plug 'tpope/vim-commentary' "Comment Things Out with gc
@@ -105,17 +104,6 @@ function! FormatPreviewWindowDocs()
     setlocal wrap
     call setbufvar('%', '&filetype', lastBufFiletype)
     call AutoResizeWindow(0)
-endfunction
-
-"Toggles marks in the gutter onoff
-function! ShowMarksToggle()
-    if g:showmarks_marks_are_showing
-        call showmarks#ShowMarks('global')
-        let g:showmarks_marks_are_showing=0
-    else
-        call showmarks#ShowMarks('global, enable')
-        let g:showmarks_marks_are_showing=1
-    endif
 endfunction
 
 "---------------------------------------private
@@ -234,7 +222,7 @@ let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
 let g:gitgutter_highlight_lines = 0
 let g:gitgutter_override_sign_column_highlight = 1
-let g:gitgutter_sign_added = '➕'
+let g:gitgutter_sign_added = '+'
 let g:gitgutter_sign_modified = 'o'
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = 'x1'
@@ -242,9 +230,6 @@ let g:gitgutter_sign_modified_removed = 'xo'
 
 "--Fulscreen
 let g:shell_fullscreen_items = 'mt'
-
-"--ShowMarks
-let g:showmarks_marks_are_showing=0
 
 "--Startify
 let g:startify_session_persistence = 1
@@ -275,6 +260,7 @@ let g:startify_lists = [
 
 "--netrw
 let g:netrw_liststyle=3
+let g:netrw_altfile = 1
 
 "-----------------------------------------------------------------------------------------------------"
 "-------------------------------------------------MAP-------------------------------------------------"
@@ -355,7 +341,7 @@ nmap <silent><leader>gn <Plug>(coc-type-definition)
 nmap <silent><leader>gs <Plug>(coc-implementation)
 nmap <silent><leader>gr <Plug>(coc-references)
 nmap <silent><leader>gf <Plug>(coc-fix-current)
-nmap <silent><leader>gc <Plug>(coc-rename)
+nmap vleader>gc <Plug>(coc-rename)
 nmap <silent><leader>gl :call CocAction('diagnosticNext')<cr>
 nmap <silent><leader>gh :call CocAction('diagnosticPrevious')<cr>
 nnoremap <silent><leader>gi :call ShowDocumentation()<CR>
