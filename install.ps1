@@ -1,5 +1,5 @@
 
-$installArray = @("vim.vim", "Neovim.Neovim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell", "Microsoft.PowerToys", "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh -s winget", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat")
+$installArray = @("vim.vim", "Neovim.Neovim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell", "Microsoft.PowerToys", "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat")
 
 foreach($install in $installArray)
 {
@@ -9,7 +9,7 @@ foreach($install in $installArray)
     Write-Output " " 
 }
 
-Install-Module -Name CompletionPredictor -Repository PSGallery
+Install-Module -Name CompletionPredictor -Repository PSGallery -Force
 Import-Module -Name CompletionPredictor
 Set-PSReadLineOption -PredictionSource Plugin
 
