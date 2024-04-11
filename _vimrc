@@ -17,7 +17,7 @@ Plug 'airblade/vim-gitgutter' "Git In The Gutter
 
 Plug 'tpope/vim-commentary' "Comment Things Out with gc
 Plug 'tpope/vim-surround' "Surround things
-Plug 'godlygeek/tabular' "aligning :Tabularize
+Plug 'junegunn/vim-easy-align' "aligning 
 Plug 'ReekenX/vim-rename2' "allow renaming of current file with :Rename
 
 Plug 'mhinz/vim-startify' "start screen
@@ -331,6 +331,10 @@ nnoremap <leader>fg :Rg <CR>
 nmap s <Plug>(easymotion-s)
 nmap / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
+
+"--Align
+nmap <leader>l <Plug>(EasyAlign)
+xmap <leader>l <Plug>(EasyAlign)
 
 "--Startify
 nnoremap <leader>wq :SSave!<CR> :SClose<CR> :q!<CR>
