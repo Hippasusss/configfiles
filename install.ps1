@@ -1,4 +1,5 @@
 
+#WINGET
 $installArray = @("vim.vim", "Neovim.Neovim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell", "Microsoft.PowerToys", "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat")
 
 foreach($install in $installArray)
@@ -13,4 +14,16 @@ Install-Module -Name CompletionPredictor -Repository PSGallery -Force
 Import-Module -Name CompletionPredictor
 Set-PSReadLineOption -PredictionSource Plugin
 
+#FONT
+$FontFolder = ".\\Meslo\"
+$FontItem = Get-Item -Path $FontFolder
+$FontList = Get-ChildItem -Path "$FontItem\*" -Include ('*.fon','*.otf','*.ttc','*.ttf')
+
+foreach ($Font in $FontList) {
+        Write-Host 'Installing font -' $Font.BaseName
+        Copy-Item $Font "C:\Windows\Fonts"
+        New-ItemProperty -Name $Font.BaseName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType string -Value $Font.name         
+}
+
+#LINKS
 python .\createSymlinks.py
