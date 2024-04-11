@@ -10,14 +10,21 @@ foreach($install in $installArray)
     Write-Output " " 
 }
 
+#NVIM PLUG
+iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
+    ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
+
+#VIM PLUG
+iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
+    ni $HOME/vimfiles/autoload/plug.vim -Force
+
+#PS CompletionPredictor
 Install-Module -Name CompletionPredictor -Repository PSGallery -Force
 Import-Module -Name CompletionPredictor
 Set-PSReadLineOption -PredictionSource Plugin
 
 #FONT
-$FontFolder = ".\\Meslo\"
-$FontItem = Get-Item -Path $FontFolder
-$FontList = Get-ChildItem -Path "$FontItem\*" -Include ('*.fon','*.otf','*.ttc','*.ttf')
+$FontList = Get-ChildItem -Path ".\\Meslo\*" -Include ('*.fon','*.otf','*.ttc','*.ttf')
 
 foreach ($Font in $FontList) {
         Write-Host 'Installing font -' $Font.BaseName
