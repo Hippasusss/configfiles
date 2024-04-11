@@ -142,9 +142,9 @@ endfunction
 
 "--Undo, backup, etc
 set undofile undolevels=1000 backup
-set undodir=$VIM\\back
-set backupdir=$VIM\\back
-set directory=$VIM\\back
+set undodir=~\\.config\\back
+set backupdir=~\\.config\\back
+set directory=~\\.config\\back
 
 "--Window Config
 set pumheight=10 pumwidth=40
