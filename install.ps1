@@ -18,6 +18,9 @@ iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
 iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
     ni $HOME/vimfiles/autoload/plug.vim -Force
 
+#VIM BACKUP FILES
+New-Item -Path ~\\.config\back -ItemType Directory
+
 #PS CompletionPredictor
 Install-Module -Name CompletionPredictor -Repository PSGallery -Force
 Import-Module -Name CompletionPredictor
