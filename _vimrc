@@ -23,7 +23,6 @@ Plug 'ReekenX/vim-rename2' "allow renaming of current file with :Rename
 Plug 'mhinz/vim-startify' "start screen
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "search for files faster
-Plug 'junegunn/fzf.vim'
 call plug#end()
 
 filetype plugin indent on
