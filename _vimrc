@@ -349,3 +349,4 @@ nmap <leader>gc <Plug>(coc-rename)
 nmap <silent><leader>gl :call CocAction('diagnosticNext')<cr>
 nmap <silent><leader>gh :call CocAction('diagnosticPrevious')<cr>
 nnoremap <silent><leader>gi :call ShowDocumentation()<CR>
+inoremap <silent> ,s <C-r>=CocActionAsync('showSignatureHelp')<CR>
