@@ -2,6 +2,7 @@ call plug#begin()
 Plug 'tpope/vim-fugitive' "Git Integration
 Plug 'tpope/vim-dispatch' "DEP asynch
 Plug 'tpope/vim-rhubarb' "DEP github 
+Plug 'airblade/vim-gitgutter' "Git In The Gutter
 
 Plug 'vim-airline/vim-airline' "Status Bar
 Plug 'vim-airline/vim-airline-themes' "Status Bar
@@ -13,16 +14,14 @@ Plug 'sheerun/vim-polyglot' "language packs
 Plug 'vim-scripts/a.vim' "Switch between .h and .cpp
 Plug 'tenfyzhong/vim-gencode-cpp' "Generate cpp function definitions
 
-Plug 'airblade/vim-gitgutter' "Git In The Gutter
-
 Plug 'tpope/vim-commentary' "Comment Things Out with gc
 Plug 'tpope/vim-surround' "Surround things
 Plug 'junegunn/vim-easy-align' "aligning 
-Plug 'ReekenX/vim-rename2' "allow renaming of current file with :Rename
 
 Plug 'mhinz/vim-startify' "start screen
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "search for files faster
+Plug 'junegunn/fzf.vim' "need for ripgrep!
 call plug#end()
 
 filetype plugin indent on
