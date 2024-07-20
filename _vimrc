@@ -10,8 +10,6 @@ Plug 'enricobacis/vim-airline-clock' "Status Bar Clock
 
 Plug 'easymotion/vim-easymotion' "Search For Characters/Patterns
 Plug 'Yggdroot/indentLine' "Indent Markers
-Plug 'sheerun/vim-polyglot' "language packs
-Plug 'vim-scripts/a.vim' "Switch between .h and .cpp
 Plug 'tenfyzhong/vim-gencode-cpp' "Generate cpp function definitions
 
 Plug 'tpope/vim-commentary' "Comment Things Out with gc
@@ -315,9 +313,7 @@ nnoremap <leader>gg :GitGutterSignsToggle<CR>
 nnoremap ;gg :G<CR>
 nnoremap ;gp :G push<CR>
 
-"--A.Vim Switch .h .cpp
-nnoremap <leader>a :A<CR>
-nnoremap <leader><leader>a :AV<CR>
+"--Gen Definition
 nnoremap <leader>A :GenDefinition<CR>
 
 "--FZF
@@ -346,5 +342,6 @@ nmap <silent><leader>gf <Plug>(coc-fix-current)
 nmap <leader>gc <Plug>(coc-rename)
 nmap <silent><leader>gl :call CocAction('diagnosticNext')<cr>
 nmap <silent><leader>gh :call CocAction('diagnosticPrevious')<cr>
+nmap <leader>a :<C-u>CocCommand clangd.switchSourceHeader<CR>
 nnoremap <silent><leader>gi :call ShowDocumentation()<CR>
 inoremap <silent> ,s <C-r>=CocActionAsync('showSignatureHelp')<CR>
