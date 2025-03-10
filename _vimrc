@@ -10,7 +10,6 @@ Plug 'enricobacis/vim-airline-clock' "Status Bar Clock
 
 Plug 'easymotion/vim-easymotion' "Search For Characters/Patterns
 Plug 'Yggdroot/indentLine' "Indent Markers
-Plug 'tenfyzhong/vim-gencode-cpp' "Generate cpp function definitions
 
 Plug 'tpope/vim-commentary' "Comment Things Out with gc
 Plug 'tpope/vim-surround' "Surround things
@@ -20,6 +19,7 @@ Plug 'mhinz/vim-startify' "start screen
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do' : 'winget install -h --accept-source-agreements --accept-package-agreements --disable-interactivity  nodejs; yarn install'} 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } "search for files faster
 Plug 'junegunn/fzf.vim' "need for ripgrep!
+
 call plug#end()
 
 filetype plugin indent on
@@ -102,36 +102,6 @@ function! FormatPreviewWindowDocs()
     call AutoResizeWindow(0)
 endfunction
 
-"---------------------------------------private
-
-function! AutoResizeWindow(vert)
-    if a:vert
-        let longest = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
-        exec "vertical resize " . (longest+4)
-    else
-        let line_counts = 0
-        if &wrap
-            let width = winwidth(0)
-            let line_counts = map(range(1, line('$')), "foldclosed(v:val)==v:val?1:(virtcol([v:val, '$'])/width)+1")
-        else
-            let line_counts = [line('$')]
-        endif
-
-        let acc = 0
-        for val in a:line_counts
-            let acc += val
-        endfor
-
-
-        let folded_lines = range(1, line('$'))
-        call filter(folded_lines, "foldclosed(v:val) > 0 && foldclosed(v:val) != v:val")
-        let folded_lines_count = len(lines)
-
-        let lines = acc - folded_lines_count
-        exec 'resize ' . lines
-        1
-    endif
-endfunction
 "-----------------------------------------------------------------------------------------------------"
 "-------------------------------------------------SET-------------------------------------------------"
 "-----------------------------------------------------------------------------------------------------"
@@ -166,16 +136,10 @@ set updatetime=1000
 set incsearch
 set completeopt+=preview
 
-"--Remove Elements
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
 
 "-----------------------------------------------------------------------------------------------------"
 "-------------------------------------------------LET-------------------------------------------------"
 "-----------------------------------------------------------------------------------------------------"
-"
 
 "--Airline
 let g:airline_right_sep=''
@@ -219,10 +183,10 @@ let g:gitgutter_signs = 1
 let g:gitgutter_highlight_lines = 0
 let g:gitgutter_override_sign_column_highlight = 1
 let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = 'o'
+let g:gitgutter_sign_modified = '~'
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = 'x1'
-let g:gitgutter_sign_modified_removed = 'xo'
+let g:gitgutter_sign_modified_removed = 'x~'
 
 "--Fulscreen
 let g:shell_fullscreen_items = 'mt'
@@ -254,10 +218,6 @@ let g:startify_lists = [
             \ { 'type': 'commands'  , 'header': ['   Commands']}     ,
             \ ]
 
-"--netrw
-let g:netrw_liststyle=3
-let g:netrw_altfile = 1
-
 "-----------------------------------------------------------------------------------------------------"
 "-------------------------------------------------MAP-------------------------------------------------"
 "-----------------------------------------------------------------------------------------------------"
@@ -275,7 +235,6 @@ nnoremap ;w :w<CR>
 nnoremap ;wq :wq<CR>
 nnoremap ;;c :pclose<space>\|<space>cclose<space>\|<space>helpclose<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>:pwd<CR>
-nnoremap <leader>yp :let @" = expand("%")<CR>
 
 "--Window Navigation Modification
 nnoremap H <C-w>h
@@ -285,19 +244,14 @@ nnoremap L <C-w>l
 nnoremap tl :tabnext<CR>
 nnoremap th :tabprevious<CR>
 nnoremap tn :tabnew<CR>
-nnoremap tw <C-W>T
 nnoremap - <C-w><
 nnoremap = <C-w>>
 nnoremap _ <C-w>-
 nnoremap + <C-w>+
-nnoremap <leader>- :call AutoResizeWindow(1)<CR>
-nnoremap <leader>= :call AutoResizeWindow(0)<CR>
 nnoremap <leader>s <C-6>
 
 "--Wee Remaps
 noremap <C-V> <Esc>"*p
-nmap <leader>j <c-f>
-nmap <leader>k <c-b>
 
 "--Edit Vimrc and Color
 nnoremap <leader>ev :e $MYVIMRC<CR>
@@ -306,12 +260,12 @@ nnoremap <Leader>ec :e <C-R>=get(split(globpath(&runtimepath, 'colors/' . g:colo
 nnoremap <leader>rv :so $MYVIMRC<CR>;
 
 "--Gutter
-nnoremap <leader>gm :call ShowMarksToggle()<CR>
-nnoremap <leader>gg :GitGutterSignsToggle<CR>
+nnoremap <leader>mo :call ShowMarksToggle()<CR>
+nnoremap <leader>go :GitGutterSignsToggle<CR>
 
 "--Fugitive
-nnoremap ;gg :G<CR>
-nnoremap ;gp :G push<CR>
+nnoremap <leader>vg :G<CR>
+nnoremap <leader>vp :G push<CR>
 
 "--Gen Definition
 nnoremap <leader>A :GenDefinition<CR>
