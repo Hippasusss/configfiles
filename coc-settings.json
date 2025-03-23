@@ -7,4 +7,6 @@
     "cmake.cmakePath": "C:\\Program Files\\CMake\\bin\\cmake.exe",
     "diagnostic.warningSign" : "?",
     "powershell.integratedConsole.showOnStartup": false,
+    "clangd.path": "C:\\Program Files\\LLVM\\bin\\clangd.exe",
+    "sumneko-lua.enableNvimLuaDev": true
 }
