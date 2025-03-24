@@ -82,6 +82,18 @@ require("lazy").setup(
 	}
     })
 
+require("nvim-possession").setup({
+    sessions = {
+	sessions_path = vim.fn.expand("$HOME/vimfiles/session/"),
+	sessions_variable = "session",
+	sessions_icon = "",
+	sessions_prompt = "Saved Sessions:",
+    },
+
+    autoload = false, -- whether to autoload sessions in the cwd at startup
+    autosave = false, -- whether to autosave loaded sessions before quitting
+    sort = require("nvim-possession.sorting").alpha_sort -- callback, sorting function to list sessions
+})
 require('lualine').setup {
     options = {
 	icons_enabled = true,
@@ -133,43 +145,6 @@ require('lualine').setup {
     inactive_winbar = {},
     extensions = {}
 }
-
-
-require("nvim-possession").setup({
-    sessions = {
-	sessions_path = vim.fn.expand("$HOME/vimfiles/session/"),
-	sessions_variable = "session",
-	sessions_icon = "",
-	sessions_prompt = "Saved Sessions:",
-    },
-
-    autoload = false, -- whether to autoload sessions in the cwd at startup
-    autosave = true, -- whether to autosave loaded sessions before quitting
-    autoswitch = {
-	enable = false, -- whether to enable autoswitch
-	exclude_ft = {}, -- list of filetypes to exclude from autoswitch
-    },
-
-    -----@type possession.Hls
-    fzf_hls = { -- highlight groups for the sessions and preview windows
-	normal = "Normal",
-	preview_normal = "Normal",
-	border = "Todo",
-	preview_border = "Constant",
-    },
-    -----@type possession.Winopts
-    fzf_winopts = {
-	-- any valid fzf-lua winopts options, for instance
-	title = "Sesisons",
-	width = 0.5,
-	preview = {
-	    vertical = "right:30%"
-	}
-    },
-    sort = require("nvim-possession.sorting").alpha_sort -- callback, sorting function to list sessions
-    -- require("nvim-possession.sorting").time_sort
-    -- to sort by last updated instead
-})
 
 vim.api.nvim_create_autocmd({'BufWinEnter'}, {
     desc = 'return cursor to where it was last time closing the file',
