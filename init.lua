@@ -3,7 +3,6 @@ vim.opt.runtimepath:append("~/vimfiles/after")
 vim.g.mapleader = ","
 vim.g.mapleaderlocal = ","
 
---lazy.vim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -162,15 +161,18 @@ vim.api.nvim_create_autocmd({'BufWinEnter'}, {
     command = 'silent! normal! g`"zv',
 })
 
+--options
+local backUpPath = "$HOME\\.config\\back"
 vim.g.undotree_DiffCommand = "FC"
-
 vim.opt.undofile = true
 vim.opt.undolevels = 1000
 vim.opt.undolevels = 1000
 vim.opt.backup = true
-vim.opt.undodir = "~\\.config\\back"
-vim.opt.backupdir = "~\\.config\\back"
-vim.opt.directory = "~\\.config\\back"
+vim.opt.undodir = vim.fn.expand(backUpPath)
+vim.opt.backupdir = vim.fn.expand(backUpPath)
+vim.opt.directory = vim.fn.expand(backUpPath)
+vim.opt.showtabline = 2
+
 
 vim.opt.scrolloff = 999
 vim.opt.shiftwidth = 4
