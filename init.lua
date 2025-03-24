@@ -238,19 +238,24 @@ vim.keymap.set("o", "/", "<Plug>(easymotion-tn)")
 vim.keymap.set("n", "<leader>wq", ":SSave!<CR> :SClose<CR> :q!<CR>")
 
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-vim.keymap.set("n", "<silent><leader>gd", "<Plug>(coc-definition)")
-vim.keymap.set("n", "<silent><leader>gn", "<Plug>(coc-type-definition)")
-vim.keymap.set("n", "<silent><leader>gs", "<Plug>(coc-implementation)")
-vim.keymap.set("n", "<silent><leader>gr", "<Plug>(coc-references)")
-vim.keymap.set("n", "<silent><leader>gf", "<Plug>(coc-fix-current)")
-vim.keymap.set("n", "<leader>gc", "<Plug>(coc-rename)")
-vim.keymap.set("n", "<silent><leader>gl", ":call CocAction('diagnosticNext')<cr>")
-vim.keymap.set("n", "<silent><leader>gh", ":call CocAction('diagnosticPrevious')<cr>")
-vim.keymap.set("n", "<leader>a", ":<C-u>CocCommand clangd.switchSourceHeader<CR>")
-vim.keymap.set("n", "<silent><leader>gi", ":call ShowDocumentation()<CR>")
-vim.keymap.set("i", "<silent>", ",s <C-r>=CocActionAsync('showSignatureHelp')<CR>")
 
--- ivim.keymap.set("n", jjldwi"jjWhi", jjlxi"jjA")jjjIjj 
+vim.keymap.set("n", "<leader>gd", "<Plug>(coc-definition)", { silent = true })
+vim.keymap.set("n", "<leader>gn", "<Plug>(coc-type-definition)", { silent = true })
+vim.keymap.set("n", "<leader>gs", "<Plug>(coc-implementation)", { silent = true })
+vim.keymap.set("n", "<leader>gr", "<Plug>(coc-references)", { silent = true })
+vim.keymap.set("n", "<leader>gf", "<Plug>(coc-fix-current)", { silent = true })
+vim.keymap.set("n", "<leader>gc", "<Plug>(coc-rename)")
+vim.keymap.set("n", "<leader>gl", function() vim.fn.CocAction("diagnosticNext") end, { silent = true })
+vim.keymap.set("n", "<leader>gh", function() vim.fn.CocAction("diagnosticPrevious") end, { silent = true })
+vim.keymap.set("n", "<leader>a", function() vim.cmd("CocCommand clangd.switchSourceHeader") end, { silent = true })
+vim.keymap.set("n", "<leader>gi", function() vim.fn.CocAction("doHover") end, { silent = true })
+vim.keymap.set("i", ",s", "<C-r>=CocActionAsync('showSignatureHelp')<CR>", { silent = true })
+
+vim.keymap.set('i', '<Tab>', function()
+  return vim.fn['coc#pum#visible']() == 1 and vim.fn['coc#pum#next'](1)
+    or vim.fn.col('.') - 1 == 0 or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') and '\t'
+    or vim.fn['coc#refresh']()
+end, { expr = true, silent = true })
 
 
 
