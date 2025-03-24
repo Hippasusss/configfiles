@@ -177,8 +177,9 @@ vim.opt.showtabline = 2
 vim.opt.scrolloff = 999
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = true
+vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.smartindent = true
 vim.opt.splitbelow = true
@@ -201,11 +202,14 @@ vim.keymap.set("n", "<leader>cd", ":lcd %:p:h<CR>:pwd<CR>")
 vim.keymap.set("n", "v", "V")
 vim.keymap.set("n", "V", "v")
 vim.keymap.set("n", "<A-v>", "<c-v>")
+vim.keymap.set("n", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set("n", "<leader>p", "\"+p")
 
-vim.keymap.set("n", "<C-W>h", "H")
-vim.keymap.set("n", "<C-W>j", "J")
-vim.keymap.set("n", "<C-W>k", "K")
-vim.keymap.set("n", "<C-W>l", "L")
+vim.keymap.set("n",  "H", "<C-W>h")
+vim.keymap.set("n",  "J", "<C-W>j")
+vim.keymap.set("n",  "K", "<C-W>k")
+vim.keymap.set("n",  "L", "<C-W>l")
 
 vim.keymap.set("n", "tn" , ":tabnew<CR>")
 vim.keymap.set("n", "tl" , ":tabnext<CR>")
