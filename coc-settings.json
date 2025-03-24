@@ -8,5 +8,6 @@
     "diagnostic.warningSign" : "?",
     "powershell.integratedConsole.showOnStartup": false,
     "clangd.path": "C:\\Program Files\\LLVM\\bin\\clangd.exe",
+    "diagnostic.showUnused" : false, 
     "sumneko-lua.enableNvimLuaDev": true
 }
