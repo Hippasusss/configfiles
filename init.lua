@@ -94,10 +94,20 @@ require("nvim-possession").setup({
     autosave = false, -- whether to autosave loaded sessions before quitting
     sort = require("nvim-possession.sorting").alpha_sort -- callback, sorting function to list sessions
 })
+
+
+local function line_ratio()
+  local current_line = vim.fn.line('.')
+  local total_lines = vim.fn.line('$')
+  return string.format('%d/%d', current_line, total_lines)
+end
+
 require('lualine').setup {
     options = {
 	icons_enabled = true,
 	theme = 'auto',
+	component_separators = { left = ' ', right = ' '},
+	section_separators = { left = ' ', right = ' '},
 	disabled_filetypes = {
 	    statusline = {},
 	    winbar = {},
@@ -111,16 +121,24 @@ require('lualine').setup {
 	    winbar = 100,
 	}
     },
+    tabline = {
+	lualine_a = {
+	    {
+		'tabs',
+		mode = 2,  -- Show tab numbers and names
+		max_length = vim.o.columns
+	    }
+	 },
+    },
     sections = {
 	lualine_a = {'mode'},
 	lualine_b = {'branch', 'diff', 'diagnostics'},
 	lualine_c = {'filename'},
-	lualine_x = {'encoding', 'filetype', 'location' },
+	lualine_x = {'encoding', 'filetype', line_ratio },
 	lualine_y = {
 	    {
 		'datetime',
-		-- options: default, us, uk, iso, or your own format string ("%H:%M", etc..)
-		style = 'default'
+		style = '%H:%M:%S'
 	    },
 	},
 	lualine_z = {
@@ -133,17 +151,9 @@ require('lualine').setup {
 	},
     },
     inactive_sections = {
-	lualine_a = {},
-	lualine_b = {},
 	lualine_c = {'filename'},
 	lualine_x = {'location'},
-	lualine_y = {},
-	lualine_z = {}
     },
-    tabline = {},
-    winbar = {},
-    inactive_winbar = {},
-    extensions = {}
 }
 
 vim.api.nvim_create_autocmd({'BufWinEnter'}, {
