@@ -89,6 +89,54 @@ require("lazy").setup(
 	}
     })
 
+
+local function loadApiKey(key)
+    local secrets_path = vim.fn.expand("$HOME/.secret/keys.json") -- Expands to full path
+    local file = io.open(secrets_path, "r")
+    if not file then
+	error("Failed to open secrets file: " .. secrets_path)
+    end
+
+    local content = file:read("*a")
+    file:close()
+
+    local ok, secrets = pcall(vim.json.decode, content)
+    if not ok or not secrets[key] then
+	error("Invalid or missing key: " .. key .. " in: " .. secrets_path)
+    end
+    print(secrets[key])
+    return secrets[key]
+end
+
+require("codecompanion").setup({
+    strategies = {
+	chat = {
+	    adapter = "deepseek",
+	},
+	inline = {
+	    adapter = "deepseek",
+	},
+	cmd = {
+	    adapter = "deepseek",
+	}
+    },
+
+    adapters = {
+	deepseek = function()
+	    return require("codecompanion.adapters").extend("deepseek", {
+		env = {
+		    api_key = loadApiKey("deepseek_api_key"),
+		},
+		schema = {
+		    model = {
+			default = "deepseek-chat",
+		    }
+		},
+	    })
+	end,
+    },
+})
+
 require("nvim-possession").setup({
     sessions = {
 	sessions_path = vim.fn.expand("$HOME/vimfiles/session/"),
@@ -109,6 +157,32 @@ local function line_ratio()
   return string.format('%d/%d', current_line, total_lines)
 end
 
+local cc_loading = false
+local spinner_frames = { "⡇", "⡏", "⡗", "⡟", "⡿", "⣿", "⢿", "⣻" }
+local spinner_index = 1
+
+vim.loop.new_timer():start(0, 100, function()
+  spinner_index = spinner_index % #spinner_frames + 1
+  vim.schedule(function()
+    if package.loaded["lualine"] then
+      require("lualine").refresh()
+    end
+  end)
+end)
+vim.api.nvim_create_autocmd("User", {
+  pattern = "CodeCompanionRequestStarted",
+  callback = function()
+    cc_loading = true
+    vim.schedule(require("lualine").refresh)
+  end,
+})
+vim.api.nvim_create_autocmd("User", {
+  pattern = "CodeCompanionRequestFinished",
+  callback = function()
+    cc_loading = false
+    vim.schedule(require("lualine").refresh)
+  end,
+})
 require('lualine').setup {
     options = {
 	icons_enabled = true,
@@ -150,12 +224,21 @@ require('lualine').setup {
 	},
 	lualine_z = {
 	    {
+		function()
+		    return cc_loading and spinner_frames[spinner_index] or ""
+		end,
+		color = { fg = "#ff9e64" },  -- Orange color
+	    },
+	    {
 		require("nvim-possession").status,
 		cond = function()
 		    return require("nvim-possession").status() ~= nil
 		end,
 	    },
 	},
+    },
+    refresh = {
+	statusline = 100,  -- Update frequency
     },
     inactive_sections = {
 	lualine_c = {'filename'},
@@ -265,5 +348,7 @@ vim.keymap.set('i', '<Tab>', function()
     or vim.fn['coc#refresh']()
 end, { expr = true, silent = true })
 
+vim.keymap.set("n", "<leader>ic", ":CodeCompanionChat<CR>")
+vim.keymap.set("n", "<leader>ii", ":CodeCompanion<CR>")
 
 
