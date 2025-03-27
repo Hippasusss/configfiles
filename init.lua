@@ -245,6 +245,18 @@ require('lualine').setup {
 	lualine_x = {'location'},
     },
 }
+require('fzf-lua').setup({
+    file_ignore_patterns = {
+	vim.fn.expand("config/back/"),
+    },
+
+    files = {
+	fzf_opts = {
+	    ['--tiebreak'] = 'index',
+	},
+	formatter = "path.filename_first",
+    }
+})
 
 vim.api.nvim_create_autocmd({'BufWinEnter'}, {
     desc = 'return cursor to where it was last time closing the file',
@@ -317,10 +329,29 @@ vim.keymap.set("n", "<leader>rv", ":so $MYVIMRC<CR>;")
 vim.keymap.set("n", "<leader>vg", ":G<CR>")
 vim.keymap.set("n", "<leader>vp", ":G push<CR>")
 
-vim.keymap.set("n", "<leader>fp", ":FzfLua files <CR>")
-vim.keymap.set("n", "<leader>ff", ":FzfLua <CR>")
-vim.keymap.set("n", "<leader>fh", ":FzfLua files cwd=\"~\" <CR>")
-vim.keymap.set("n", "<leader>fg", ":FzfLua live_grep <CR>")
+vim.keymap.set("n", "<leader>fp", function()
+  require("fzf-lua").files()
+end, { desc = "Fuzzy find files" })
+
+vim.keymap.set("n", "<leader>ff", function()
+  require("fzf-lua").builtin()
+end, { desc = "FzfLua builtin" })
+
+vim.keymap.set("n", "<leader>fh", function()
+  require("fzf-lua").files({ cwd = vim.fn.expand("$HOME") })
+end, { desc = "Fuzzy find in home" })
+
+vim.keymap.set("n", "<leader>fg", function()
+  require("fzf-lua").live_grep()
+end, { desc = "Live grep" })
+
+vim.keymap.set("n", "<leader>ft", function()
+  require("fzf-lua").treesitter()
+end, { desc = "Treesitter" })
+
+vim.keymap.set("n", "<leader>fm", function()
+  require("fzf-lua").treesitter({ query = "method | function " })
+end, { desc = "Treesitter methods/functions" })
 
 vim.keymap.set("n", "s", "<Plug>(easymotion-s)")
 vim.keymap.set("n", "/", "<Plug>(easymotion-sn)")
@@ -344,7 +375,8 @@ vim.keymap.set("i", ",s", "<C-r>=CocActionAsync('showSignatureHelp')<CR>", { sil
 
 vim.keymap.set('i', '<Tab>', function()
   return vim.fn['coc#pum#visible']() == 1 and vim.fn['coc#pum#next'](1)
-    or vim.fn.col('.') - 1 == 0 or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') and '\t'
+    or vim.fn.col('.') - 1 == 0 and '\t'
+    or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') and '\t'
     or vim.fn['coc#refresh']()
 end, { expr = true, silent = true })
 
