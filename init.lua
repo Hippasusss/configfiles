@@ -258,6 +258,7 @@ require('fzf-lua').setup({
     }
 })
 
+--autocommands
 vim.api.nvim_create_autocmd({'BufWinEnter'}, {
     desc = 'return cursor to where it was last time closing the file',
     pattern = '*',
@@ -275,7 +276,6 @@ vim.opt.undodir = vim.fn.expand(backUpPath)
 vim.opt.backupdir = vim.fn.expand(backUpPath)
 vim.opt.directory = vim.fn.expand(backUpPath)
 vim.opt.showtabline = 2
-
 
 vim.opt.scrolloff = 999
 vim.opt.shiftwidth = 4
@@ -305,8 +305,7 @@ vim.keymap.set("n", "<leader>cd", ":lcd %:p:h<CR>:pwd<CR>")
 vim.keymap.set("n", "v", "V")
 vim.keymap.set("n", "V", "v")
 vim.keymap.set("n", "<A-v>", "<c-v>")
-vim.keymap.set("n", "<leader>y", "\"+y")
-vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>p", "\"+p")
 
 vim.keymap.set("n",  "H", "<C-W>h")
@@ -324,7 +323,7 @@ vim.keymap.set("n", "<C-V>", "<Esc>\"*p")
 vim.keymap.set("n" , "<leader>ev", ":e $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>eb", ":e $HOME/.bashrc<CR>")
 vim.keymap.set("n", "<Leader>ec", ":e <C-R>=get(split(globpath(&runtimepath, 'colors/' . g:colors_name . '.vim'), \"\\n\"), 0, '')<CR><CR>")
-vim.keymap.set("n", "<leader>rv", ":so $MYVIMRC<CR>;")
+vim.keymap.set("n", "<leader>rv", ":luafile $MYVIMRC<CR>;")
 
 vim.keymap.set("n", "<leader>vg", ":G<CR>")
 vim.keymap.set("n", "<leader>vp", ":G push<CR>")
