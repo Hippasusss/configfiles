@@ -14,75 +14,137 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(
-    {
-	spec = {
-	    {
-		"ibhagwan/fzf-lua",
-		dependencies = { "nvim-tree/nvim-web-devicons" }
-	    },
-	    {
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-	    },
-	    {
-		'tpope/vim-fugitive',
-		dependencies = { 'tpope/vim-dispatch', 'tpope/vim-rhubarb'}
-	    },
-	    {
-		'easymotion/vim-easymotion',
-		"mbbill/undotree"
-	    },
-	    {
-		"neoclide/coc.nvim",
-		branch="release"
-	    },
-	    {
-		"rebelot/kanagawa.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-		    vim.cmd([[colorscheme kanagawa]])
-		end,
-	    },
-	    {
-		"gennaro-tedesco/nvim-possession",
-		dependencies = {
-		    "ibhagwan/fzf-lua",
-		},
-		config = true,
-		keys = {
-		    { "<leader>;l", function() require("nvim-possession").list() end, desc = "-list sessions", },
-		    { "<leader>;n", function() require("nvim-possession").new() end, desc = "-create new session", },
-		    { "<leader>;u", function() require("nvim-possession").update() end, desc = "-update current session", },
-		    { "<leader>;d", function() require("nvim-possession").delete() end, desc = "-delete selected session"},
-		},
-	    },
-	    {
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function ()
-		    local configs = require("nvim-treesitter.configs")
+local local_plugins = (function()
+    for _, path in ipairs(vim.api.nvim_get_runtime_file('lua/localPlugins.lua', true)) do
+        if vim.loop.fs_stat(path) then return require('localPlugins').get_local_plugins() end
+    end
+    return {}
+end)()
 
-		    configs.setup({
-			ensure_installed = { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html" },
-			sync_install = false,
-			highlight = { enable = true },
-			indent = { enable = true },
-		    })
-		end
-	    },
-	    {
-		"olimorris/codecompanion.nvim",
-		config = true,
-		dependencies = {
-		    "nvim-lua/plenary.nvim",
-		    "nvim-treesitter/nvim-treesitter",
-		},
-	    },
-	    checker = { enabled = true },
-	}
-    })
+require("lazy").setup({
+    spec = {
+        {
+            "ibhagwan/fzf-lua",
+            dependencies = { "nvim-tree/nvim-web-devicons" },
+            keys = {
+                { "<leader>fp", function() require("fzf-lua").files() end, desc = "Fuzzy find files" },
+                { "<leader>ff", function() require("fzf-lua").builtin() end, desc = "FzfLua builtin" },
+                { "<leader>fh", function() require("fzf-lua").files({ cwd = vim.fn.expand("$HOME") }) end, desc = "Fuzzy find in home" },
+                { "<leader>fg", function() require("fzf-lua").live_grep() end, desc = "Live grep" },
+                { "<leader>ft", function() require("fzf-lua").treesitter() end, desc = "Treesitter" },
+                { "<leader>fm", function() require("fzf-lua").treesitter({ query = "method | function " }) end, desc = "Treesitter methods/functions" },
+            }
+        },
+        {
+            'easymotion/vim-easymotion',
+            keys = {
+                { "s", function() require("easypeasy").searchSingleCharacter() end, desc = "EasyMotion single char" },
+                { "/", "<Plug>(easymotion-sn)", desc = "EasyMotion search n", mode = "n" },
+                { "/", "<Plug>(easymotion-tn)", desc = "EasyMotion search o", mode = "o" },
+            }
+        },
+        {
+            "mbbill/undotree",
+            keys = {
+                { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" }
+            }
+        },
+        {
+            "neoclide/coc.nvim",
+            branch="release",
+            lazy = false,
+            keys = {
+                { "<leader>gd", "<Plug>(coc-definition)", desc = "Go to definition", silent = true },
+                { "<leader>gr", "<Plug>(coc-references)", desc = "Find references", silent = true },
+                { "<leader>gf", "<Plug>(coc-fix-current)", desc = "Fix current", silent = true },
+                { "<leader>gc", "<Plug>(coc-rename)", desc = "Rename symbol" },
+                { "<leader>gl", function() vim.fn.CocAction("diagnosticNext") end, desc = "Next diagnostic", silent = true },
+                { "<leader>gh", function() vim.fn.CocAction("diagnosticPrevious") end, desc = "Prev diagnostic", silent = true },
+                { "<leader>a", function() vim.cmd("CocCommand clangd.switchSourceHeader") end, desc = "Switch source/header", silent = true },
+                { "<leader>gi", function() vim.fn.CocAction("doHover") end, desc = "Show hover", silent = true },
+                { ",s", "<C-r>=CocActionAsync('showSignatureHelp')<CR>", desc = "Signature help", mode = "i", silent = true },
+                { '<Tab>', function()
+                    return vim.fn['coc#pum#visible']() == 1 and vim.fn['coc#pum#next'](1)
+                    or vim.fn.col('.') - 1 == 0 and '\t'
+                    or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') and '\t'
+                    or vim.fn['coc#refresh']()
+                end,  expr = true, silent = true , mode = "i"}
+            }
+        },
+        {
+            "olimorris/codecompanion.nvim",
+            config = true,
+            dependencies = {
+                "nvim-lua/plenary.nvim",
+                "nvim-treesitter/nvim-treesitter",
+            },
+            keys = {
+                { "<leader>ic", ":CodeCompanionChat<CR>", desc = "CodeCompanion chat" },
+                { "<leader>ii", ":CodeCompanion<CR>", desc = "CodeCompanion" },
+            }
+        },
+        {
+            'nvim-lualine/lualine.nvim',
+            dependencies = { 'nvim-tree/nvim-web-devicons' },
+        },
+        {
+            'tpope/vim-fugitive',
+            dependencies = { 'tpope/vim-dispatch', 'tpope/vim-rhubarb'},
+            keys = {
+                { "<leader>vg", ":G<CR>",  desc = "open git interface" },
+                { "<leader>vp", ":G push<CR>", desc = "push to github" }
+            }
+        },
+        {
+            "rebelot/kanagawa.nvim",
+            lazy = false,
+            priority = 1000,
+            config = function()
+                vim.cmd([[colorscheme kanagawa]])
+            end,
+        },
+        {
+            "gennaro-tedesco/nvim-possession",
+            dependencies = {
+                "ibhagwan/fzf-lua",
+            },
+            config = true,
+            keys = {
+                { "<leader>;l", function() require("nvim-possession").list() end, desc = "-list sessions", },
+                { "<leader>;n", function() require("nvim-possession").new() end, desc = "-create new session", },
+                { "<leader>;u", function() require("nvim-possession").update() end, desc = "-update current session", },
+                { "<leader>;d", function() require("nvim-possession").delete() end, desc = "-delete selected session"},
+            },
+        },
+        {
+            "nvim-treesitter/nvim-treesitter",
+            build = ":TSUpdate",
+            config = function ()
+                local configs = require("nvim-treesitter.configs")
+
+                configs.setup({
+                    ensure_installed = { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html" },
+                    sync_install = false,
+                    highlight = { enable = true },
+                    indent = { enable = true },
+                })
+            end,
+            "nvim-treesitter/nvim-treesitter-textobjects"
+        },
+        {
+            "kylechui/nvim-surround",
+            event = "VeryLazy",
+            config = function()
+                require("nvim-surround").setup({
+                    -- Configuration here, or leave empty to use defaults
+                })
+            end
+        },
+        unpack(local_plugins),
+        checker = { enabled = true },
+    }
+})
+
 vim.g.coc_user_config = {
     semanticTokens = { enable = true },
     inlayHint = { enable = false },
@@ -315,15 +377,13 @@ vim.opt.completeopt:append('preview')
 vim.opt.showmode = true
 
 --mappings
-vim.keymap.set("i", "<Esc>", "<Nop>")
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("n", ";", ":")
-vim.keymap.set("n", "<leader>cd", ":lcd %:p:h<CR>:pwd<CR>")
 vim.keymap.set("n", "v", "V")
 vim.keymap.set("n", "V", "v")
 vim.keymap.set("n", "<A-v>", "<c-v>")
 vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
-vim.keymap.set("n", "<leader>p", "\"+p")
+vim.keymap.set({"n", "v"}, "<leader>p", "\"+p")
 
 vim.keymap.set("n",  "H", "<C-W>h")
 vim.keymap.set("n",  "J", "<C-W>j")
@@ -335,68 +395,9 @@ vim.keymap.set("n", "tl" , ":tabnext<CR>")
 vim.keymap.set("n", "th" , ":tabprevious<CR>")
 
 vim.keymap.set("n", "<leader>s", "<C-6>")
-vim.keymap.set("n", "<C-V>", "<Esc>\"*p")
 
-vim.keymap.set("n" , "<leader>ev", ":e $MYVIMRC<CR>")
+vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>eb", ":e $HOME/.bashrc<CR>")
-vim.keymap.set("n", "<Leader>ec", ":e <C-R>=get(split(globpath(&runtimepath, 'colors/' . g:colors_name . '.vim'), \"\\n\"), 0, '')<CR><CR>")
-vim.keymap.set("n", "<leader>rv", ":luafile $MYVIMRC<CR>;")
 
-vim.keymap.set("n", "<leader>vg", ":G<CR>")
-vim.keymap.set("n", "<leader>vp", ":G push<CR>")
-
-vim.keymap.set("n", "<leader>fp", function()
-  require("fzf-lua").files()
-end, { desc = "Fuzzy find files" })
-
-vim.keymap.set("n", "<leader>ff", function()
-  require("fzf-lua").builtin()
-end, { desc = "FzfLua builtin" })
-
-vim.keymap.set("n", "<leader>fh", function()
-  require("fzf-lua").files({ cwd = vim.fn.expand("$HOME") })
-end, { desc = "Fuzzy find in home" })
-
-vim.keymap.set("n", "<leader>fg", function()
-  require("fzf-lua").live_grep()
-end, { desc = "Live grep" })
-
-vim.keymap.set("n", "<leader>ft", function()
-  require("fzf-lua").treesitter()
-end, { desc = "Treesitter" })
-
-vim.keymap.set("n", "<leader>fm", function()
-  require("fzf-lua").treesitter({ query = "method | function " })
-end, { desc = "Treesitter methods/functions" })
-
-vim.keymap.set("n", "s", "<Plug>(easymotion-s)")
-vim.keymap.set("n", "/", "<Plug>(easymotion-sn)")
-vim.keymap.set("o", "/", "<Plug>(easymotion-tn)")
-
-vim.keymap.set("n", "<leader>wq", ":SSave!<CR> :SClose<CR> :q!<CR>")
-
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-
-vim.keymap.set("n", "<leader>gd", "<Plug>(coc-definition)", { silent = true })
-vim.keymap.set("n", "<leader>gn", "<Plug>(coc-type-definition)", { silent = true })
-vim.keymap.set("n", "<leader>gs", "<Plug>(coc-implementation)", { silent = true })
-vim.keymap.set("n", "<leader>gr", "<Plug>(coc-references)", { silent = true })
-vim.keymap.set("n", "<leader>gf", "<Plug>(coc-fix-current)", { silent = true })
-vim.keymap.set("n", "<leader>gc", "<Plug>(coc-rename)")
-vim.keymap.set("n", "<leader>gl", function() vim.fn.CocAction("diagnosticNext") end, { silent = true })
-vim.keymap.set("n", "<leader>gh", function() vim.fn.CocAction("diagnosticPrevious") end, { silent = true })
-vim.keymap.set("n", "<leader>a", function() vim.cmd("CocCommand clangd.switchSourceHeader") end, { silent = true })
-vim.keymap.set("n", "<leader>gi", function() vim.fn.CocAction("doHover") end, { silent = true })
-vim.keymap.set("i", ",s", "<C-r>=CocActionAsync('showSignatureHelp')<CR>", { silent = true })
-
-vim.keymap.set('i', '<Tab>', function()
-  return vim.fn['coc#pum#visible']() == 1 and vim.fn['coc#pum#next'](1)
-    or vim.fn.col('.') - 1 == 0 and '\t'
-    or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') and '\t'
-    or vim.fn['coc#refresh']()
-end, { expr = true, silent = true })
-
-vim.keymap.set("n", "<leader>ic", ":CodeCompanionChat<CR>")
-vim.keymap.set("n", "<leader>ii", ":CodeCompanion<CR>")
-
+vim.keymap.set("n", "s", function() require("easypeasy").searchSingleCharacter() end)
 
