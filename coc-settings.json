@@ -1,14 +1,4 @@
 {
-    "semanticTokens.enable": true,
-    "inlayHint.enable": false,
-    "suggest.enablePreselect": false,
-    "suggest.noselect": true,
-    "diagnostic.errorSign": "!",
     "cmake.cmakePath": "C:\\Program Files\\CMake\\bin\\cmake.exe",
-    "diagnostic.warningSign" : "?",
-    "powershell.integratedConsole.showOnStartup": false,
     "clangd.path": "C:\\Program Files\\LLVM\\bin\\clangd.exe",
-    "diagnostic.showUnused" : false, 
-    "sumneko-lua.enableNvimLuaDev": true,
-    "coc.preferences.useQuickfixForLocations": true
 }

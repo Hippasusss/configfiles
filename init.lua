@@ -88,6 +88,28 @@ require("lazy").setup(
 	    checker = { enabled = true },
 	}
     })
+vim.g.coc_user_config = {
+    semanticTokens = { enable = true },
+    inlayHint = { enable = false },
+    suggest = {
+        enablePreselect = false,
+        noselect = true
+    },
+    diagnostic = {
+        errorSign = "!",
+        warningSign = "?",
+        showUnused = false,
+        virtualText = true,
+        virtualTextCurrentLineOnly = false,
+        messageTarget = "echo"
+    },
+    powershell = { integratedConsole = { showOnStartup = false } },
+    ["luals"] = {
+        enableNvimLuaDev = true,
+    },
+    Lua = { runtime = { version = "LuaJIT" } },
+    coc = { preferences = { useQuickfixForLocations = true } }
+}
 
 
 local function loadApiKey(key)
