@@ -129,7 +129,7 @@ require("lazy").setup({
                     indent = { enable = true },
                 })
             end,
-            "nvim-treesitter/nvim-treesitter-textobjects"
+            -- "nvim-treesitter/nvim-treesitter-textobjects"
         },
         {
             "kylechui/nvim-surround",
