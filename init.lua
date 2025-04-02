@@ -382,7 +382,7 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.autoindent = true
-vim.opt.smartindent = true
+vim.cmd("filetype plugin indent on")
 
 vim.opt.scrolloff = 999
 vim.opt.wrap = true
@@ -397,7 +397,6 @@ vim.opt.cursorline = true
 vim.opt.encoding= "utf-8"
 vim.opt.incsearch = true
 vim.opt.hlsearch = false
-vim.opt.completeopt:append('preview')
 vim.opt.paste = false
 
 --mappings
@@ -424,4 +423,5 @@ vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>eb", ":e $HOME/.bashrc<CR>")
 
 vim.keymap.set("n", "s", function() require("easypeasy").searchSingleCharacter() end)
+vim.keymap.set('n', '<leader>0', function() vim.cmd("luafile " .. vim.fn.expand("%:p")) end)
 
