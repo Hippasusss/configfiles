@@ -356,13 +356,23 @@ vim.api.nvim_create_autocmd({'BufWinEnter'}, {
 })
 
 vim.api.nvim_create_autocmd('TextYankPost', {callback = function() vim.highlight.on_yank({higroup = 'IncSearch', timeout = 100}) end})
+
+--sometimes gets changed by pesky plugins
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.expandtab = true
+  end
+})
 --options
 
 local backUpPath = "$HOME\\.config\\back"
 vim.g.undotree_DiffCommand = "FC"
 vim.opt.undofile = true
-vim.opt.undolevels = 1000
 vim.opt.backup = true
+vim.opt.undolevels = 1000
 vim.opt.undodir = vim.fn.expand(backUpPath)
 vim.opt.backupdir = vim.fn.expand(backUpPath)
 vim.opt.directory = vim.fn.expand(backUpPath)
