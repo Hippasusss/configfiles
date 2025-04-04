@@ -36,14 +36,6 @@ require("lazy").setup({
             }
         },
         {
-            'easymotion/vim-easymotion',
-            keys = {
-                { "s", function() require("easypeasy").searchSingleCharacter() end, desc = "EasyMotion single char" },
-                { "/", "<Plug>(easymotion-sn)", desc = "EasyMotion search n", mode = "n" },
-                { "/", "<Plug>(easymotion-tn)", desc = "EasyMotion search o", mode = "o" },
-            }
-        },
-        {
             "mbbill/undotree",
             keys = {
                 { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" }
@@ -129,7 +121,6 @@ require("lazy").setup({
                     indent = { enable = true },
                 })
             end,
-            -- "nvim-treesitter/nvim-treesitter-textobjects"
         },
         {
             "kylechui/nvim-surround",
@@ -140,6 +131,14 @@ require("lazy").setup({
                 })
             end
         },
+        -- {
+        --     "Hippasusss/easypeasy",
+        --     keys = {
+        --         {"s", function() require("easypeasy").searchSingleCharacter() end},
+        --         { "/", function() require("easypeasy").searchMultipleCharacters() end},
+        --         { "<leader>z", function() require("easypeasy").searchLiness() end, desc = "Search lines" }
+        --     },
+        -- },
         unpack(local_plugins),
         checker = { enabled = true },
     }
@@ -413,9 +412,9 @@ vim.keymap.set("n",  "J", "<C-W>j")
 vim.keymap.set("n",  "K", "<C-W>k")
 vim.keymap.set("n",  "L", "<C-W>l")
 
-vim.keymap.set("n", "tn" , ":tabnew<CR>")
-vim.keymap.set("n", "tl" , ":tabnext<CR>")
-vim.keymap.set("n", "th" , ":tabprevious<CR>")
+vim.keymap.set("n", "tn", ":tabnew<CR>", { silent = true })
+vim.keymap.set("n", "tl", ":tabnext<CR>", { silent = true })
+vim.keymap.set("n", "th", ":tabprevious<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>s", "<C-6>")
 
@@ -423,5 +422,6 @@ vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>eb", ":e $HOME/.bashrc<CR>")
 
 vim.keymap.set("n", "s", function() require("easypeasy").searchSingleCharacter() end)
+vim.keymap.set("n", "/", function() require("easypeasy").searchMultipleCharacters() end)
 vim.keymap.set('n', '<leader>0', function() vim.cmd("luafile " .. vim.fn.expand("%:p")) end)
 
