@@ -137,15 +137,18 @@ require("lazy").setup({
                 })
             end
         },
-        -- {
-        --     "Hippasusss/easypeasy",
-        --     keys = {
-        --         {"s", function() require("easypeasy").searchSingleCharacter() end},
-        --         { "/", function() require("easypeasy").searchMultipleCharacters() end},
-        --         { "<leader>z", function() require("easypeasy").searchLiness() end, desc = "Search lines" }
-        --     },
-        -- },
-        unpack(local_plugins),
+        {
+            "Hippasusss/easypeasy",
+            keys = {
+                {"s", function() require("easypeasy").searchSingleCharacter() end, desc = "Search for character and then jump"},
+                { "/", function() require("easypeasy").searchMultipleCharacters() end, desc = "Search for regex and then jump"},
+                { "<leader>z", function() require("easypeasy").searchLiness() end, desc = "Search lines" },
+                { "<leader>tt", function() require("easypeasy").selectTreeSitter() end, desc = "Search and then visualy select treesitter nodes"},
+                { "<leader>ty", function() require("easypeasy").yankTreeSitter() end, desc = "Search and then yank treesitter nodes"},
+                { "<leader>td", function() require("easypeasy").deleteTreeSitter() end, desc = "Search and then delete treesitter nodes"},
+            },
+        },
+        -- unpack(local_plugins),
         checker = { enabled = true },
     }
 })
