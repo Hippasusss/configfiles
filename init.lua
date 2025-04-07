@@ -338,23 +338,8 @@ require('fzf-lua').setup({
     }
 })
 
-
 require'nvim-treesitter.configs'.setup {
-    textobjects = {
-        select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-                ["iF"] = "@function.outer",
-                ["if"] = "@function.inner",
-                ["ac"] = "@class.outer",
-                ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-                ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-            },
-        },
-    },
 }
-
 
 --autocommands
 vim.api.nvim_create_autocmd({'BufWinEnter'}, {
