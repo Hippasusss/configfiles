@@ -80,11 +80,17 @@ require("lazy").setup({
             dependencies = { 'nvim-tree/nvim-web-devicons' },
         },
         {
-            'tpope/vim-fugitive',
-            dependencies = { 'tpope/vim-dispatch', 'tpope/vim-rhubarb'},
+            "kdheepak/lazygit.nvim",
+            lazy = true,
+            cmd = {
+                "LazyGit",
+                "LazyGitConfig",
+                "LazyGitCurrentFile",
+                "LazyGitFilter",
+                "LazyGitFilterCurrentFile",
+            },
             keys = {
-                { "<leader>vg", ":G<CR>",  desc = "open git interface" },
-                { "<leader>vp", ":G push<CR>", desc = "push to github" }
+                { "<leader>vg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
             }
         },
         {
