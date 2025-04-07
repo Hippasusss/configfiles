@@ -360,10 +360,13 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
   end
 })
 --options
+vim.g.undotree_DiffCommand = "FC"
+vim.g.coc_disable_workspace_config = 1
 
 local backUpPath = "$HOME\\.config\\back"
-vim.g.undotree_DiffCommand = "FC"
+
 vim.opt.undofile = true
+vim.opt.swapfile= false
 vim.opt.backup = true
 vim.opt.undolevels = 1000
 vim.opt.undodir = vim.fn.expand(backUpPath)
