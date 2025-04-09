@@ -1,6 +1,6 @@
 
 #WINGET
-$installArray = @("Neovim.Neovim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell",  "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat", "sharkdp.fd")
+$installArray = @("Neovim.Neovim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell",  "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat", "JesseDuffield.lazygit"  )
 
 foreach($install in $installArray)
 {
@@ -21,12 +21,6 @@ else
 {
     Write-Output ".config\back directory already exists"
 }
-
-#PS CompletionPredictor
-Write-Output "Installing Powershell CompletionPredictor" 
-Install-Module -Name CompletionPredictor -Repository PSGallery -Force
-Import-Module -Name CompletionPredictor
-Set-PSReadLineOption -PredictionSource Plugin
 
 #LINKS
 Write-Output "Creating Symlinks" 
