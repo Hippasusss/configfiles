@@ -14,7 +14,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local local_plugins = (function()
+local localPlugins = (function()
     for _, path in ipairs(vim.api.nvim_get_runtime_file('lua/localPlugins.lua', true)) do
         if vim.loop.fs_stat(path) then return require('localPlugins').get_local_plugins() end
     end
@@ -23,6 +23,15 @@ end)()
 
 require("lazy").setup({
     spec = {
+        -- unpack(localPlugins),
+        {
+            "rebelot/kanagawa.nvim",
+            lazy = false,
+            priority = 1000,
+            config = function()
+                vim.cmd([[colorscheme kanagawa]])
+            end,
+        },
         {
             "ibhagwan/fzf-lua",
             lazy = true,
@@ -35,19 +44,18 @@ require("lazy").setup({
                 { "<leader>ft", function() require("fzf-lua").treesitter() end, desc = "Treesitter" },
                 { "<leader>fm", function() require("fzf-lua").treesitter({ query = "method | function " }) end, desc = "Treesitter methods/functions" },
             },
-            config = function()
-                require('fzf-lua').setup({
-                    file_ignore_patterns = {
-                        vim.fn.expand("config/back/"),
-                    },
-                    files = {
-                        cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build',
-                    }
-                })
-            end
+            opts = {
+                file_ignore_patterns = {
+                    vim.fn.expand("config/back/"),
+                },
+                files = {
+                    cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build',
+                }
+            }
         },
         {
             "mbbill/undotree",
+            lazy = true,
             keys = {
                 { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" }
             }
@@ -73,8 +81,8 @@ require("lazy").setup({
                         or vim.fn['coc#refresh']()
                 end,  expr = true, silent = true , mode = "i"}
             },
-
-            opts = {
+            config = function()
+                vim.g.coc_user_config = {
                 semanticTokens = { enable = true },
                 inlayHint = { enable = false },
                 suggest = {
@@ -95,10 +103,7 @@ require("lazy").setup({
                 },
                 Lua = { runtime = { version = "LuaJIT" } },
                 coc = { preferences = { useQuickfixForLocations = true } }
-
-            },
-            config = function(_, opts)
-                vim.g.coc_user_config = opts
+            }
             end,
         },
         {
@@ -161,69 +166,70 @@ require("lazy").setup({
         {
             'nvim-lualine/lualine.nvim',
             dependencies = { 'nvim-tree/nvim-web-devicons' },
-            config = function()
-                local function line_ratio()
-                    local current_line = vim.fn.line('.')
-                    local total_lines = vim.fn.line('$')
-                    return string.format('%d/%d', current_line, total_lines)
-                end
-                require('lualine').setup {
-                    options = {
-                        icons_enabled = true,
-                        theme = 'auto',
-                        component_separators = { left = ' ', right = ' '},
-                        section_separators = { left = ' ', right = ' '},
-                        disabled_filetypes = {
-                            statusline = {},
-                            winbar = {},
-                        },
-                        ignore_focus = {},
-                        always_divide_middle = true,
-                        globalstatus = false,
-                        refresh = {
-                            statusline = 100,
-                            tabline = 100,
-                            winbar = 100,
-                        }
+            opts = {
+                options = {
+                    icons_enabled = true,
+                    theme = 'auto',
+                    component_separators = { left = ' ', right = ' '},
+                    section_separators = { left = ' ', right = ' '},
+                    disabled_filetypes = {
+                        statusline = {},
+                        winbar = {},
                     },
-                    tabline = {
-                        lualine_a = {
-                            {
-                                'tabs',
-                                mode = 2,
-                                max_length = vim.o.columns
-                            }
-                        },
-                    },
-                    sections = {
-                        lualine_a = {'mode'},
-                        lualine_b = {'branch', 'diff', 'diagnostics'},
-                        lualine_c = {'filename'},
-                        lualine_x = {'encoding', 'filetype', line_ratio },
-                        lualine_y = {
-                            {
-                                'datetime',
-                                style = '%H:%M:%S'
-                            },
-                        },
-                        lualine_z = {
-                            {
-                                require("nvim-possession").status,
-                                cond = function()
-                                    return require("nvim-possession").status() ~= nil
-                                end,
-                            },
-                        },
-                    },
+                    ignore_focus = {},
+                    always_divide_middle = true,
+                    globalstatus = false,
                     refresh = {
                         statusline = 100,
+                        tabline = 100,
+                        winbar = 100,
+                    }
+                },
+                tabline = {
+                    lualine_a = {
+                        {
+                            'tabs',
+                            mode = 2,
+                            max_length = vim.o.columns
+                        }
                     },
-                    inactive_sections = {
-                        lualine_c = {'filename'},
-                        lualine_x = {'location'},
+                },
+                sections = {
+                    lualine_a = {'mode'},
+                    lualine_b = {'branch', 'diff', 'diagnostics'},
+                    lualine_c = {'filename'},
+                    lualine_x = {'encoding', 'filetype', function()
+                        local current_line = vim.fn.line('.')
+                        local total_lines = vim.fn.line('$')
+                        return string.format('%d/%d', current_line, total_lines)
+                    end},
+                    lualine_y = {
+                        {
+                            'datetime',
+                            style = '%H:%M:%S'
+                        },
                     },
-                }
-            end
+                    lualine_z = {
+                        {
+                            function()
+                                local ok, possession = pcall(require, 'nvim-possession')
+                                return ok and possession.status() or nil
+                            end,
+                            cond = function()
+                                local ok, possession = pcall(require, 'nvim-possession')
+                                return ok and possession.status() ~= nil
+                            end,
+                        },
+                    },
+                },
+                refresh = {
+                    statusline = 100,
+                },
+                inactive_sections = {
+                    lualine_c = {'filename'},
+                    lualine_x = {'location'},
+                },
+            }
         },
         {
             "kdheepak/lazygit.nvim",
@@ -240,34 +246,43 @@ require("lazy").setup({
             }
         },
         {
-            "rebelot/kanagawa.nvim",
-            lazy = false,
-            priority = 1000,
-            config = function()
-                vim.cmd([[colorscheme kanagawa]])
-            end,
-        },
-        {
             "gennaro-tedesco/nvim-possession",
             dependencies = {
                 "ibhagwan/fzf-lua",
             },
-            config = function()
-                require("nvim-possession").setup({
-                    sessions = {
-                        sessions_path = vim.fn.expand("$HOME/vimfiles/session/"),
-                        sessions_variable = "session",
-                        sessions_icon = "",
-                        sessions_prompt = "Saved Sessions:",
-                    },
-                    autoload = true,
-                    autosave = true,
-                })
-            end,
+            opts = {
+                sessions = {
+                    sessions_path = vim.fn.expand("$HOME/vimfiles/session/"),
+                    sessions_variable = "session",
+                    sessions_icon = "",
+                    sessions_prompt = "Saved Sessions:",
+                },
+                autoload = true,
+                autosave = true,
+                save_hook = function()
+                    local bufs = vim.api.nvim_list_bufs()
+                    local name_pattern = "CodeCompanion"
+
+                    for _, win in ipairs(vim.api.nvim_list_wins()) do
+                        local buf = vim.api.nvim_win_get_buf(win)
+                        local buf_name = vim.api.nvim_buf_get_name(buf)
+                        if string.find(buf_name, name_pattern) then
+                            vim.api.nvim_win_close(win, false)
+                        end
+                    end
+
+                    for _, buf in ipairs(bufs) do
+                        local buf_name = vim.api.nvim_buf_get_name(buf)
+                        if string.find(buf_name, name_pattern) then
+                            vim.api.nvim_buf_delete(buf, {force = true})
+                        end
+                    end
+                end
+            },
             keys = {
                 { "<leader>;l", function() require("nvim-possession").list() end, desc = "-list sessions", },
                 { "<leader>;n", function() require("nvim-possession").new() end, desc = "-create new session", },
-                { "<leader>;u", function() require("nvim-possession").update() end, desc = "-update current session", },
+                { "<leader>;s", function() require("nvim-possession").update() end, desc = "-update current session", },
                 { "<leader>;d", function() require("nvim-possession").delete() end, desc = "-delete selected session"},
             },
         },
@@ -289,17 +304,7 @@ require("lazy").setup({
         {
             "kylechui/nvim-surround",
             event = "VeryLazy",
-            config = function()
-                require("nvim-surround").setup({
-                    -- Configuration here, or leave empty to use defaults
-                })
-            end
-        },
-        {
-            "easymotion/vim-easymotion",
-            keys = {
-                { "<leader>4", "<Plug>(easymotion-overwin-f)"},
-            }
+            opts = {}
         },
         {
             "Hippasusss/easypeasy",
@@ -313,7 +318,6 @@ require("lazy").setup({
                 { "<leader>tw", function() require("easypeasy").commandTreeSitter('gc') end, mode = {"n","v"}},
             },
         },
-        -- unpack(local_plugins),
     },
     checker = { enabled = true },
 })
