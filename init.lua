@@ -371,6 +371,7 @@ vim.opt.encoding= "utf-8"
 vim.opt.incsearch = true
 vim.opt.hlsearch = false
 vim.opt.paste = false
+vim.opt.sessionoptions = "blank,curdir,folds,help,tabpages,winsize,terminal"
 
 --mappings
 vim.keymap.set("i", "jj", "<Esc>")
