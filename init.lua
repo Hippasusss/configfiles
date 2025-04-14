@@ -23,7 +23,7 @@ end)()
 
 require("lazy").setup({
     spec = {
-        -- unpack(localPlugins),
+        unpack(localPlugins),
         {
             "rebelot/kanagawa.nvim",
             lazy = false,
@@ -83,27 +83,27 @@ require("lazy").setup({
             },
             config = function()
                 vim.g.coc_user_config = {
-                semanticTokens = { enable = true },
-                inlayHint = { enable = false },
-                suggest = {
-                    enablePreselect = false,
-                    noselect = true
-                },
-                diagnostic = {
-                    errorSign = "!",
-                    warningSign = "?",
-                    showUnused = false,
-                    virtualText = true,
-                    virtualTextCurrentLineOnly = false,
-                    messageTarget = "echo"
-                },
-                powershell = { integratedConsole = { showOnStartup = false } },
-                ["luals"] = {
-                    enableNvimLuaDev = true,
-                },
-                Lua = { runtime = { version = "LuaJIT" } },
-                coc = { preferences = { useQuickfixForLocations = true } }
-            }
+                    semanticTokens = { enable = true },
+                    inlayHint = { enable = false },
+                    suggest = {
+                        enablePreselect = false,
+                        noselect = true
+                    },
+                    diagnostic = {
+                        errorSign = "!",
+                        warningSign = "?",
+                        showUnused = false,
+                        virtualText = true,
+                        virtualTextCurrentLineOnly = false,
+                        messageTarget = "echo"
+                    },
+                    powershell = { integratedConsole = { showOnStartup = false } },
+                    ["luals"] = {
+                        enableNvimLuaDev = true,
+                    },
+                    Lua = { runtime = { version = "LuaJIT" } },
+                    coc = { preferences = { useQuickfixForLocations = true } }
+                }
             end,
         },
         {
@@ -112,20 +112,9 @@ require("lazy").setup({
             config = function()
                 local function loadApiKey(key)
                     local secrets_path = vim.fn.expand("$HOME/.secret/keys.json")
-                    local file = io.open(secrets_path, "r")
-                    if not file then
-                        error("Failed to open secrets file: " .. secrets_path)
-                    end
-
-                    local content = file:read("*a")
-                    file:close()
-
-                    local ok, secrets = pcall(vim.json.decode, content)
-                    if not ok or not secrets[key] then
-                        error("Invalid or missing key: " .. key .. " in: " .. secrets_path)
-                    end
-                    print(secrets[key])
-                    return secrets[key]
+                    local content = table.concat(vim.fn.readfile(secrets_path), "\n")
+                    local secrets = assert(vim.json.decode(content), "Invalid JSON in secrets file")
+                    return assert(secrets[key], "Missing key: "..key)
                 end
 
                 require("codecompanion").setup({
@@ -288,7 +277,6 @@ require("lazy").setup({
         },
         {
             "nvim-treesitter/nvim-treesitter",
-            lazy = true,
             build = ":TSUpdate",
             config = function ()
                 local configs = require("nvim-treesitter.configs")
@@ -306,18 +294,21 @@ require("lazy").setup({
             event = "VeryLazy",
             opts = {}
         },
-        {
-            "Hippasusss/easypeasy",
-            keys = {
-                {"s", function() require("easypeasy").searchSingleCharacter() end, mode = {"n","v"}},
-                { "/", function() require("easypeasy").searchMultipleCharacters() end},
-                { "<leader>z", function() require("easypeasy").searchLines() end, mode = {"n","v"}},
-                { "<leader>tt", function() require("easypeasy").selectTreeSitter() end, mode = {"n","v"}},
-                { "<leader>ty", function() require("easypeasy").yankTreeSitter() end, mode = {"n","v"}},
-                { "<leader>td", function() require("easypeasy").deleteTreeSitter() end, mode = {"n","v"}},
-                { "<leader>tw", function() require("easypeasy").commandTreeSitter('gc') end, mode = {"n","v"}},
-            },
-        },
+        -- {
+        --     "Hippasusss/easypeasy",
+        --     keys = {
+        --         {"s", function() require("easypeasy").searchSingleCharacter() end, mode = {"n","v"}},
+        --         { "/", function() require("easypeasy").searchMultipleCharacters() end},
+        --         { "<leader>z", function() require("easypeasy").searchLines() end, mode = {"n","v"}},
+        --         { "<leader>tt", function() require("easypeasy").selectTreeSitter() end, mode = {"n","v"}},
+        --         { "<leader>ty", function() require("easypeasy").yankTreeSitter() end, mode = {"n","v"}},
+        --         { "<leader>td", function() require("easypeasy").deleteTreeSitter() end, mode = {"n","v"}},
+        --         { "<leader>tw", function() require("easypeasy").commandTreeSitter('gc') end, mode = {"n","v"}},
+        --     },
+        --     opts = {
+        --         -- tsSelectionMode = 'V'
+        --     }
+        -- },
     },
     checker = { enabled = true },
 })
@@ -343,6 +334,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
 --options
 vim.g.undotree_DiffCommand = "FC"
 vim.g.coc_disable_workspace_config = 1
+vim.g.completion_enable_auto_popup = 0
 
 local backUpPath = "$HOME\\.config\\back"
 
