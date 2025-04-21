@@ -81,13 +81,19 @@ require("lazy").setup({
                         or vim.fn['coc#refresh']()
                 end,  expr = true, silent = true , mode = "i"}
             },
+
             config = function()
                 vim.g.coc_user_config = {
                     semanticTokens = { enable = true },
                     inlayHint = { enable = false },
                     suggest = {
                         enablePreselect = false,
-                        noselect = true
+                        noselect = true,
+                        enableBufferCompletion = false,
+                        enableAroundCompletion = false,
+                        enableAutoImport = false,
+                        enableImportCompletion = false,
+                        enableSnippetCompletion = false,
                     },
                     diagnostic = {
                         errorSign = "!",
@@ -102,9 +108,13 @@ require("lazy").setup({
                         enableNvimLuaDev = true,
                     },
                     Lua = { runtime = { version = "LuaJIT" } },
-                    coc = { preferences = { useQuickfixForLocations = true } }
+                    coc = { preferences = { useQuickfixForLocations = true } },
+                    clangd = {
+                        fallbackStyle = "{ BasedOnStyle: LLVM, BreakBeforeBraces: Allman, IndentWidth: 4, TabWidth: 4, UseTab: Never }"
+                    }
                 }
             end,
+
         },
         {
             "olimorris/codecompanion.nvim",
@@ -294,21 +304,6 @@ require("lazy").setup({
             event = "VeryLazy",
             opts = {}
         },
-        -- {
-        --     "Hippasusss/easypeasy",
-        --     keys = {
-        --         {"s", function() require("easypeasy").searchSingleCharacter() end, mode = {"n","v"}},
-        --         { "/", function() require("easypeasy").searchMultipleCharacters() end},
-        --         { "<leader>z", function() require("easypeasy").searchLines() end, mode = {"n","v"}},
-        --         { "<leader>tt", function() require("easypeasy").selectTreeSitter() end, mode = {"n","v"}},
-        --         { "<leader>ty", function() require("easypeasy").yankTreeSitter() end, mode = {"n","v"}},
-        --         { "<leader>td", function() require("easypeasy").deleteTreeSitter() end, mode = {"n","v"}},
-        --         { "<leader>tw", function() require("easypeasy").commandTreeSitter('gc') end, mode = {"n","v"}},
-        --     },
-        --     opts = {
-        --         -- tsSelectionMode = 'V'
-        --     }
-        -- },
     },
     checker = { enabled = true },
 })
