@@ -103,12 +103,12 @@ require("lazy").setup({
                     opts = {
                         keymap = {
                             preset = "none",
-                            ['<Tab>'] = {'select_next', 'fallback'},
-                            ['<S-Tab>'] = {'select_prev', 'fallback'},
+                            ['<Tab>'] = {'snippet_forward', 'select_next', 'fallback'},
+                            ['<S-Tab>'] = {'snippet_backward', 'select_prev', 'fallback'},
                             ['<Enter>'] = {'accept', 'fallback'},
                         },
                         sources = {
-                            default = { 'lsp'},
+                            default = { 'lsp', 'snippets'},
                         },
                         cmdline = { completion = { menu = { auto_show = true } } },
 
