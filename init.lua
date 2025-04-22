@@ -63,62 +63,65 @@ require("lazy").setup({
         {
             "neovim/nvim-lspconfig",
             lazy = false,
+
+            keys = {
+                { "<leader>gd", vim.lsp.buf.definition, desc = "Go to definition", silent = true },
+                { "<leader>gr", vim.lsp.buf.references, desc = "Find references", silent = true },
+                { "<leader>gf", vim.lsp.buf.code_action, desc = "Fix current", silent = true },
+                { "<leader>gc", vim.lsp.buf.rename, desc = "Rename symbol" },
+                { "<leader>gl", function() vim.diagnostic.jump({count = -1, float = true}) end, desc = "Jump to next diagnostic", silent = true, },
+                { "<leader>gh", function() vim.diagnostic.jump({count = 1, float = true}) end, desc = "Jump to previous diagnostic", silent = true, },
+                { "<leader>a", function() vim.cmd("ClangdSwitchSourceHeader") end, desc = "Switch source/header", silent = true },
+                { "<leader>gi", vim.lsp.buf.hover, desc = "Show hover", silent = true },
+            },
+            config = function()
+                require'lspconfig'.lua_ls.setup {
+                    on_init = function(client)
+                        local path = client.workspace_folders[1].name
+                        if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+                            return
+                        end
+                        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                            runtime = { version = 'LuaJIT' },
+                            workspace = {
+                                checkThirdParty = false,
+                                library = {
+                                    vim.env.VIMRUNTIME,
+                                    -- Depending on the usage, you might want to add additional paths here.
+                                    "${3rd}/luv/library",
+                                    "${3rd}/busted/library",
+                                }
+                            }
+                        })
+                    end,
+                    settings = { Lua = {} }
+                }
+                require("lspconfig").clangd.setup {}
+            end,
             dependencies = {
                 {
                     "saghen/blink.cmp",
                     version = '1.*',
-                    keymap = {
-                        preset = "none",
-                        ['<Tab>'] = {'select_next', 'fallback'},
-                        ['<S-Tab>'] = {'select_prev', 'fallback'},
-                        ['<C-Space>'] = {'accept', 'fallback'},
-                    },
-
-                    -- README also notes: 'you may want to set `completion.trigger.show_in_snippet = false`
-                    -- or use `completion.list.selection = "manual" | "auto_insert"`'
-                    completion = {
-                        list = {
-                            selection = "auto_insert"
-                        }
-                    },
-
-                    opts = {}
+                    completion = { list = { selection = "auto_insert" } },
+                    opts = {
+                        keymap = {
+                            preset = "none",
+                            ['<Tab>'] = {'select_next', 'fallback'},
+                            ['<S-Tab>'] = {'select_prev', 'fallback'},
+                            ['<Enter>'] = {'accept', 'fallback'},
+                        },
+                        sources = {
+                            default = { 'lsp'},
+                        },
+                        cmdline = { completion = { menu = { auto_show = true } } },
+                    }
                 },
                 {
                     "williamboman/mason.nvim",
                     opts = {}
                 }
             },
-                config = function()
-                    require'lspconfig'.lua_ls.setup {
-                        on_init = function(client)
-                            local path = client.workspace_folders[1].name
-                            if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
-                                return
-                            end
-
-                            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-                                runtime = {
-                                    version = 'LuaJIT'
-                                },
-                                workspace = {
-                                    checkThirdParty = false,
-                                    library = {
-                                        vim.env.VIMRUNTIME,
-                                        -- Depending on the usage, you might want to add additional paths here.
-                                        "${3rd}/luv/library",
-                                        "${3rd}/busted/library",
-                                    }
-                                }
-                            })
-                        end,
-                        settings = {
-                            Lua = {}
-                        }
-                    }
-                    require("lspconfig").clangd.setup {}
-                end
-            },
+        },
 
         {
             "olimorris/codecompanion.nvim",
@@ -376,6 +379,7 @@ vim.keymap.set("n", "V", "v")
 vim.keymap.set("n", "<A-v>", "<c-v>")
 vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
 vim.keymap.set({"n", "v"}, "<leader>p", "\"+p")
+vim.keymap.set("n", "<C-J>", "J")
 
 vim.keymap.set("n",  "H", "<C-W>h")
 vim.keymap.set("n",  "J", "<C-W>j")
