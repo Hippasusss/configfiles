@@ -61,61 +61,65 @@ require("lazy").setup({
             }
         },
         {
-            "neoclide/coc.nvim",
+            "neovim/nvim-lspconfig",
             lazy = false,
-            branch="release",
-            keys = {
-                { "<leader>gd", "<Plug>(coc-definition)", desc = "Go to definition", silent = true },
-                { "<leader>gr", "<Plug>(coc-references)", desc = "Find references", silent = true },
-                { "<leader>gf", "<Plug>(coc-fix-current)", desc = "Fix current", silent = true },
-                { "<leader>gc", "<Plug>(coc-rename)", desc = "Rename symbol" },
-                { "<leader>gl", function() vim.fn.CocAction("diagnosticNext") end, desc = "Next diagnostic", silent = true },
-                { "<leader>gh", function() vim.fn.CocAction("diagnosticPrevious") end, desc = "Prev diagnostic", silent = true },
-                { "<leader>a", function() vim.cmd("CocCommand clangd.switchSourceHeader") end, desc = "Switch source/header", silent = true },
-                { "<leader>gi", function() vim.fn.CocAction("doHover") end, desc = "Show hover", silent = true },
-                { ",s", "<C-r>=CocActionAsync('showSignatureHelp')<CR>", desc = "Signature help", mode = "i", silent = true },
-                { '<Tab>', function()
-                    return vim.fn['coc#pum#visible']() == 1 and vim.fn['coc#pum#next'](1)
-                        or vim.fn.col('.') - 1 == 0 and '\t'
-                        or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') and '\t'
-                        or vim.fn['coc#refresh']()
-                end,  expr = true, silent = true , mode = "i"}
+            dependencies = {
+                {
+                    "saghen/blink.cmp",
+                    version = '1.*',
+                    keymap = {
+                        preset = "none",
+                        ['<Tab>'] = {'select_next', 'fallback'},
+                        ['<S-Tab>'] = {'select_prev', 'fallback'},
+                        ['<C-Space>'] = {'accept', 'fallback'},
+                    },
+
+                    -- README also notes: 'you may want to set `completion.trigger.show_in_snippet = false`
+                    -- or use `completion.list.selection = "manual" | "auto_insert"`'
+                    completion = {
+                        list = {
+                            selection = "auto_insert"
+                        }
+                    },
+
+                    opts = {}
+                },
+                {
+                    "williamboman/mason.nvim",
+                    opts = {}
+                }
+            },
+                config = function()
+                    require'lspconfig'.lua_ls.setup {
+                        on_init = function(client)
+                            local path = client.workspace_folders[1].name
+                            if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+                                return
+                            end
+
+                            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                                runtime = {
+                                    version = 'LuaJIT'
+                                },
+                                workspace = {
+                                    checkThirdParty = false,
+                                    library = {
+                                        vim.env.VIMRUNTIME,
+                                        -- Depending on the usage, you might want to add additional paths here.
+                                        "${3rd}/luv/library",
+                                        "${3rd}/busted/library",
+                                    }
+                                }
+                            })
+                        end,
+                        settings = {
+                            Lua = {}
+                        }
+                    }
+                    require("lspconfig").clangd.setup {}
+                end
             },
 
-            config = function()
-                vim.g.coc_user_config = {
-                    semanticTokens = { enable = true },
-                    inlayHint = { enable = false },
-                    suggest = {
-                        enablePreselect = false,
-                        noselect = true,
-                        enableBufferCompletion = false,
-                        enableAroundCompletion = false,
-                        enableAutoImport = false,
-                        enableImportCompletion = false,
-                        enableSnippetCompletion = false,
-                    },
-                    diagnostic = {
-                        errorSign = "!",
-                        warningSign = "?",
-                        showUnused = false,
-                        virtualText = true,
-                        virtualTextCurrentLineOnly = false,
-                        messageTarget = "echo"
-                    },
-                    powershell = { integratedConsole = { showOnStartup = false } },
-                    ["luals"] = {
-                        enableNvimLuaDev = true,
-                    },
-                    Lua = { runtime = { version = "LuaJIT" } },
-                    coc = { preferences = { useQuickfixForLocations = true } },
-                    clangd = {
-                        fallbackStyle = "{ BasedOnStyle: LLVM, BreakBeforeBraces: Allman, IndentWidth: 4, TabWidth: 4, UseTab: Never }"
-                    }
-                }
-            end,
-
-        },
         {
             "olimorris/codecompanion.nvim",
             lazy = true,
@@ -328,8 +332,8 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
 })
 --options
 vim.g.undotree_DiffCommand = "FC"
-vim.g.coc_disable_workspace_config = 1
 vim.g.completion_enable_auto_popup = 0
+vim.diagnostic.config {virtual_lines = true}
 
 local backUpPath = "$HOME\\.config\\back"
 
