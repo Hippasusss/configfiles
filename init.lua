@@ -63,7 +63,6 @@ require("lazy").setup({
         {
             "neovim/nvim-lspconfig",
             lazy = false,
-
             keys = {
                 { "<leader>gd", vim.lsp.buf.definition, desc = "Go to definition", silent = true },
                 { "<leader>gr", vim.lsp.buf.references, desc = "Find references", silent = true },
@@ -87,7 +86,6 @@ require("lazy").setup({
                                 checkThirdParty = false,
                                 library = {
                                     vim.env.VIMRUNTIME,
-                                    -- Depending on the usage, you might want to add additional paths here.
                                     "${3rd}/luv/library",
                                     "${3rd}/busted/library",
                                 }
@@ -102,7 +100,6 @@ require("lazy").setup({
                 {
                     "saghen/blink.cmp",
                     version = '1.*',
-                    completion = { list = { selection = "auto_insert" } },
                     opts = {
                         keymap = {
                             preset = "none",
@@ -114,6 +111,12 @@ require("lazy").setup({
                             default = { 'lsp'},
                         },
                         cmdline = { completion = { menu = { auto_show = true } } },
+
+                        completion = { list = {
+                            selection = { auto_insert = true, preselect = false } } ,
+                            documentation = {auto_show = true},
+                        },
+                        signature = { enabled = true},
                     }
                 },
                 {
