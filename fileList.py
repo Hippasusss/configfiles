@@ -6,7 +6,6 @@ HardLinkFilesDestination = {
     "_vimrc":                           HOME,
     "_vsvimrc":                         HOME,
     ".bashrc":                          HOME,
-    "Tomorrow-Night.vim":               os.path.join(HOME, "vimfiles\\colors"),
     "Microsoft.PowerShell_profile.ps1": os.path.join(HOME, "Documents\\PowerShell"),
     ".theme.omp.json":                  HOME,
     "init.lua":                         os.path.join(HOME, 'AppData\\Local\\nvim'),
