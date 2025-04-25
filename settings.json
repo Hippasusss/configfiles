@@ -96,7 +96,6 @@
                 "hidden": false,
                 "intenseTextStyle": "all",
                 "name": "PowerShell",
-                "padding": "0, 0, 0, -3",
                 "scrollbarState": "hidden",
                 "source": "Windows.Terminal.PowershellCore"
             },
