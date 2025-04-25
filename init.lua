@@ -110,7 +110,10 @@ require("lazy").setup({
                         sources = {
                             default = { 'lsp', 'snippets'},
                         },
-                        cmdline = { completion = { menu = { auto_show = true } } },
+                        cmdline = { completion = {
+                            menu = { auto_show = true },
+                            list = { selection = { preselect = false , auto_insert = true}},
+                        } },
 
                         completion = { list = {
                             selection = { auto_insert = true, preselect = false } } ,
