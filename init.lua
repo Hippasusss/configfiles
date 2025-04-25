@@ -259,9 +259,6 @@ require("lazy").setup({
         },
         {
             "gennaro-tedesco/nvim-possession",
-            dependencies = {
-                "ibhagwan/fzf-lua",
-            },
             opts = {
                 sessions = {
                     sessions_path = vim.fn.expand("$HOME/vimfiles/session/"),
