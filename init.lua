@@ -15,10 +15,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local localPlugins = (function()
-    for _, path in ipairs(vim.api.nvim_get_runtime_file('lua/localPlugins.lua', true)) do
-        if vim.loop.fs_stat(path) then return require('localPlugins').get_local_plugins() end
-    end
-    return {}
+    local path = vim.api.nvim_get_runtime_file('lua/localPlugins.lua', true)[1]
+    return path and require('localPlugins').get_local_plugins() or {}
 end)()
 
 require("lazy").setup({
