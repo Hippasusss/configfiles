@@ -37,7 +37,7 @@ require("lazy").setup({
             keys = {
                 { "<leader>fp", function() require("fzf-lua").files() end, desc = "Fuzzy find files" },
                 { "<leader>ff", function() require("fzf-lua").builtin() end, desc = "FzfLua builtin" },
-                { "<leader>fh", function() require("fzf-lua").files({ cwd = vim.fn.expand("$HOME") }) end, desc = "Fuzzy find in home" },
+                { "<leader>fh", function() require("fzf-lua").files({ cwd = vim.fn.expand("~") }) end, desc = "Fuzzy find in home" },
                 { "<leader>fg", function() require("fzf-lua").live_grep() end, desc = "Live grep" },
                 { "<leader>ft", function() require("fzf-lua").treesitter() end, desc = "Treesitter" },
                 { "<leader>fm", function() require("fzf-lua").treesitter({ query = "method | function " }) end, desc = "Treesitter methods/functions" },
@@ -132,7 +132,7 @@ require("lazy").setup({
             lazy = true,
             config = function()
                 local function loadApiKey(key)
-                    local secrets_path = vim.fn.expand("$HOME/.secret/keys.json")
+                    local secrets_path = vim.fn.expand("~/.secret/keys.json")
                     local content = table.concat(vim.fn.readfile(secrets_path), "\n")
                     local secrets = assert(vim.json.decode(content), "Invalid JSON in secrets file")
                     return assert(secrets[key], "Missing key: "..key)
@@ -259,13 +259,13 @@ require("lazy").setup({
             "gennaro-tedesco/nvim-possession",
             opts = {
                 sessions = {
-                    sessions_path = vim.fn.expand("$HOME/vimfiles/session/"),
                     sessions_variable = "session",
                     sessions_icon = "",
                     sessions_prompt = "Saved Sessions:",
                 },
                 autoload = true,
                 autosave = true,
+                sessions = { sessions_path = vim.fn.expand("~/vimfiles/session/"), sessions_prompt = "Saved Sessions:" , sessions_icon = ''},
                 save_hook = function()
                     local bufs = vim.api.nvim_list_bufs()
                     local name_pattern = "CodeCompanion"
@@ -339,15 +339,19 @@ vim.g.undotree_DiffCommand = "FC"
 vim.g.completion_enable_auto_popup = 0
 vim.diagnostic.config {virtual_lines = true}
 
-local backUpPath = "$HOME\\.config\\back"
+local backUpPath = vim.fn.expand("~\\vimfiles\\back")
+if vim.fn.isdirectory(backUpPath) == 0 then
+    vim.fn.mkdir(backUpPath, 'p')
+end
 
 vim.opt.undofile = true
 vim.opt.swapfile= false
 vim.opt.backup = true
 vim.opt.undolevels = 1000
-vim.opt.undodir = vim.fn.expand(backUpPath)
-vim.opt.backupdir = vim.fn.expand(backUpPath)
-vim.opt.directory = vim.fn.expand(backUpPath)
+vim.opt.undodir = backUpPath
+vim.opt.backupdir = backUpPath
+vim.opt.directory = backUpPath
+vim.opt.clipboard = 'unnamedplus'
 vim.opt.showtabline = 1
 
 vim.opt.tabstop = 4
