@@ -283,8 +283,6 @@ vim.keymap.set("n", ";", ":")
 vim.keymap.set("n", "v", "V")
 vim.keymap.set("n", "V", "v")
 vim.keymap.set("n", "<A-v>", "<c-v>")
-vim.keymap.set({"n", "v"}, "<leader>y", "\"+y")
-vim.keymap.set({"n", "v"}, "<leader>p", "\"+p")
 vim.keymap.set("n", "<C-J>", "J")
 
 vim.keymap.set("n",  "H", "<C-W>h")
@@ -297,8 +295,5 @@ vim.keymap.set("n", "tl", ":tabnext<CR>", { silent = true })
 vim.keymap.set("n", "th", ":tabprevious<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>s", "<C-6>")
-
 vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<CR>")
-
 vim.keymap.set('n', '<leader>0', function() vim.cmd("luafile " .. vim.fn.expand("%:p")) end)
-
