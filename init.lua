@@ -2,7 +2,6 @@ vim.opt.runtimepath:prepend("~/vimfiles")
 vim.opt.runtimepath:append("~/vimfiles/after")
 vim.g.mapleader, vim.g.mapleaderlocal = ",", ","
 
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", "https://github.com/folke/lazy.nvim.git", lazypath })
@@ -25,15 +24,13 @@ require("lazy").setup({
         {
             "rebelot/kanagawa.nvim",
             lazy = false,
-            priority = 1000,
             config = function()
                 vim.cmd([[colorscheme kanagawa]])
             end,
+            priority = 1000,
         },
         {
             "ibhagwan/fzf-lua",
-            lazy = true,
-            dependencies = { "nvim-tree/nvim-web-devicons" },
             keys = {
                 { "<leader>fp", function() require("fzf-lua").files() end, desc = "Fuzzy find files" },
                 { "<leader>ff", function() require("fzf-lua").builtin() end, desc = "FzfLua builtin" },
@@ -42,21 +39,19 @@ require("lazy").setup({
                 { "<leader>ft", function() require("fzf-lua").treesitter() end, desc = "Treesitter" },
                 { "<leader>fm", function() require("fzf-lua").treesitter({ query = "method | function " }) end, desc = "Treesitter methods/functions" },
             },
+            dependencies = { "nvim-tree/nvim-web-devicons" },
             opts = {
-                file_ignore_patterns = {
-                    vim.fn.expand("config/back/"),
-                },
-                files = {
-                    cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build',
-                }
+                file_ignore_patterns = { vim.fn.expand("config/back/"), },
+                files = { cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build', }
             }
         },
         {
             "mbbill/undotree",
-            lazy = true,
-            keys = {
-                { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" }
-            }
+            keys = { { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" } }
+        },
+        {
+            "stevearc/oil.nvim",
+            opts = {}
         },
         {
             "neovim/nvim-lspconfig",
@@ -71,33 +66,9 @@ require("lazy").setup({
                 { "<leader>a", function() vim.cmd("ClangdSwitchSourceHeader") end, desc = "Switch source/header", silent = true },
                 { "<leader>gi", vim.lsp.buf.hover, desc = "Show hover", silent = true },
             },
-            config = function()
-                require'lspconfig'.lua_ls.setup {
-                    on_init = function(client)
-                        local path = client.workspace_folders[1].name
-                        if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
-                            return
-                        end
-                        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-                            runtime = { version = 'LuaJIT' },
-                            workspace = {
-                                checkThirdParty = false,
-                                library = {
-                                    vim.env.VIMRUNTIME,
-                                    "${3rd}/luv/library",
-                                    "${3rd}/busted/library",
-                                }
-                            }
-                        })
-                    end,
-                    settings = { Lua = {} }
-                }
-                require("lspconfig").clangd.setup {}
-            end,
             dependencies = {
                 {
                     "saghen/blink.cmp",
-                    version = '1.*',
                     opts = {
                         keymap = {
                             preset = "none",
@@ -105,31 +76,40 @@ require("lazy").setup({
                             ['<S-Tab>'] = {'snippet_backward', 'select_prev', 'fallback'},
                             ['<Enter>'] = {'accept', 'fallback'},
                         },
-                        sources = {
-                            default = { 'lsp', 'snippets'},
-                        },
-                        cmdline = { completion = {
-                            menu = { auto_show = true },
-                            list = { selection = { preselect = false , auto_insert = true}},
-                        } },
-
-                        completion = { list = {
-                            selection = { auto_insert = true, preselect = false } } ,
-                            documentation = {auto_show = true},
-                        },
-                        signature = { enabled = true},
-                    }
+                        sources = { default = { 'lsp', 'snippets'} },
+                        cmdline = { completion = { menu = { auto_show = true }, list = { selection = { preselect = false , auto_insert = true}} } },
+                        completion = { list = { selection = { auto_insert = true, preselect = false } } , documentation = {auto_show = true} },
+                        signature = { enabled = true },
+                    },
+                    version = '1.*',
                 },
                 {
                     "williamboman/mason.nvim",
                     opts = {}
                 }
             },
+            config = function()
+                require('lspconfig').lua_ls.setup {
+                    settings = {
+                        Lua = {
+                            runtime = { version = 'LuaJIT' },
+                            workspace = {
+                                checkThirdParty = false,
+                                library = { vim.env.VIMRUNTIME, "${3rd}/luv/library", "${3rd}/busted/library", "~/vimfiles/"},
+                            }
+                        }
+                    }
+                }
+                require('lspconfig').clangd.setup{}
+            end,
         },
-
         {
             "olimorris/codecompanion.nvim",
-            lazy = true,
+            keys = {
+                { "<leader>ic", ":CodeCompanionChat<CR>", desc = "CodeCompanion chat" },
+                { "<leader>ii", ":CodeCompanion<CR>", desc = "CodeCompanion" },
+            },
+            dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
             config = function()
                 local function loadApiKey(key)
                     local secrets_path = vim.fn.expand("~/.secret/keys.json")
@@ -139,178 +119,98 @@ require("lazy").setup({
                 end
 
                 require("codecompanion").setup({
-                    strategies = {
-                        chat = { adapter = "deepseek" },
-                        inline = { adapter = "deepseek" },
-                        cmd = { adapter = "deepseek" }
-                    },
+                    strategies = { chat = { adapter = "deepseek" }, inline = { adapter = "deepseek" }, cmd = { adapter = "deepseek" } },
                     adapters = {
                         gemini = function()
                             return require("codecompanion.adapters").extend("gemini", {
-                                env = {
-                                    api_key = loadApiKey("gemini_api_key"),
-                                },
-                                schema = { model = { default = "gemini-2.5-pro-exp-03-25",} },
+                                env = { api_key = loadApiKey("gemini_api_key") },
+                                schema = { model = { default = "gemini-2.5-pro-exp-03-25" } },
                             })
                         end,
                         deepseek = function()
                             return require("codecompanion.adapters").extend("deepseek", {
-                                env = {
-                                    api_key = loadApiKey("deepseek_api_key"),
-                                },
-                                schema = { model = { default = "deepseek-chat",} },
+                                env = { api_key = loadApiKey("deepseek_api_key") },
+                                schema = { model = { default = "deepseek-chat" } },
                             })
                         end,
                     },
                 })
             end,
-            dependencies = {
-                "nvim-lua/plenary.nvim",
-                "nvim-treesitter/nvim-treesitter",
-            },
-            keys = {
-                { "<leader>ic", ":CodeCompanionChat<CR>", desc = "CodeCompanion chat" },
-                { "<leader>ii", ":CodeCompanion<CR>", desc = "CodeCompanion" },
-            }
         },
         {
             'nvim-lualine/lualine.nvim',
             dependencies = { 'nvim-tree/nvim-web-devicons' },
             opts = {
                 options = {
-                    icons_enabled = true,
                     theme = 'auto',
-                    component_separators = { left = ' ', right = ' '},
-                    section_separators = { left = ' ', right = ' '},
-                    disabled_filetypes = {
-                        statusline = {},
-                        winbar = {},
-                    },
-                    ignore_focus = {},
+                    component_separators = ' ', section_separators = ' ',
+                    disabled_filetypes = { statusline = {}, winbar = {} },
                     always_divide_middle = true,
                     globalstatus = false,
-                    refresh = {
-                        statusline = 100,
-                        tabline = 100,
-                        winbar = 100,
-                    }
+                    refresh = { statusline = 100, tabline = 100, winbar = 100 }
                 },
-                tabline = {
-                    lualine_a = {
-                        {
-                            'tabs',
-                            mode = 2,
-                            max_length = vim.o.columns
-                        }
-                    },
-                },
+                tabline = { lualine_a = { { 'tabs', mode = 2, max_length = vim.o.columns } } },
                 sections = {
-                    lualine_a = {'mode'},
-                    lualine_b = {'branch', 'diff', 'diagnostics'},
-                    lualine_c = {'filename'},
-                    lualine_x = {'encoding', 'filetype', function()
-                        local current_line = vim.fn.line('.')
-                        local total_lines = vim.fn.line('$')
-                        return string.format('%d/%d', current_line, total_lines)
-                    end},
-                    lualine_y = {
-                        {
-                            'datetime',
-                            style = '%H:%M:%S'
-                        },
-                    },
+                    lualine_a = {'mode'}, lualine_b = {'branch', 'diff', 'diagnostics'}, lualine_c = {'filename'},
+                    lualine_x = {'encoding', 'filetype', function() return string.format('%d/%d', vim.fn.line('.'), vim.fn.line('$')) end},
+                    lualine_y = { { 'datetime', style = '%H:%M:%S' } },
                     lualine_z = {
                         {
-                            function()
-                                local ok, possession = pcall(require, 'nvim-possession')
-                                return ok and possession.status() or nil
-                            end,
-                            cond = function()
-                                local ok, possession = pcall(require, 'nvim-possession')
-                                return ok and possession.status() ~= nil
-                            end,
+                            function() local ok, p = pcall(require, 'nvim-possession') return ok and p.status() or nil end,
+                            cond = function() local ok, p = pcall(require, 'nvim-possession') return ok and p.status() ~= nil end,
                         },
                     },
                 },
-                refresh = {
-                    statusline = 100,
-                },
-                inactive_sections = {
-                    lualine_c = {'filename'},
-                    lualine_x = {'location'},
-                },
+                inactive_sections = { lualine_c = {'filename'}, lualine_x = {'location'} },
             }
         },
         {
             "kdheepak/lazygit.nvim",
-            lazy = true,
-            cmd = {
-                "LazyGit",
-                "LazyGitConfig",
-                "LazyGitCurrentFile",
-                "LazyGitFilter",
-                "LazyGitFilterCurrentFile",
-            },
-            keys = {
-                { "<leader>vg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
-            }
+            keys = { { "<leader>vg", "<cmd>LazyGit<cr>", desc = "LazyGit" } },
+            cmd = { "LazyGit", "LazyGitConfig", "LazyGitCurrentFile", "LazyGitFilter", "LazyGitFilterCurrentFile" },
         },
         {
             "gennaro-tedesco/nvim-possession",
-            opts = {
-                sessions = {
-                    sessions_variable = "session",
-                    sessions_icon = "",
-                    sessions_prompt = "Saved Sessions:",
-                },
-                autoload = true,
-                autosave = true,
-                sessions = { sessions_path = vim.fn.expand("~/vimfiles/session/"), sessions_prompt = "Saved Sessions:" , sessions_icon = ''},
-                save_hook = function()
-                    local bufs = vim.api.nvim_list_bufs()
-                    local name_pattern = "CodeCompanion"
-
-                    for _, win in ipairs(vim.api.nvim_list_wins()) do
-                        local buf = vim.api.nvim_win_get_buf(win)
-                        local buf_name = vim.api.nvim_buf_get_name(buf)
-                        if string.find(buf_name, name_pattern) then
-                            vim.api.nvim_win_close(win, false)
-                        end
-                    end
-
-                    for _, buf in ipairs(bufs) do
-                        local buf_name = vim.api.nvim_buf_get_name(buf)
-                        if string.find(buf_name, name_pattern) then
-                            vim.api.nvim_buf_delete(buf, {force = true})
-                        end
-                    end
-                end
-            },
             keys = {
                 { "<leader>;l", function() require("nvim-possession").list() end, desc = "-list sessions", },
                 { "<leader>;n", function() require("nvim-possession").new() end, desc = "-create new session", },
                 { "<leader>;s", function() require("nvim-possession").update() end, desc = "-update current session", },
                 { "<leader>;d", function() require("nvim-possession").delete() end, desc = "-delete selected session"},
             },
+            opts = {
+                sessions = { sessions_path = vim.fn.expand("~/vimfiles/session/"), sessions_prompt = "Saved Sessions:" , sessions_icon = ''},
+                autoload = true, autosave = true,
+                save_hook = function()
+                    local name_pattern = "CodeCompanion"
+                    for _, win in ipairs(vim.api.nvim_list_wins()) do
+                        local buf = vim.api.nvim_win_get_buf(win)
+                        if string.find(vim.api.nvim_buf_get_name(buf), name_pattern) then
+                            vim.api.nvim_win_close(win, false)
+                        end
+                    end
+                    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                        if string.find(vim.api.nvim_buf_get_name(buf), name_pattern) then
+                            vim.api.nvim_buf_delete(buf, {force = true})
+                        end
+                    end
+                end
+            },
         },
         {
             "nvim-treesitter/nvim-treesitter",
-            build = ":TSUpdate",
             config = function ()
-                local configs = require("nvim-treesitter.configs")
-
-                configs.setup({
+                require("nvim-treesitter.configs").setup({
                     ensure_installed = { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html" },
-                    sync_install = false,
                     highlight = { enable = true },
                     indent = { enable = true },
                 })
             end,
+            build = ":TSUpdate",
         },
         {
             "kylechui/nvim-surround",
+            opts = {},
             event = "VeryLazy",
-            opts = {}
         },
     },
     checker = { enabled = true },
@@ -334,6 +234,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
         vim.opt_local.expandtab = true
     end
 })
+
 --options
 vim.g.undotree_DiffCommand = "FC"
 vim.g.completion_enable_auto_popup = 0
