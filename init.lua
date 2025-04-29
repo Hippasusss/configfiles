@@ -223,7 +223,7 @@ vim.api.nvim_create_autocmd({'BufWinEnter'}, {
     command = 'silent! normal! g`"zv',
 })
 
-vim.api.nvim_create_autocmd('TextYankPost', {callback = function() vim.highlight.on_yank({higroup = 'Substitute', timeout = 200}) end})
+vim.api.nvim_create_autocmd('TextYankPost', {callback = function() vim.hl.on_yank({higroup = 'Substitute', timeout = 200}) end})
 
 --sometimes gets changed by pesky plugins
 vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
