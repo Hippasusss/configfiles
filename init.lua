@@ -54,6 +54,10 @@ require("lazy").setup({
             opts = {}
         },
         {
+            "norcalli/nvim-colorizer.lua",
+	        opts = {}
+        },
+        {
             "neovim/nvim-lspconfig",
             lazy = false,
             keys = {
@@ -238,7 +242,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
 --options
 vim.g.undotree_DiffCommand = "FC"
 vim.g.completion_enable_auto_popup = 0
-vim.diagnostic.config {virtual_lines = true}
+vim.diagnostic.config {virtual_text= true}
 
 local backUpPath = vim.fn.expand("~\\vimfiles\\back")
 if vim.fn.isdirectory(backUpPath) == 0 then
