@@ -20,7 +20,7 @@ end)()
 
 require("lazy").setup({
     spec = {
-        unpack(localPlugins),
+        localPlugins,
         {
             "rebelot/kanagawa.nvim",
             lazy = false,
