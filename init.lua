@@ -54,10 +54,6 @@ require("lazy").setup({
             opts = {}
         },
         {
-            "norcalli/nvim-colorizer.lua",
-	        opts = {}
-        },
-        {
             "neovim/nvim-lspconfig",
             lazy = false,
             keys = {
