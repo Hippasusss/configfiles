@@ -213,7 +213,6 @@ require("lazy").setup({
             event = "VeryLazy",
         },
     },
-    checker = { enabled = true },
 })
 
 --autocommands
