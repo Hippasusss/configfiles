@@ -85,8 +85,13 @@ require("lazy").setup({
                 },
                 {
                     "williamboman/mason.nvim",
-                    opts = {}
-                }
+                    opts = {
+                        ensure_installed = {
+                            "lua-language-server",
+                            "clangd"
+                        },
+                    }
+                },
             },
             config = function()
                 require('lspconfig').lua_ls.setup {
