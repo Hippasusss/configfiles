@@ -21,7 +21,7 @@ end)()
 require("lazy").setup({
     spec = {
         localPlugins,
-        {
+        { -- kanagawa.nvim
             "rebelot/kanagawa.nvim",
             lazy = false,
             config = function()
@@ -29,7 +29,7 @@ require("lazy").setup({
             end,
             priority = 1000,
         },
-        {
+        { -- fzf
             "ibhagwan/fzf-lua",
             keys = {
                 { "<leader>fp", function() require("fzf-lua").files() end, desc = "Fuzzy find files" },
@@ -45,15 +45,15 @@ require("lazy").setup({
                 files = { cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build', }
             }
         },
-        {
+        { -- undotree
             "mbbill/undotree",
             keys = { { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" } }
         },
-        {
+        { -- oil
             "stevearc/oil.nvim",
             opts = {}
         },
-        {
+        { -- nvim-lspconfig
             "neovim/nvim-lspconfig",
             lazy = false,
             keys = {
@@ -108,7 +108,7 @@ require("lazy").setup({
                 require('lspconfig').clangd.setup{}
             end,
         },
-        {
+        { -- codecompanion.nvim
             "olimorris/codecompanion.nvim",
             keys = {
                 { "<leader>ic", ":CodeCompanionChat<CR>", desc = "CodeCompanion chat" },
@@ -142,8 +142,8 @@ require("lazy").setup({
                 })
             end,
         },
-        {
-            'nvim-lualine/lualine.nvim',
+        { -- lualine
+            "nvim-lualine/lualine.nvim",
             dependencies = { 'nvim-tree/nvim-web-devicons' },
             opts = {
                 options = {
@@ -169,12 +169,12 @@ require("lazy").setup({
                 inactive_sections = { lualine_c = {'filename'}, lualine_x = {'location'} },
             }
         },
-        {
+        { -- lazygit.nvim
             "kdheepak/lazygit.nvim",
             keys = { { "<leader>vg", "<cmd>LazyGit<cr>", desc = "LazyGit" } },
             cmd = { "LazyGit", "LazyGitConfig", "LazyGitCurrentFile", "LazyGitFilter", "LazyGitFilterCurrentFile" },
         },
-        {
+        { -- nvim-possession
             "gennaro-tedesco/nvim-possession",
             keys = {
                 { "<leader>;l", function() require("nvim-possession").list() end, desc = "-list sessions", },
@@ -201,7 +201,7 @@ require("lazy").setup({
                 end
             },
         },
-        {
+        { -- nvim-treesitter
             "nvim-treesitter/nvim-treesitter",
             config = function ()
                 require("nvim-treesitter.configs").setup({
@@ -212,7 +212,7 @@ require("lazy").setup({
             end,
             build = ":TSUpdate",
         },
-        {
+        { -- nvim-surround
             "kylechui/nvim-surround",
             opts = {},
             event = "VeryLazy",
@@ -240,7 +240,6 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
 })
 
 --options
-vim.g.undotree_DiffCommand = "FC"
 vim.g.completion_enable_auto_popup = 0
 vim.diagnostic.config {virtual_text= true}
 
@@ -248,7 +247,6 @@ local backUpPath = vim.fn.expand("~\\vimfiles\\back")
 if vim.fn.isdirectory(backUpPath) == 0 then
     vim.fn.mkdir(backUpPath, 'p')
 end
-
 vim.opt.undofile = true
 vim.opt.swapfile= false
 vim.opt.backup = true
@@ -256,6 +254,7 @@ vim.opt.undolevels = 1000
 vim.opt.undodir = backUpPath
 vim.opt.backupdir = backUpPath
 vim.opt.directory = backUpPath
+
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.showtabline = 1
 
