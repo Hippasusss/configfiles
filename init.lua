@@ -260,7 +260,6 @@ vim.opt.backupdir = backUpPath
 vim.opt.directory = backUpPath
 
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.showtabline = 1
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
