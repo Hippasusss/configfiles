@@ -14,8 +14,10 @@ $installArray = @(
 "fzf",
 "BurntSushi.ripgrep.MSVC",
 "sharkdp.bat",
+"sharkdp.fd",
 "JesseDuffield.lazygit",
-"ajeetdsouza.zoxide",
+"ajeetdsouza.zoxide"
+"sigoden.aichat"
 )
 
 foreach($install in $installArray)
@@ -24,18 +26,6 @@ foreach($install in $installArray)
     winget install -h --accept-package-agreements	--accept-source-agreements $install
     [console]::beep(100,100)
     Write-Output " " 
-}
-
-#VIM BACKUP FILES
-$vimBackupPath = "~\\.config\back"
-if(!(Test-Path -Path $vimBackupPath))
-{
-    Write-Output "Creating .config\back directory" 
-    New-Item -Path $vimBackupPath -ItemType Directory
-}
-else
-{
-    Write-Output ".config\back directory already exists"
 }
 
 #LINKS
