@@ -10,3 +10,5 @@ Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadlineKeyHandler -Key Tab -Function NextSuggestion 
 Set-PSReadlineKeyHandler -Key Shift+Tab -Function PreviousSuggestion 
+
+Invoke-Expression (& { (zoxide init powershell | Out-String) })

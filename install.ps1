@@ -1,6 +1,22 @@
 
 #WINGET
-$installArray = @("Neovim.Neovim", "cmake", "nodejs", "python3", "Microsoft.WindowsTerminal", "Microsoft.PowerShell",  "Microsoft.VisualStudio.2022.Community", "Cockos.REAPER", "Git.Git", "JanDeDobbeleer.OhMyPosh", "fzf", "BurntSushi.ripgrep.MSVC", "sharkdp.bat", "JesseDuffield.lazygit"  )
+$installArray = @(
+"Neovim.Neovim", 
+"cmake",
+"nodejs",
+"python3",
+"Microsoft.WindowsTerminal",
+"Microsoft.PowerShell",
+"Microsoft.VisualStudio.2022.Community",
+"Cockos.REAPER",
+"Git.Git",
+"JanDeDobbeleer.OhMyPosh",
+"fzf",
+"BurntSushi.ripgrep.MSVC",
+"sharkdp.bat",
+"JesseDuffield.lazygit",
+"ajeetdsouza.zoxide",
+)
 
 foreach($install in $installArray)
 {
