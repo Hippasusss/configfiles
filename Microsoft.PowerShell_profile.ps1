@@ -12,3 +12,8 @@ Set-PSReadlineKeyHandler -Key Tab -Function NextSuggestion
 Set-PSReadlineKeyHandler -Key Shift+Tab -Function PreviousSuggestion 
 
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
+
+New-Alias -Name ai -Value aichat
+New-Alias -Name lz -Value lazygit 
+function ff { fd -t d -H| fzf | Set-Location}
+function ffz { fd -t d -H| fzf | z}
