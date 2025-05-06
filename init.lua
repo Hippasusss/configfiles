@@ -107,23 +107,8 @@ require("lazy").setup({
                 }
                 require('lspconfig').clangd.setup{}
                 require('lspconfig').gopls.setup{}
-                -- require('lspconfig').powershell_es.setup{}
                 require('lspconfig').powershell_es.setup{
                     bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services',
-                    on_attach = function(client, bufnr)
-                        -- Optional: PowerShell-specific keymaps can go here
-                    end,
-                    settings = {
-                        powershell = {
-                            codeFormatting = {
-                                Preset = 'OTBS',  -- One True Brace Style
-                                openBraceOnSameLine = true
-                            },
-                            scriptAnalysis = {
-                                enable = true
-                            }
-                        }
-                    }
                 }
             end,
         },
