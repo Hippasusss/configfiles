@@ -15,5 +15,46 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 New-Alias -Name ai -Value aichat
 New-Alias -Name lz -Value lazygit 
-function ff { fd -t d -H| fzf | Set-Location}
-function ffz { fd -t d -H| fzf | z}
+
+
+function ff {
+    param([string]$Path = ".")
+    $basePath = Resolve-Path $Path
+    $selection = fd -t d -H --base-directory $basePath | fzf
+    if ($selection) {
+        Set-Location (Join-Path $basePath $selection)
+    }
+}
+
+function ffz {
+    param([string]$Path = ".")
+    $basePath = Resolve-Path $Path
+    $selection = fd -t d -H --base-directory $basePath | fzf
+    if ($selection) {
+        z (Join-Path $basePath $selection)
+    }
+}
+
+function fff {
+    param(
+        [string]$Path = ".",
+        [switch]$sl
+    )
+    $basePath = Resolve-Path $Path
+    $selection = fd -t f -t d -H --base-directory $basePath | fzf
+    if ($selection) {
+        $fullPath = Join-Path $basePath $selection
+        if (Test-Path $fullPath -PathType Container) {
+            if ($sl) {
+                Set-Location $fullPath
+            }
+        } else {
+            if ($sl) {
+                Set-Location (Split-Path $fullPath -Parent)
+                nvim (Split-Path $fullPath -Leaf)
+            } else {
+                nvim $fullPath
+            }
+        }
+    }
+}
