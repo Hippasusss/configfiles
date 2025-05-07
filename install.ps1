@@ -47,6 +47,7 @@ if (-not (Test-Path $projectPath)) {
     New-Item -ItemType Directory -Path $projectPath -Force
 }
 
+Set-Location $projectPath
 foreach ($repo in $repos) {
     git clone $repo
 }
