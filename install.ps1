@@ -11,6 +11,7 @@ $installArray = @(
 "Microsoft.WindowsTerminal",
 "Microsoft.PowerShell",
 "Microsoft.VisualStudio.2022.Community",
+"LLVM.clangd",
 "Cockos.REAPER",
 "Git.Git",
 "JanDeDobbeleer.OhMyPosh",
