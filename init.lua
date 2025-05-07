@@ -186,24 +186,35 @@ require("lazy").setup({
                 { "<leader>;s", function() require("nvim-possession").update() end, desc = "-update current session", },
                 { "<leader>;d", function() require("nvim-possession").delete() end, desc = "-delete selected session"},
             },
-            opts = {
-                sessions = { sessions_path = vim.fn.expand("~/vimfiles/session/"), sessions_prompt = "Saved Sessions:" , sessions_icon = ''},
-                autoload = true, autosave = true,
-                save_hook = function()
-                    local name_pattern = "CodeCompanion"
-                    for _, win in ipairs(vim.api.nvim_list_wins()) do
-                        local buf = vim.api.nvim_win_get_buf(win)
-                        if string.find(vim.api.nvim_buf_get_name(buf), name_pattern) then
-                            vim.api.nvim_win_close(win, false)
-                        end
-                    end
-                    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-                        if string.find(vim.api.nvim_buf_get_name(buf), name_pattern) then
-                            vim.api.nvim_buf_delete(buf, {force = true})
-                        end
-                    end
+            config = function()
+                local session_path = vim.fn.expand("~/vimfiles/session/")
+                if vim.fn.isdirectory(session_path) == 0 then
+                    vim.fn.mkdir(session_path, "p")
                 end
-            },
+                require("nvim-possession").setup({
+                    sessions = {
+                        sessions_path = session_path,
+                        sessions_prompt = "Saved Sessions:",
+                        sessions_icon = ''
+                    },
+                    autoload = true,
+                    autosave = true,
+                    save_hook = function()
+                        local name_pattern = "CodeCompanion"
+                        for _, win in ipairs(vim.api.nvim_list_wins()) do
+                            local buf = vim.api.nvim_win_get_buf(win)
+                            if string.find(vim.api.nvim_buf_get_name(buf), name_pattern) then
+                                vim.api.nvim_win_close(win, false)
+                            end
+                        end
+                        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                            if string.find(vim.api.nvim_buf_get_name(buf), name_pattern) then
+                                vim.api.nvim_buf_delete(buf, {force = true})
+                            end
+                        end
+                    end
+                })
+            end
         },
         { -- nvim-treesitter
             "nvim-treesitter/nvim-treesitter",
