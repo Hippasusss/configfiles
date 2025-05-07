@@ -31,3 +31,19 @@ foreach($install in $installArray)
 #LINKS
 Write-Output "Creating Symlinks" 
 python .\createSymlinks.py
+
+
+#LOCAL NVIM PLUGINS
+$projectPath = "$HOME\Projects\nvim"
+$repos = @(
+    "git@github.com:Hippasusss/easypeasy.git"
+    "git@github.com:Hippasusss/diyank.git"
+)
+
+if (-not (Test-Path $projectPath)) {
+    New-Item -ItemType Directory -Path $projectPath -Force
+}
+
+foreach ($repo in $repos) {
+    git clone $repo
+}
