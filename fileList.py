@@ -7,8 +7,8 @@ HardLinkFilesDestination = {
     "Microsoft.PowerShell_profile.ps1": os.path.join(HOME, "Documents\\PowerShell"),
     ".theme.omp.json":                  HOME,
     "init.lua":                         os.path.join(HOME, 'AppData\\Local\\nvim'),
-    "settings.json":                    os.path.join(HOME, "AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState")
-    "localPlugins.json":                    os.path.join(HOME, "AppData\\Local\\nvim\\lua")
+    "settings.json":                    os.path.join(HOME, "AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState"),
+    "localPlugins.lua":                os.path.join(HOME, "AppData\\Local\\nvim\\lua")
 }
 
 SoftLinkFilesDestination = {
