@@ -1,3 +1,6 @@
+param(
+    [switch]$SkipWinget
+)
 
 #WINGET
 $installArray = @(
@@ -20,18 +23,18 @@ $installArray = @(
 "sigoden.aichat"
 )
 
-foreach($install in $installArray)
-{
-    Write-Output "installing: $install" 
-    winget install -h --accept-package-agreements	--accept-source-agreements $install
-    [console]::beep(100,100)
-    Write-Output " " 
+if (-not $SkipWinget) {
+    foreach($install in $installArray) {
+        Write-Output "installing: $install" 
+        winget install -h --accept-package-agreements --accept-source-agreements $install
+        [console]::beep(100,100)
+        Write-Output " " 
+    }
 }
 
 #LINKS
 Write-Output "Creating Symlinks" 
 python .\createSymlinks.py
-
 
 #LOCAL NVIM PLUGINS
 $projectPath = "$HOME\Projects\nvim"
