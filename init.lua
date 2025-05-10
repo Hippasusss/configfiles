@@ -26,6 +26,9 @@ require("lazy").setup({
             lazy = false,
             config = function()
                 vim.cmd([[colorscheme kanagawa]])
+                vim.cmd([[highlight SignColumn guibg=NONE ctermbg=NONE]])
+                vim.cmd([[highlight LineNr guibg=NONE ctermbg=NONE]])
+
             end,
             priority = 1000,
         },
@@ -50,8 +53,7 @@ require("lazy").setup({
             keys = { { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" } }
         },
         { -- oil
-            "stevearc/oil.nvim",
-            opts = {}
+            "stevearc/oil.nvim", opts = {}
         },
         { -- nvim-lspconfig
             "neovim/nvim-lspconfig",
@@ -59,7 +61,7 @@ require("lazy").setup({
             keys = {
                 { "<leader>gd", vim.lsp.buf.definition, desc = "Go to definition", silent = true },
                 { "<leader>gr", vim.lsp.buf.references, desc = "Find references", silent = true },
-                { "<leader>gf", vim.lsp.buf.code_action, desc = "Fix current", silent = true },
+                { "<leader>gf", function() require("fzf-lua").lsp_code_actions() end,  desc = "Fix current", silent = true },
                 { "<leader>gc", vim.lsp.buf.rename, desc = "Rename symbol" },
                 { "<leader>gl", function() vim.diagnostic.jump({count = -1, float = true}) end, desc = "Jump to next diagnostic", silent = true, },
                 { "<leader>gh", function() vim.diagnostic.jump({count = 1, float = true}) end, desc = "Jump to previous diagnostic", silent = true, },
@@ -85,12 +87,7 @@ require("lazy").setup({
                 },
                 {
                     "williamboman/mason.nvim",
-                    opts = {
-                        ensure_installed = {
-                            "lua-language-server",
-                            "clangd"
-                        },
-                    }
+                    opts = {}
                 },
             },
             config = function()
@@ -271,6 +268,7 @@ vim.opt.backupdir = backUpPath
 vim.opt.directory = backUpPath
 
 vim.opt.clipboard = 'unnamedplus'
+vim.opt.signcolumn = "yes"
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -314,3 +312,4 @@ vim.keymap.set("n", "th", ":tabprevious<CR>", { silent = true })
 vim.keymap.set("n", "<leader>s", "<C-6>")
 vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<CR>")
 vim.keymap.set('n', '<leader>0', function() vim.cmd("luafile " .. vim.fn.expand("%:p")) end)
+
