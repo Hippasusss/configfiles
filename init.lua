@@ -229,6 +229,11 @@ require("lazy").setup({
             opts = {},
             event = "VeryLazy",
         },
+        {
+            "ariel-frischer/bmessages.nvim",
+            event = "CmdlineEnter",
+            opts = {}
+        }
     },
 })
 
