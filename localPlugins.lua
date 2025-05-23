@@ -20,7 +20,7 @@ function M.get_local_plugins()
         {
             dir = "~/Projects/nvim/diyank/",
             keys = {
-                {"<leader>yd", function() require("diyank").copyDiagnosticFromCurrentLine() end, mode = {"n"}},
+                {"<leader>yd", function() require("diyank").yankDiagnosticFromCurrentLine() end, mode = {"n"}},
             },
             opts = { register = "+" }
         }
