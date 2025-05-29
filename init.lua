@@ -316,5 +316,4 @@ vim.keymap.set("n", "th", ":tabprevious<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>s", "<C-6>")
 vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<CR>")
-vim.keymap.set('n', '<leader>0', function() vim.cmd("luafile " .. vim.fn.expand("%:p")) end)
 
