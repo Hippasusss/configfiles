@@ -15,6 +15,7 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 New-Alias -Name ai -Value aichat
 New-Alias -Name lz -Value lazygit 
+New-Alias -Name touch -Value New-Item
 
 
 function ff {
