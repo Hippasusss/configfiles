@@ -104,6 +104,7 @@ require("lazy").setup({
                 }
                 require('lspconfig').clangd.setup{}
                 require('lspconfig').gopls.setup{}
+                require('lspconfig').neocmake.setup{}
                 require('lspconfig').powershell_es.setup{
                     bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services',
                 }
@@ -170,10 +171,18 @@ require("lazy").setup({
                 inactive_sections = { lualine_c = {'filename'}, lualine_x = {'location'} },
             }
         },
-        { -- lazygit.nvim
-            "kdheepak/lazygit.nvim",
-            keys = { { "<leader>vg", "<cmd>LazyGit<cr>", desc = "LazyGit" } },
-            cmd = { "LazyGit", "LazyGitConfig", "LazyGitCurrentFile", "LazyGitFilter", "LazyGitFilterCurrentFile" },
+        {
+            "folke/snacks.nvim",
+            priority = 1000,
+            lazy = false,
+            opts = {
+                bigfile = { enabled = true },
+                lazygit = { enabled = true, configure = true},
+            },
+            keys = {
+                { "<leader>vg", function() require("snacks").lazygit.open() end, desc = "open LazyGit", },
+            }
+
         },
         { -- nvim-possession
             "gennaro-tedesco/nvim-possession",
@@ -264,6 +273,7 @@ local backUpPath = vim.fn.expand("~\\vimfiles\\back")
 if vim.fn.isdirectory(backUpPath) == 0 then
     vim.fn.mkdir(backUpPath, 'p')
 end
+vim.opt.shell = 'powershell.exe'
 vim.opt.undofile = true
 vim.opt.swapfile= false
 vim.opt.backup = true
