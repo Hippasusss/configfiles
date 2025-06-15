@@ -11,7 +11,7 @@ $installArray = @(
 "Microsoft.WindowsTerminal",
 "Microsoft.PowerShell",
 "Microsoft.VisualStudio.2022.Community",
-"LLVM.clangd",
+"LLVM.LLVM",
 "Cockos.REAPER",
 "Git.Git",
 "JanDeDobbeleer.OhMyPosh",
@@ -28,7 +28,6 @@ if (-not $SkipWinget) {
     foreach($install in $installArray) {
         Write-Output "installing: $install" 
         winget install -h --accept-package-agreements --accept-source-agreements $install
-        [console]::beep(100,100)
         Write-Output " " 
     }
 }
