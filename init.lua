@@ -103,6 +103,9 @@ require("lazy").setup({
                     }
                 }
                 require('lspconfig').clangd.setup{}
+                require('lspconfig').html.setup{}
+                require('lspconfig').cssls.setup{}
+                require('lspconfig').ts_ls.setup{}
                 require('lspconfig').gopls.setup{}
                 require('lspconfig').neocmake.setup{}
                 require('lspconfig').powershell_es.setup{
