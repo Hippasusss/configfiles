@@ -131,18 +131,20 @@ require("lazy").setup({
                 require("codecompanion").setup({
                     strategies = { chat = { adapter = "deepseek" }, inline = { adapter = "deepseek" }, cmd = { adapter = "deepseek" } },
                     adapters = {
-                        gemini = function()
-                            return require("codecompanion.adapters").extend("gemini", {
-                                env = { api_key = loadApiKey("gemini_api_key") },
-                                schema = { model = { default = "gemini-2.5-pro-exp-03-25" } },
-                            })
-                        end,
-                        deepseek = function()
-                            return require("codecompanion.adapters").extend("deepseek", {
-                                env = { api_key = loadApiKey("deepseek_api_key") },
-                                schema = { model = { default = "deepseek-chat" } },
-                            })
-                        end,
+                        http = {
+                            gemini = function()
+                                return require("codecompanion.adapters").extend("gemini", {
+                                    env = { api_key = loadApiKey("gemini_api_key") },
+                                    schema = { model = { default = "gemini-2.5-pro-exp-03-25" } },
+                                })
+                            end,
+                            deepseek = function()
+                                return require("codecompanion.adapters").extend("deepseek", {
+                                    env = { api_key = loadApiKey("deepseek_api_key") },
+                                    schema = { model = { default = "deepseek-chat" } },
+                                })
+                            end,
+                        },
                     },
                 })
             end,
