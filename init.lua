@@ -68,6 +68,7 @@ require("lazy").setup({
                 { "<leader>gi", vim.lsp.buf.hover, desc = "Show hover", silent = true },
             },
             dependencies = {
+                {   "p00f/clangd_extensions.nvim" },
                 {
                     "saghen/blink.cmp",
                     opts = {
@@ -90,7 +91,18 @@ require("lazy").setup({
                 },
             },
             config = function()
-                vim.lsp.enable('lua_ls', {
+                vim.lsp.enable('lua_ls')
+                vim.lsp.enable("clangd")
+                vim.lsp.enable('html')
+                vim.lsp.enable('cssls')
+                vim.lsp.enable('ts_ls')
+                vim.lsp.enable('gopls')
+                vim.lsp.enable('neocmake')
+                vim.lsp.enable('powershell_es')
+                vim.lsp.config('powershell_es', {
+                    bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services',
+                })
+                vim.lsp.config('lua_ls', {
                     settings = {
                         Lua = {
                             runtime = { version = 'LuaJIT' },
@@ -101,17 +113,6 @@ require("lazy").setup({
                         }
                     }
                 })
-                vim.lsp.enable("clangd", {})
-                vim.lsp.enable('html',{})
-                vim.lsp.enable('cssls',{})
-                vim.lsp.enable('ts_ls',{})
-                vim.lsp.enable('gopls',{})
-                vim.lsp.enable('neocmake',{})
-                vim.lsp.enable('powershell_es',{
-                    bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services',
-                })
-            end,
-        },
             end,
         },
         { -- lualine
