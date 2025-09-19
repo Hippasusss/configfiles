@@ -34,6 +34,9 @@ require("lazy").setup({
         },
         { -- fzf
             "ibhagwan/fzf-lua",
+            config = function()
+                vim.cmd('FzfLua register_ui_select')
+            end,
             keys = {
                 { "<leader>fp", function() require("fzf-lua").files() end, desc = "Fuzzy find files" },
                 { "<leader>ff", function() require("fzf-lua").builtin() end, desc = "FzfLua builtin" },
