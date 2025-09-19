@@ -94,7 +94,7 @@ require("lazy").setup({
                 },
             },
             config = function()
-                require('lspconfig').lua_ls.setup {
+                vim.lsp.enable('lua_ls', {
                     settings = {
                         Lua = {
                             runtime = { version = 'LuaJIT' },
@@ -104,16 +104,16 @@ require("lazy").setup({
                             }
                         }
                     }
-                }
-                require('lspconfig').clangd.setup{}
-                require('lspconfig').html.setup{}
-                require('lspconfig').cssls.setup{}
-                require('lspconfig').ts_ls.setup{}
-                require('lspconfig').gopls.setup{}
-                require('lspconfig').neocmake.setup{}
-                require('lspconfig').powershell_es.setup{
+                })
+                vim.lsp.enable("clangd", {})
+                vim.lsp.enable('html',{})
+                vim.lsp.enable('cssls',{})
+                vim.lsp.enable('ts_ls',{})
+                vim.lsp.enable('gopls',{})
+                vim.lsp.enable('neocmake',{})
+                vim.lsp.enable('powershell_es',{
                     bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services',
-                }
+                })
             end,
         },
         { -- codecompanion.nvim
