@@ -51,10 +51,6 @@ require("lazy").setup({
                 files = { cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build', }
             }
         },
-        { -- undotree
-            "mbbill/undotree",
-            keys = { { "<leader>u", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" } }
-        },
         { -- oil
             "stevearc/oil.nvim", opts = {}
         },
@@ -116,15 +112,6 @@ require("lazy").setup({
                             }
                         }
                     }
-                })
-                vim.lsp.enable("clangd", {})
-                vim.lsp.enable('html',{})
-                vim.lsp.enable('cssls',{})
-                vim.lsp.enable('ts_ls',{})
-                vim.lsp.enable('gopls',{})
-                vim.lsp.enable('neocmake',{})
-                vim.lsp.enable('powershell_es',{
-                    bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services',
                 })
             end,
         },
