@@ -235,6 +235,15 @@ require("lazy").setup({
             end,
             build = ":TSUpdate",
         },
+        {
+            "DanielMSussman/simpleCppTreesitterTools.nvim",
+            dependencies = { 'nvim-treesitter/nvim-treesitter'},
+            opts = {},
+            keys = {
+                { "<leader>ggl", function() vim.cmd("ImplementMemberOnCursorLine") end, {desc = 'implement member on current [l]ine'}},
+                { "<leader>gga", function() vim.cmd("ImplementMembersInClass") end, {desc = 'implement members in Class'}},
+            }
+        },
         { -- nvim-surround
             "kylechui/nvim-surround",
             opts = {},
