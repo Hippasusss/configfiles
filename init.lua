@@ -58,14 +58,8 @@ require("lazy").setup({
             "neovim/nvim-lspconfig",
             lazy = false,
             keys = {
-                { "<leader>gd", vim.lsp.buf.definition, desc = "Go to definition", silent = true },
-                { "<leader>gr", vim.lsp.buf.references, desc = "Find references", silent = true },
-                { "<leader>gf", function() require("fzf-lua").lsp_code_actions() end,  desc = "Fix current", silent = true },
-                { "<leader>gc", vim.lsp.buf.rename, desc = "Rename symbol" },
-                { "<leader>gl", function() vim.diagnostic.jump({count = -1, float = true}) end, desc = "Jump to next diagnostic", silent = true, },
-                { "<leader>gh", function() vim.diagnostic.jump({count = 1, float = true}) end, desc = "Jump to previous diagnostic", silent = true, },
                 { "<leader>a", function() vim.cmd("ClangdSwitchSourceHeader") end, desc = "Switch source/header", silent = true },
-                { "<leader>gi", vim.lsp.buf.hover, desc = "Show hover", silent = true },
+                { "gi", vim.lsp.buf.hover, desc = "Show hover", silent = true },
             },
             dependencies = {
                 {   "p00f/clangd_extensions.nvim" },
@@ -87,6 +81,15 @@ require("lazy").setup({
                 },
                 {
                     "williamboman/mason.nvim",
+                    opts = {
+                        registries = {
+                            "github:mason-org/mason-registry",
+                            "github:Crashdummyy/mason-registry",
+                        },
+                    }
+                },
+                {
+                    "seblyng/roslyn.nvim",
                     opts = {}
                 },
             },
@@ -95,6 +98,7 @@ require("lazy").setup({
                 vim.lsp.enable("clangd")
                 vim.lsp.enable('html')
                 vim.lsp.enable('cssls')
+                vim.lsp.enable('roslyn')
                 vim.lsp.enable('ts_ls')
                 vim.lsp.enable('gopls')
                 vim.lsp.enable('neocmake')
@@ -103,15 +107,7 @@ require("lazy").setup({
                     bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services',
                 })
                 vim.lsp.config('lua_ls', {
-                    settings = {
-                        Lua = {
-                            runtime = { version = 'LuaJIT' },
-                            workspace = {
-                                checkThirdParty = false,
-                                library = { vim.env.VIMRUNTIME, "${3rd}/luv/library", "${3rd}/busted/library", "~/vimfiles/"},
-                            }
-                        }
-                    }
+                    settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true), } } }
                 })
             end,
         },
