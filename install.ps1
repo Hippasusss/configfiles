@@ -24,6 +24,7 @@ $installArray = @(
 "sigoden.aichat"
 )
 
+
 if (-not $SkipWinget) {
     foreach($install in $installArray) {
         Write-Output "installing: $install" 
@@ -31,6 +32,8 @@ if (-not $SkipWinget) {
         Write-Output " " 
     }
 }
+
+Install-Module -Name CompletionPredictor -Repository PSGallery
 
 #LINKS
 Write-Output "Creating Symlinks" 
