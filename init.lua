@@ -268,7 +268,9 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"},  {
 
 --options
 vim.g.completion_enable_auto_popup = 0
-vim.diagnostic.config {virtual_text= true}
+vim.diagnostic.config({
+  virtual_lines = { current_line = true },
+})
 
 local backUpPath = vim.fn.expand("~\\vimfiles\\back")
 if vim.fn.isdirectory(backUpPath) == 0 then
