@@ -9,7 +9,6 @@ vim.pack.add ({
     "https://github.com/stevearc/oil.nvim",
     "https://github.com/neovim/nvim-lspconfig",
     "https://github.com/p00f/clangd_extensions.nvim",
-    { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
     "https://github.com/williamboman/mason.nvim",
     "https://github.com/seblyng/roslyn.nvim",
     "https://github.com/nvim-lua/plenary.nvim",
@@ -21,17 +20,15 @@ vim.pack.add ({
     "https://github.com/kylechui/nvim-surround",
     "https://github.com/Hippasusss/easypeasy",
     "https://github.com/Hippasusss/diyank",
+    { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
 })
 
--- basic setups
 for _, p in ipairs({"oil", "roslyn", "nvim-surround", "diyank", "easypeasy"}) do require(p).setup() end
 
--- kanagawa.nvim
 vim.cmd.colorscheme("kanagawa")
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" })
 vim.api.nvim_set_hl(0, "LineNr", { bg = "none", ctermbg = "none" })
 
--- fzf-lua
 local fzf = require("fzf-lua")
 fzf.setup({
     file_ignore_patterns = { vim.fn.expand("config/back/") },
@@ -39,7 +36,6 @@ fzf.setup({
 })
 fzf.register_ui_select()
 
---blink.cmp
 require("blink.cmp").setup({
     keymap = {
         preset = "none",
@@ -53,7 +49,6 @@ require("blink.cmp").setup({
     signature = { enabled = true },
 })
 
--- mason & lsp
 require("mason").setup({ registries = { "github:mason-org/mason-registry", "github:crashdummyy/mason-registry", }, })
 vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'powershell_es'})
 vim.lsp.config('powershell_es', { bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services', })
@@ -76,7 +71,6 @@ require("codecompanion").setup({
     },
 })
 
--- lualine.nvim
 local has_poss, poss = pcall(require, 'nvim-possession')
 require("lualine").setup({
     options = { component_separators = ' ', section_separators = ' ', },
@@ -84,16 +78,14 @@ require("lualine").setup({
     sections = {
         lualine_a = {'mode'}, lualine_b = {'branch', 'diff', 'diagnostics'}, lualine_c = {'filename'},
         lualine_x = {'encoding', 'filetype', function() return string.format('%d/%d', vim.fn.line('.'), vim.fn.line('$')) end},
-        lualine_y = { { 'datetime', style = '%h:%m:%s' } },
+        lualine_y = { { 'datetime', style = '%H:%M:%S' } },
         lualine_z = { { function() return poss.status() end, cond = function() return has_poss and poss.status() ~= nil end } },
     },
     inactive_sections = { lualine_c = {'filename'}, lualine_x = {'location'} },
 })
 
--- snacks.nvim
 require("snacks").setup({ bigfile = { enabled = true }, lazygit = { enabled = true, configure = true}, })
 
--- nvim-possession
 local session_path = vim.fn.expand("~/vimfiles/session/")
 vim.fn.mkdir(session_path, "p")
 require("nvim-possession").setup({
@@ -112,7 +104,6 @@ require("nvim-possession").setup({
     end
 })
 
--- nvim-treesitter
 require("nvim-treesitter").setup({
     ensure_installed = { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html" },
     highlight = { enable = true, additional_vim_regex_highlighting = false, },
@@ -122,7 +113,7 @@ require("nvim-treesitter").setup({
 --AutoCommands
 local autocmd = vim.api.nvim_create_autocmd
 autocmd('PackChanged', {
-    callback = function(e) if e.data.kind == 'update' and e.data.spec.name == 'nvim-treesitter' then pcall(vim.cmd, 'TSUpdate') end end
+    callback = function(e) if e.data.kind == 'update' and e.data.spec.name == 'nvim-treesitter' then pcall(function() vim.cmd('TSUpdate') end) end end
 })
 autocmd('BufWinEnter', { desc = 'Return cursor to last position', command = 'silent! normal! g`"zv' })
 autocmd('TextYankPost', { desc = 'Highlight yanked text', callback = function() vim.hl.on_yank({higroup = 'Substitute', timeout = 200}) end })
