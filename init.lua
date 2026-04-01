@@ -131,7 +131,6 @@ vim.keymap.set("n", "<leader>fg", function() require("fzf-lua").live_grep() end,
 vim.keymap.set("n", "<leader>ft", function() require("fzf-lua").treesitter() end, { desc = "treesitter" })
 vim.keymap.set("n", "<leader>fm", function() require("fzf-lua").treesitter({ query = "method | function " }) end, { desc = "treesitter methods/functions" })
 vim.keymap.set("n", "<leader>a", function() vim.cmd("ClangdSwitchSourceHeader") end, { desc = "switch source/header", silent = true })
-vim.keymap.set("n", "gi", vim.lsp.buf.hover, { desc = "show hover", silent = true })
 vim.keymap.set("n", "<leader>ic", ":CodeCompanionChat<cr>", { desc = "codecompanion chat" })
 vim.keymap.set("n", "<leader>ii", ":CodeCompanion<cr>", { desc = "codecompanion" })
 vim.keymap.set("n", "<leader>vg", function() require("snacks").lazygit.open() end, { desc = "open lazygit" })
@@ -145,8 +144,13 @@ vim.keymap.set("n", "<leader>td", function() require("easypeasy").commandTreeSit
 vim.keymap.set("n", "<leader>tc", function() require("easypeasy").commandTreeSitter('gc') end)
 vim.keymap.set("n", "<leader>t=", function() require("easypeasy").commandTreeSitter('=') end)
 vim.keymap.set("n", "<leader>tf", function() require("easypeasy").commandTreeSitter('zf') end)
+vim.keymap.set("n", "<leader>ti", function() require("easypeasy").codeCompanionTreeSitter() end)
 vim.keymap.set("n", "<leader>yd", function() require("diyank").yankDiagnosticFromCurrentLine() end, { desc = "yank diagnostics on line" })
 vim.keymap.set({"n", "v"}, "<leader>yr", function() require("diyank").yankWithDiagnostic() end, { desc = "yank all diagnostics" })
+
+vim.keymap.set("n", "grl", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next Diagnostic" })
+vim.keymap.set("n", "grh", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Previous Diagnostic" })
+vim.keymap.set("n", "gri", vim.lsp.buf.hover, { desc = "show hover", silent = true })
 
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("n", ";", ":")
