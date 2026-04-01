@@ -74,7 +74,7 @@ require("codecompanion").setup({
 local has_poss, poss = pcall(require, 'nvim-possession')
 require("lualine").setup({
     options = { component_separators = ' ', section_separators = ' ', },
-    tabline = { lualine_a = { { 'tabs', mode = 2} } },
+    tabline = { lualine_a = { { 'tabs', mode = 2, max_length = vim.o.columns} } },
     sections = {
         lualine_a = {'mode'}, lualine_b = {'branch', 'diff', 'diagnostics'}, lualine_c = {'filename'},
         lualine_x = {'encoding', 'filetype', function() return string.format('%d/%d', vim.fn.line('.'), vim.fn.line('$')) end},
