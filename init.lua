@@ -75,7 +75,7 @@ require("lualine").setup({
     inactive_sections = { lualine_c = {'filename'}, lualine_x = {'location'} },
 })
 
-require("snacks").setup({ bigfile = { enabled = true }, lazygit = { enabled = true, configure = true}, })
+require("snacks").setup({ bigfile = { enabled = true }, lazygit = { enabled = true, configure = true }, styles = { lazygit = { width = 0, height = 0, } } })
 
 local session_path = vim.fn.expand("~/vimfiles/session/")
 vim.fn.mkdir(session_path, "p")
