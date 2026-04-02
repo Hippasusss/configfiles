@@ -4,13 +4,15 @@ param(
 
 #WINGET
 $installArray = @(
-"Neovim.Neovim", 
+"Neovim.Neovim",
+"tree-sitter-cli",
+"GodotEngine.GodotEngine.Mono",
 "cmake",
 "nodejs",
 "python3",
 "Microsoft.WindowsTerminal",
 "Microsoft.PowerShell",
-"Microsoft.VisualStudio.2022.Community",
+"Microsoft.VisualStudio.Community",
 "LLVM.LLVM",
 "Cockos.REAPER",
 "Git.Git",
@@ -53,6 +55,12 @@ if (-not (Test-Path $projectPath)) {
 $originalDir = Get-Location
 Set-Location $projectPath
 foreach ($repo in $repos) {
-    git clone $repo
+    $repoName = ($repo -split '/')[-1] -replace '\.git$', ''
+        $repoPath = Join-Path $projectPath $repoName
+        if (-not (Test-Path $repoPath)) {
+            git clone $repo
+        } else {
+            Write-Host "Directory '$repoName' already exists, skipping clone."
+        }
 }
 Set-Location $originalDir
