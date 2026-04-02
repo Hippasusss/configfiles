@@ -103,11 +103,9 @@ vim.api.nvim_create_autocmd('PackChanged', { callback = function(e) if e.data.ki
 vim.api.nvim_create_autocmd('BufWinEnter', { desc = 'Return cursor to last position', command = 'silent! normal! g`"zv' })
 vim.api.nvim_create_autocmd('TextYankPost', { desc = 'Highlight yanked text', callback = function() vim.hl.on_yank({higroup = 'Substitute', timeout = 200}) end })
 
-
+--Options
 local backuppath = vim.fn.expand("~\\vimfiles\\back")
 vim.fn.mkdir(backuppath, "p")
-
---Options
 vim.diagnostic.config({ virtual_lines = { current_line = true }, })
 vim.opt.undodir, vim.opt.backupdir, vim.opt.directory = backuppath, backuppath, backuppath
 vim.opt.shell = 'powershell.exe'
