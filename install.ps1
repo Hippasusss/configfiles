@@ -47,10 +47,15 @@ function Install-WingetPackages
     Write-Host "Installing Programs" -ForegroundColor Magenta
     foreach($install in $Programs) 
     {
-        Write-Host "installing: $install" 
-        winget install -h --accept-package-agreements --accept-source-agreements $install
-        Write-Host " " 
+        Write-Host "installing: $install"; winget install -h --accept-package-agreements --accept-source-agreements $install; Write-Host "";
     }
+
+    $llvmPath = "C:\Program Files\LLVM\bin"; 
+    if (Test-Path $llvmPath) { 
+        $currentPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+        if ($currentPath -notlike "*$llvmPath*") { Write-Host "Adding clang to path"; [Environment]::SetEnvironmentVariable("Path", "$currentPath;$llvmPath", "Machine"); $env:Path += ";$llvmPath" }
+    }
+
     Install-Module -Name CompletionPredictor -Repository PSGallery -Force -AllowClobber
 }
 
