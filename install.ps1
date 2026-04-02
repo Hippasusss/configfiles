@@ -38,8 +38,6 @@ $NvimRepoList = @(
     "git@github.com:Hippasusss/diyank.git"
 )
 
-# --- FUNCTIONS ---
-
 function Install-WingetPackages 
 {
     param($Programs)
@@ -138,8 +136,6 @@ function Sync-NvimPlugins
     }
     Set-Location $originalDir
 }
-
-# --- EXECUTION ---
 
 if(-not $SkipWinget) { Install-WingetPackages -Programs $InstallArray }
 Sync-HardLinks -Links $HardLinks
