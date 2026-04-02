@@ -8,7 +8,6 @@ HardLinkFilesDestination = {
     ".theme.omp.json":                  HOME,
     "init.lua":                         os.path.join(HOME, 'AppData\\Local\\nvim'),
     "settings.json":                    os.path.join(HOME, "AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState"),
-    "localPlugins.lua":                os.path.join(HOME, "AppData\\Local\\nvim\\lua")
 }
 
 SoftLinkFilesDestination = {
