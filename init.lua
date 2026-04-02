@@ -96,6 +96,7 @@ require("nvim-treesitter").setup({
     indent = { enable = true },
 })
 require('nvim-treesitter').install { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html" }
+require('vim._core.ui2').enable({ enable = true })
 
 --AutoCommands
 vim.api.nvim_create_autocmd('PackChanged', { callback = function(e) if e.data.kind == 'update' and e.data.spec.name == 'nvim-treesitter' then pcall(function() vim.cmd('TSUpdate') end) end end })
