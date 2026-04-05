@@ -1,6 +1,12 @@
 param(
-    [switch]$SkipWinget
+    [switch]$Winget,
+    [switch]$Links,
+    [switch]$Plugins,
+    [switch]$Nvim,
+    [switch]$All
 )
+
+if ($All) { $Winget = $true; $Links = $true; $Plugins = $true; $Nvim = $true; }
 
 # --- CONFIGURATION DATA ---
 $InstallArray = @(
@@ -153,6 +159,7 @@ function Sync-NvimPlugins
     Set-Location $originalDir
 }
 
-if(-not $SkipWinget) { Install-WingetPackages -Programs $InstallArray }
-Sync-HardLinks -Links $HardLinks
-Sync-NvimPlugins -Repos $NvimRepoList
+if ($Winget)    { Install-WingetPackages -Programs $InstallArray }
+if ($Nvim) { Install-Nvim-Components }
+if ($Plugins)   { Sync-NvimPlugins -Repos $NvimRepoList }
+if ($Links)     { Sync-HardLinks -Links $HardLinks }
