@@ -19,8 +19,8 @@ New-Alias -Name touch -Value New-Item
 
 
 function ff {
-    param([string]$Path = ".")
-    $basePath = Resolve-Path $Path
+    param([string]$path = ".")
+    $basePath = Resolve-Path $path
     $selection = fd -t d -H --base-directory $basePath | fzf
     if ($selection) {
         Set-Location (Join-Path $basePath $selection)
@@ -29,24 +29,18 @@ function ff {
 
 function fff {
     param(
-        [string]$Path = ".",
-        [switch]$sl
-    )
-    $basePath = Resolve-Path $Path
-    $selection = fd -t f -t d -H --base-directory $basePath | fzf
-    if ($selection) {
-        $fullPath = Join-Path $basePath $selection
-        if (Test-Path $fullPath -PathType Container) {
-            if ($sl) {
-                Set-Location $fullPath
-            }
-        } else {
-            if ($sl) {
-                Set-Location (Split-Path $fullPath -Parent)
-                nvim (Split-Path $fullPath -Leaf)
-            } else {
-                nvim $fullPath
-            }
+            [string]$path = ".",
+            [switch]$sl
+         )
+        $basePath = Resolve-Path $path
+        $selection = fd -t f -H --base-directory $basePath | fzf
+        if ($selection) {
+            $fullPath = Join-Path $basePath $selection
+                if ($sl) {
+                    Set-Location (Split-Path $fullPath -Parent)
+                        nvim (Split-Path $fullPath -Leaf)
+                } else {
+                    nvim $fullPath
+                }
         }
-    }
 }
