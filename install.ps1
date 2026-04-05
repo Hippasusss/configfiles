@@ -57,6 +57,19 @@ function Install-WingetPackages
     Install-Module -Name CompletionPredictor -Repository PSGallery -Force -AllowClobber
 }
 
+function Install-Nvim-Components
+{
+    Write-Host "Updating Neovim packages..." -ForegroundColor Cyan
+    nvim --headless -c "lua vim.pack.update()" -c "qa"
+    if ($?) { Write-Host "`nNeovim packages updated successfully." -ForegroundColor Green } 
+    else { Write-Host "Failed to update Neovim packages." -ForegroundColor Red }
+
+    Write-Host "`nInstalling Treesitter parsers..." -ForegroundColor Cyan
+    nvim --headless -c "lua require('nvim-treesitter').install { 'c', 'c_sharp', 'css', 'lua', 'vim', 'vimdoc', 'cpp', 'python', 'html' }" -c "qa"
+    if ($?) { Write-Host "Treesitter parsers installed successfully." -ForegroundColor Green } 
+    else { Write-Host "Failed to install Treesitter parsers." -ForegroundColor Red }
+}
+
 function Sync-HardLinks 
 {
     param($Links)
