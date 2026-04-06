@@ -28,8 +28,7 @@ vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" })
 vim.api.nvim_set_hl(0, "LineNr", { bg = "none", ctermbg = "none" })
 
 require("fzf-lua").setup({
-    file_ignore_patterns = { vim.fn.expand("config/back/") },
-    files = { cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build' },
+    files = { cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build --glob !config/back/*'},
     ui_select = true;
 })
 
