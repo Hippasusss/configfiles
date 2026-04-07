@@ -90,10 +90,7 @@ require("nvim-possession").setup({
     end
 })
 
-require("nvim-treesitter").setup({
-    highlight = { enable = true, },
-    indent = { enable = true },
-})
+require("nvim-treesitter").setup({ highlight = { enable = true, }, indent = { enable = true }, })
 require('nvim-treesitter').install { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html" }
 require('vim._core.ui2').enable({ enable = true })
 
