@@ -17,7 +17,7 @@ vim.pack.add({
     "https://github.com/gennaro-tedesco/nvim-possession",
     "https://github.com/nvim-treesitter/nvim-treesitter",
     { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
-})
+}, {confirn = false})
 vim.opt.rtp:prepend("~/Projects/nvim/easypeasy")
 vim.opt.rtp:prepend("~/Projects/nvim/diyank")
 
