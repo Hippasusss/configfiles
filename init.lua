@@ -16,7 +16,7 @@ vim.pack.add({
     "https://github.com/gennaro-tedesco/nvim-possession",
     "https://github.com/nvim-treesitter/nvim-treesitter",
     { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
-})
+}, {confirn = false})
 vim.opt.rtp:prepend("~/Projects/nvim/easypeasy")
 vim.opt.rtp:prepend("~/Projects/nvim/diyank")
 
@@ -46,7 +46,7 @@ require("blink.cmp").setup({
 require("mason").setup({ registries = { "github:mason-org/mason-registry", "github:crashdummyy/mason-registry", }, })
 vim.lsp.config('powershell_es', { bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services', })
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) }, } }})
-vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'powershell_es'})
+vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'powershell_es', 'ts_ls'})
 
 local function loadapikey(key) return assert(vim.json.decode(table.concat(vim.fn.readfile(vim.fn.expand("~/.secret/keys.json")), "\n"))[key], "missing key: "..key) end
 require("codecompanion").setup({
@@ -89,11 +89,8 @@ require("nvim-possession").setup({
     end
 })
 
-require("nvim-treesitter").setup({
-    highlight = { enable = true, },
-    indent = { enable = true },
-})
-require('nvim-treesitter').install { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html" }
+require("nvim-treesitter").setup({ highlight = { enable = true, }, indent = { enable = true }, })
+require('nvim-treesitter').install { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html", "javascript"}
 require('vim._core.ui2').enable({ enable = true })
 
 --AutoCommands
@@ -106,19 +103,17 @@ local backuppath = vim.fn.expand("~\\vimfiles\\back")
 vim.fn.mkdir(backuppath, "p")
 vim.diagnostic.config({ virtual_lines = { current_line = true }, })
 vim.opt.undodir, vim.opt.backupdir, vim.opt.directory = backuppath, backuppath, backuppath
-vim.opt.shell = 'powershell.exe'
 vim.opt.undofile, vim.opt.swapfile, vim.opt.backup = true, false, true
+vim.opt.shell = 'pwsh.exe'
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.signcolumn = "yes"
 vim.opt.tabstop, vim.opt.shiftwidth = 4, 4
 vim.opt.expandtab, vim.opt.autoindent = true, true
-vim.opt.scrolloff = 999
-vim.opt.wrap, vim.opt.linebreak = true, true
+vim.opt.scrolloff, vim.opt.wrap, vim.opt.linebreak = 999, true, true
 vim.opt.ignorecase, vim.opt.smartcase = true, true
 vim.opt.splitbelow, vim.opt.splitright = true, true
-vim.opt.visualbell, vim.opt.wildmenu, vim.opt.cursorline = true, true, true
-vim.opt.incsearch, vim.opt.hlsearch = true, false
 vim.opt.sessionoptions = "blank,curdir,folds,help,tabpages,winsize,terminal"
+vim.opt.hlsearch = false
 
 -- Mappings
 vim.keymap.set("n", "<leader>fp", function() require("fzf-lua").files() end, { desc = "fuzzy find files" })
