@@ -5,7 +5,6 @@ vim.g.mapleader, vim.g.maplocalleader = ",", ","
 vim.pack.add({
     "https://github.com/rebelot/kanagawa.nvim",
     "https://github.com/ibhagwan/fzf-lua",
-    "https://github.com/stevearc/oil.nvim",
     "https://github.com/neovim/nvim-lspconfig",
     "https://github.com/p00f/clangd_extensions.nvim",
     "https://github.com/williamboman/mason.nvim",
@@ -21,16 +20,13 @@ vim.pack.add({
 vim.opt.rtp:prepend("~/Projects/nvim/easypeasy")
 vim.opt.rtp:prepend("~/Projects/nvim/diyank")
 
-for _, p in ipairs({"oil", "roslyn", "diyank", "easypeasy"}) do require(p).setup() end
+for _, p in ipairs({"roslyn", "diyank", "easypeasy"}) do require(p).setup() end
 
 vim.cmd.colorscheme("kanagawa")
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" })
 vim.api.nvim_set_hl(0, "LineNr", { bg = "none", ctermbg = "none" })
 
-require("fzf-lua").setup({
-    files = { cmd = 'rg --files --follow --smart-case --color=never --glob !.git --glob !build --glob !config/back/*'},
-    ui_select = true;
-})
+require("fzf-lua").setup({ ui_select = true; })
 
 require("blink.cmp").setup({
     keymap = { preset = "none",
