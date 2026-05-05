@@ -10,6 +10,7 @@ vim.pack.add({
     "https://github.com/williamboman/mason.nvim",
     "https://github.com/seblyng/roslyn.nvim",
     "https://github.com/olimorris/codecompanion.nvim", "https://github.com/nvim-lua/plenary.nvim",
+    "https://github.com/MeanderingProgrammer/render-markdown.nvim",
     "https://github.com/nvim-lualine/lualine.nvim",
     "https://github.com/folke/snacks.nvim",
     "https://github.com/gennaro-tedesco/nvim-possession",
@@ -56,6 +57,8 @@ require("codecompanion").setup({
             name = "DeepSeek Fast", schema = { model = { default = "deepseek-v4-flash" }, ["thinking.type"]  = { default = "disabled" }, }, }) end,
     }},
 })
+
+require("render-markdown").setup({ file_types = {'markdown', 'codecompanion'}})
 
 local has_poss, poss = pcall(require, 'nvim-possession')
 require("lualine").setup({
