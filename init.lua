@@ -46,14 +46,15 @@ vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'pow
 
 local function loadapikey(key) return assert(vim.json.decode(table.concat(vim.fn.readfile(vim.fn.expand("~/.secret/keys.json")), "\n"))[key], "missing key: "..key) end
 require("codecompanion").setup({
-    interactions = { chat = { adapter = "deepseek" }, inline = { adapter = "deepseek" }, cmd = { adapter = "deepseek" } },
-    adapters = { http = {
-        deepseek = function()
-            return require("codecompanion.adapters").extend("deepseek", {
-                env = { api_key = loadapikey("deepseek_api_key") },
-                schema = { model = { default = "deepseek-chat" } },
-                })
-        end, opts = { show_presets = false }, }},
+    interactions = { chat = { adapter = "deepseek_fast", opts = {show_presets = false }}, inline = { adapter = "deepseek_pro" }, cmd = { adapter = "deepseek_flash" } },
+    adapters = { acp = {opts = { show_presets= false }}, http = { opts = { show_presets= false, show_model_choices = false },
+        deepseek_pro = function() return require("codecompanion.adapters").extend("deepseek", { env = { api_key = loadapikey("deepseek_api_key") },
+            name = "DeepSeek Pro High", schema = { model = { default = "deepseek-v4-pro" }, ["thinking.type"]  = { default = "enabled" }, reasoning_effort = { default = "max" }, }, }) end,
+        deepseek_flash = function() return require("codecompanion.adapters").extend("deepseek", { env = { api_key = loadapikey("deepseek_api_key") },
+            name = "DeepSeek Flash Think", schema = { model = { default = "deepseek-v4-flash" }, ["thinking.type"]  = { default = "enabled" }, reasoning_effort = { default = "high" }, }, }) end,
+        deepseek_fast = function() return require("codecompanion.adapters").extend("deepseek", { env = { api_key = loadapikey("deepseek_api_key") },
+            name = "DeepSeek Fast", schema = { model = { default = "deepseek-v4-flash" }, ["thinking.type"]  = { default = "disabled" }, }, }) end,
+    }},
 })
 
 local has_poss, poss = pcall(require, 'nvim-possession')
