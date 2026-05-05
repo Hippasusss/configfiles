@@ -66,7 +66,6 @@ require("lualine").setup({
         lualine_y = { { 'datetime', style = '%H:%M:%S' } },
         lualine_z = { { function() return poss.status() end, cond = function() return has_poss and poss.status() ~= nil end } },
     },
-    inactive_sections = { lualine_c = {'filename'}, lualine_x = {'location'} },
 })
 
 require("snacks").setup({ bigfile = { enabled = true }, lazygit = { enabled = true, configure = true }, styles = { lazygit = { width = 0, height = 0, } } })
