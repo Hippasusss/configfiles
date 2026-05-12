@@ -29,6 +29,7 @@ $InstallArray = @(
     "fzf",
     "BurntSushi.ripgrep.MSVC",
     "sharkdp.bat",
+    "SST.opencode",
     "sharkdp.fd",
     "JesseDuffield.lazygit",
     "ajeetdsouza.zoxide",
