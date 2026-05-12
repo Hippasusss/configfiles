@@ -42,7 +42,7 @@ require("blink.cmp").setup({
 
 require("mason").setup({ registries = { "github:mason-org/mason-registry", "github:crashdummyy/mason-registry", }, })
 vim.lsp.config('powershell_es', { bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services', })
-vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) }, } }})
+vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = { vim.fn.expand("$VIMRUNTIME/lua"), vim.fn.expand("$VIMRUNTIME/lua/vim"), }, }, }, }, })
 vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'powershell_es', 'ts_ls'})
 
 local function loadapikey(key) return assert(vim.json.decode(table.concat(vim.fn.readfile(vim.fn.expand("~/.secret/keys.json")), "\n"))[key], "missing key: "..key) end
@@ -142,6 +142,7 @@ vim.keymap.set({"n", "v"}, "<leader>yr", function() require("diyank").yankWithDi
 vim.keymap.set("n", "grl", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next Diagnostic" })
 vim.keymap.set("n", "grh", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Previous Diagnostic" })
 vim.keymap.set("n", "gri", vim.lsp.buf.hover, { desc = "show hover", silent = true })
+vim.keymap.set("n", "grr", function() require("fzf-lua").lsp_references({ regex_filter = function(item) return not item.filename:match("^roslyn%-source%-generated") end, }) end, { desc = "lsp references", silent = true })
 
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("n", ";", ":")
