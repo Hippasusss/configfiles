@@ -43,7 +43,7 @@ require("blink.cmp").setup({
 require("mason").setup({ registries = { "github:mason-org/mason-registry", "github:crashdummyy/mason-registry", }, })
 vim.lsp.config('powershell_es', { bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services', })
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) }, } }})
-vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'powershell_es', 'ts_ls'})
+vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'powershell_es', 'vtsls'})
 
 local function loadapikey(key) return assert(vim.json.decode(table.concat(vim.fn.readfile(vim.fn.expand("~/.secret/keys.json")), "\n"))[key], "missing key: "..key) end
 require("codecompanion").setup({
