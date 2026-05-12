@@ -154,7 +154,10 @@ function Sync-NvimPlugins
         } 
         else 
         {
-            Write-Host "Directory '$repoName' already exists, skipping clone." -ForegroundColor Magenta
+            Write-Host "Directory '$repoName' already exists, pulling latest changes..." -ForegroundColor Magenta
+            Set-Location $repoPath
+            git pull
+            Set-Location $projectPath
         }
     }
     Set-Location $originalDir
