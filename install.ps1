@@ -29,6 +29,7 @@ $InstallArray = @(
     "fzf",
     "BurntSushi.ripgrep.MSVC",
     "sharkdp.bat",
+    "SST.opencode",
     "sharkdp.fd",
     "JesseDuffield.lazygit",
     "ajeetdsouza.zoxide",
@@ -153,7 +154,10 @@ function Sync-NvimPlugins
         } 
         else 
         {
-            Write-Host "Directory '$repoName' already exists, skipping clone." -ForegroundColor Magenta
+            Write-Host "Directory '$repoName' already exists, pulling latest changes..." -ForegroundColor Magenta
+            Set-Location $repoPath
+            git pull
+            Set-Location $projectPath
         }
     }
     Set-Location $originalDir
