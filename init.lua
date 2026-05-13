@@ -5,13 +5,12 @@ vim.g.mapleader, vim.g.maplocalleader = ",", ","
 vim.pack.add({
     "https://github.com/rebelot/kanagawa.nvim",
     "https://github.com/ibhagwan/fzf-lua",
-    "https://github.com/neovim/nvim-lspconfig",
-    "https://github.com/p00f/clangd_extensions.nvim",
-    "https://github.com/williamboman/mason.nvim",
-    "https://github.com/seblyng/roslyn.nvim",
+    "https://github.com/neovim/nvim-lspconfig", "https://github.com/p00f/clangd_extensions.nvim",
+    "https://github.com/williamboman/mason.nvim", "https://github.com/mason-org/mason-lspconfig.nvim",
     "https://github.com/olimorris/codecompanion.nvim", "https://github.com/nvim-lua/plenary.nvim",
     "https://github.com/MeanderingProgrammer/render-markdown.nvim",
     "https://github.com/nvim-lualine/lualine.nvim",
+    "https://github.com/seblyng/roslyn.nvim",
     "https://github.com/folke/snacks.nvim",
     "https://github.com/gennaro-tedesco/nvim-possession",
     "https://github.com/nvim-treesitter/nvim-treesitter",
@@ -40,10 +39,10 @@ require("blink.cmp").setup({
     signature = { enabled = true },
 })
 
-require("mason").setup({ registries = { "github:mason-org/mason-registry", "github:crashdummyy/mason-registry", }, })
+require("mason").setup{ registries = { "github:mason-org/mason-registry", "github:crashdummyy/mason-registry", }, }
+require('mason-lspconfig').setup{ ensure_installed = {  "lua_ls", "clangd", "html", "cssls", "jsonls", "neocmake", "powershell_es", "vtsls" }, }
 vim.lsp.config('powershell_es', { bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services', })
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = { vim.fn.expand("$VIMRUNTIME/lua"), vim.fn.expand("$VIMRUNTIME/lua/vim"), }, }, }, }, })
-vim.lsp.enable({'lua_ls', 'clangd', 'html' , 'cssls', 'roslyn', 'neocmake', 'powershell_es', 'ts_ls'})
 
 local function loadapikey(key) return assert(vim.json.decode(table.concat(vim.fn.readfile(vim.fn.expand("~/.secret/keys.json")), "\n"))[key], "missing key: "..key) end
 require("codecompanion").setup({
