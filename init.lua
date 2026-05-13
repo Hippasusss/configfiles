@@ -5,16 +5,13 @@ vim.g.mapleader, vim.g.maplocalleader = ",", ","
 vim.pack.add({
     "https://github.com/rebelot/kanagawa.nvim",
     "https://github.com/ibhagwan/fzf-lua",
-    "https://github.com/neovim/nvim-lspconfig", "https://github.com/p00f/clangd_extensions.nvim",
-    "https://github.com/williamboman/mason.nvim", "https://github.com/mason-org/mason-lspconfig.nvim",
+    "https://github.com/neovim/nvim-lspconfig", "https://github.com/p00f/clangd_extensions.nvim", "https://github.com/williamboman/mason.nvim", "https://github.com/mason-org/mason-lspconfig.nvim", "https://github.com/seblyng/roslyn.nvim", { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
     "https://github.com/olimorris/codecompanion.nvim", "https://github.com/nvim-lua/plenary.nvim",
     "https://github.com/MeanderingProgrammer/render-markdown.nvim",
     "https://github.com/nvim-lualine/lualine.nvim",
-    "https://github.com/seblyng/roslyn.nvim",
-    "https://github.com/folke/snacks.nvim",
+    "https://github.com/kdheepak/lazygit.nvim",
     "https://github.com/gennaro-tedesco/nvim-possession",
-    "https://github.com/nvim-treesitter/nvim-treesitter",
-    { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
+    "https://github.com/arborist-ts/arborist.nvim",
 }, {confirn = false})
 vim.opt.rtp:prepend("~/Projects/nvim/easypeasy")
 vim.opt.rtp:prepend("~/Projects/nvim/diyank")
@@ -26,6 +23,9 @@ vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" })
 vim.api.nvim_set_hl(0, "LineNr", { bg = "none", ctermbg = "none" })
 
 require("fzf-lua").setup({ ui_select = true; })
+require("render-markdown").setup({ file_types = {'markdown', 'codecompanion'}})
+require("arborist").setup()
+require('vim._core.ui2').enable({ enable = true })
 
 require("blink.cmp").setup({
     keymap = { preset = "none",
@@ -57,8 +57,6 @@ require("codecompanion").setup({
     }},
 })
 
-require("render-markdown").setup({ file_types = {'markdown', 'codecompanion'}})
-
 local has_poss, poss = pcall(require, 'nvim-possession')
 require("lualine").setup({
     options = { component_separators = ' ', section_separators = ' ', },
@@ -71,25 +69,12 @@ require("lualine").setup({
     },
 })
 
-require("snacks").setup({ bigfile = { enabled = true }, lazygit = { enabled = true, configure = true }, styles = { lazygit = { width = 0, height = 0, } } })
-
 local session_path = vim.fn.expand("~/vimfiles/session/")
 vim.fn.mkdir(session_path, "p")
 require("nvim-possession").setup({
-    sessions = { sessions_path = session_path, sessions_icon = '' },
-    autoload = true, autosave = true,
-    save_hook = function()
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.api.nvim_buf_get_name(buf):match("CodeCompanion") then
-                vim.api.nvim_buf_delete(buf, { force = true })
-            end
-        end
-    end
+    sessions = { sessions_path = session_path, sessions_icon = '' }, autoload = true, autosave = true,
+    save_hook = function() for _, buf in ipairs(vim.api.nvim_list_bufs()) do if vim.api.nvim_buf_get_name(buf):match("CodeCompanion") then vim.api.nvim_buf_delete(buf,{force=true}) end end end
 })
-
-require("nvim-treesitter").setup({ highlight = { enable = true, }, indent = { enable = true }, })
-require('nvim-treesitter').install { "c", "c_sharp", "css", "lua", "vim", "vimdoc", "cpp", "python", "html", "javascript"}
-require('vim._core.ui2').enable({ enable = true })
 
 --AutoCommands
 vim.api.nvim_create_autocmd('PackChanged', { callback = function(e) if e.data.kind == 'update' and e.data.spec.name == 'nvim-treesitter' then pcall(function() vim.cmd('TSUpdate') end) end end })
@@ -123,7 +108,7 @@ vim.keymap.set("n", "<leader>fm", function() require("fzf-lua").treesitter({ que
 vim.keymap.set("n", "<leader>a", function() vim.cmd("ClangdSwitchSourceHeader") end, { desc = "switch source/header", silent = true })
 vim.keymap.set("n", "<leader>ic", ":CodeCompanionChat<cr>", { desc = "codecompanion chat" })
 vim.keymap.set("n", "<leader>ii", ":CodeCompanion<cr>", { desc = "codecompanion" })
-vim.keymap.set("n", "<leader>vg", function() require("snacks").lazygit.open() end, { desc = "open lazygit" })
+vim.keymap.set("n", "<leader>vg", function() require("lazygit").lazygit() end, { desc = "open lazygit" })
 vim.keymap.set("n", "<leader>;l", function() require("nvim-possession").list() end, { desc = "-list sessions" })
 vim.keymap.set({"n", "v"}, "s", function() require("easypeasy").searchSingleCharacter() end)
 vim.keymap.set("n", "/", function() require("easypeasy").searchMultipleCharacters() end)
