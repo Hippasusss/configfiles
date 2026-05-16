@@ -11,12 +11,13 @@ vim.pack.add({
     "https://github.com/nvim-lualine/lualine.nvim",
     "https://github.com/kdheepak/lazygit.nvim",
     "https://github.com/gennaro-tedesco/nvim-possession",
+    "https://github.com/sphamba/smear-cursor.nvim",
     "https://github.com/arborist-ts/arborist.nvim", "https://github.com/nvim-treesitter/nvim-treesitter"
 }, {confirn = false})
 vim.opt.rtp:prepend("~/Projects/nvim/easypeasy")
 vim.opt.rtp:prepend("~/Projects/nvim/diyank")
 
-for _, p in ipairs({"roslyn", "diyank", "easypeasy"}) do require(p).setup() end
+for _, p in ipairs({"roslyn", "diyank", "easypeasy", "smear_cursor"}) do require(p).setup() end
 
 vim.cmd.colorscheme("kanagawa")
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" }); vim.api.nvim_set_hl(0, "LineNr", { bg = "none", ctermbg = "none" })
