@@ -22,7 +22,7 @@ for _, p in ipairs({"roslyn", "diyank", "easypeasy"}) do require(p).setup() end
 vim.cmd.colorscheme("kanagawa")
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" }); vim.api.nvim_set_hl(0, "LineNr", { bg = "none", ctermbg = "none" })
 
-require("fzf-lua").setup({ ui_select = true; })
+require("fzf-lua").setup({ ui_select = {}; })
 require("render-markdown").setup({ file_types = {'markdown', 'codecompanion'}})
 require("arborist").setup();
 require('vim._core.ui2').enable({ enable = true })
