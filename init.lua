@@ -5,7 +5,7 @@ vim.g.mapleader, vim.g.maplocalleader = ",", ","
 vim.pack.add({
     "https://github.com/rebelot/kanagawa.nvim",
     "https://github.com/ibhagwan/fzf-lua",
-    "https://github.com/neovim/nvim-lspconfig", "https://github.com/p00f/clangd_extensions.nvim", "https://github.com/williamboman/mason.nvim", "https://github.com/mason-org/mason-lspconfig.nvim", "https://github.com/seblyng/roslyn.nvim", { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
+    "https://github.com/neovim/nvim-lspconfig", "https://github.com/p00f/clangd_extensions.nvim", "https://github.com/williamboman/mason.nvim", "https://github.com/mason-org/mason-lspconfig.nvim", { src = 'https://github.com/Saghen/blink.cmp', version = vim.version.range('*') },
     "https://github.com/olimorris/codecompanion.nvim", "https://github.com/nvim-lua/plenary.nvim",
     "https://github.com/MeanderingProgrammer/render-markdown.nvim",
     "https://github.com/nvim-lualine/lualine.nvim",
@@ -17,7 +17,7 @@ vim.pack.add({
 vim.opt.rtp:prepend("~/Projects/nvim/easypeasy")
 vim.opt.rtp:prepend("~/Projects/nvim/diyank")
 
-for _, p in ipairs({"roslyn", "diyank", "easypeasy"}) do require(p).setup() end
+for _, p in ipairs({ "diyank", "easypeasy"}) do require(p).setup() end
 
 vim.cmd.colorscheme("kanagawa")
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" }); vim.api.nvim_set_hl(0, "LineNr", { bg = "none", ctermbg = "none" })
@@ -41,8 +41,8 @@ require("blink.cmp").setup({
     signature = { enabled = true },
 })
 
-require("mason").setup{ registries = { "github:mason-org/mason-registry", "github:crashdummyy/mason-registry", }, }
-require('mason-lspconfig').setup{ ensure_installed = {  "lua_ls", "clangd", "html", "cssls", "jsonls", "neocmake", "powershell_es", "vtsls" }, }
+require("mason").setup{}
+require('mason-lspconfig').setup{ ensure_installed = {  "roslyn_ls", "lua_ls", "clangd", "html", "cssls", "jsonls", "neocmake", "powershell_es", "vtsls" }, }
 vim.lsp.config('powershell_es', { bundle_path = vim.fn.stdpath('data') .. '/mason/packages/powershell-editor-services', })
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = { vim.fn.expand("$VIMRUNTIME/lua"), vim.fn.expand("$VIMRUNTIME/lua/vim"), }, }, }, }, })
 
