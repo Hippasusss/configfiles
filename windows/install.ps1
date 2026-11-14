@@ -8,6 +8,9 @@ param(
 
 if ($All) { $Winget = $true; $Links = $true; $Plugins = $true; $Nvim = $true; }
 
+# Resolve paths relative to the repo root so the script works from any directory
+$repoRoot = Split-Path -Parent $PSScriptRoot
+
 # --- CONFIGURATION DATA ---
 $InstallArray = @(
     "Neovim.Neovim",
@@ -37,10 +40,10 @@ $InstallArray = @(
 )
 
 $HardLinks = @(
-    [PSCustomObject]@{ source = "_vsvimrc"; destination = "$HOME" }
-    [PSCustomObject]@{ source = ".theme.omp.json"; destination = "$HOME" }
-    [PSCustomObject]@{ source = "init.lua"; destination = "$HOME/AppData/Local/nvim" }
-    [PSCustomObject]@{ source = "settings.json"; destination = "$HOME/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState" }
+    [PSCustomObject]@{ source = "windows\_vsvimrc"; name = "_vsvimrc"; destination = "$HOME" }
+    [PSCustomObject]@{ source = "common\.theme.omp.json"; name = ".theme.omp.json"; destination = "$HOME" }
+    [PSCustomObject]@{ source = "common\init.lua"; name = "init.lua"; destination = "$HOME/AppData/Local/nvim" }
+    [PSCustomObject]@{ source = "windows\settings.json"; name = "settings.json"; destination = "$HOME/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState" }
 )
 
 $NvimRepoList = @(
@@ -95,8 +98,8 @@ function Sync-HardLinks
 
     foreach ($link in $Links) 
     {
-        $source = $link.source
-        $destination = Join-Path $link.destination $source
+        $source = Join-Path $repoRoot $link.source
+        $destination = Join-Path $link.destination $link.name
 
         Write-Host "`nsource $source found: " -NoNewline; Write-Status $source
         Write-Host "------> destination $destination found: " -NoNewline; Write-Status $destination

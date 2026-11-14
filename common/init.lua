@@ -1,5 +1,6 @@
-vim.opt.runtimepath:prepend("~/vimfiles")
-vim.opt.runtimepath:append("~/vimfiles/after")
+local vimfiles = vim.fn.expand("~/vimfiles")
+vim.opt.runtimepath:prepend(vimfiles)
+vim.opt.runtimepath:append(vimfiles .. "/after")
 vim.g.mapleader, vim.g.maplocalleader = ",", ","
 
 vim.pack.add({
@@ -13,7 +14,7 @@ vim.pack.add({
     "https://github.com/gennaro-tedesco/nvim-possession",
     "https://github.com/sphamba/smear-cursor.nvim",
     "https://github.com/arborist-ts/arborist.nvim", "https://github.com/nvim-treesitter/nvim-treesitter"
-}, {confirn = false})
+}, {confirm = false})
 vim.opt.rtp:prepend("~/Projects/nvim/easypeasy")
 vim.opt.rtp:prepend("~/Projects/nvim/diyank")
 
@@ -35,7 +36,7 @@ require("blink.cmp").setup({
         ['<s-tab>'] = {'snippet_backward', 'select_prev', 'fallback'},
         ['<enter>'] = {'accept', 'fallback'},
     },
-    sources = { default = { 'lsp', 'snippets', 'codecompanion'} },
+    sources = { default = { 'lsp', 'snippets' } },
     cmdline = { completion = { menu = { auto_show = true }, list = { selection = { preselect = false , auto_insert = true}} } },
     completion = { list = { selection = { auto_insert = true, preselect = false } } , documentation = {auto_show = true} },
     signature = { enabled = true },
@@ -71,7 +72,7 @@ require("lualine").setup({
     },
 })
 
-local session_path = vim.fn.expand("~/vimfiles/session/")
+local session_path = vimfiles .. "/session/"
 vim.fn.mkdir(session_path, "p")
 require("nvim-possession").setup({
     sessions = { sessions_path = session_path, sessions_icon = '' }, autoload = true, autosave = true,
@@ -84,12 +85,11 @@ vim.api.nvim_create_autocmd('BufWinEnter', { desc = 'Return cursor to last posit
 vim.api.nvim_create_autocmd('TextYankPost', { desc = 'Highlight yanked text', callback = function() vim.hl.on_yank({higroup = 'Substitute', timeout = 200}) end })
 
 --Options
-local backuppath = vim.fn.expand("~\\vimfiles\\back")
+local backuppath = vimfiles .. "/back"
 vim.fn.mkdir(backuppath, "p")
 vim.diagnostic.config({ virtual_lines = { current_line = true }, })
 vim.opt.undodir, vim.opt.backupdir, vim.opt.directory = backuppath, backuppath, backuppath
 vim.opt.undofile, vim.opt.swapfile, vim.opt.backup = true, false, true
-vim.opt.shell = 'pwsh.exe'
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.signcolumn = "yes"
 vim.opt.tabstop, vim.opt.shiftwidth = 4, 4
