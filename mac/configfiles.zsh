@@ -59,3 +59,12 @@ bindkey '^[[B' history-search-forward
 
 # Fish-style autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Tab accepts the inline suggestion when one is showing, otherwise completes.
+# Name starts with "_" so zsh-autosuggestions does not wrap the widget and
+# clear POSTDISPLAY before it runs.
+_tab-complete() { if [[ -n "$POSTDISPLAY" && "$CURSOR" -eq "$#BUFFER" ]]; then zle autosuggest-accept; else zle expand-or-complete; fi }
+zle -N _tab-complete && bindkey -M viins '^I' _tab-complete
+
+# Shift+Tab cycles the completion menu backwards
+bindkey -M viins '^[[Z' reverse-menu-complete
