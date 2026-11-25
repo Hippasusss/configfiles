@@ -29,7 +29,6 @@ require("arborist").setup();
 require('vim._core.ui2').enable({ enable = true })
 require('smear_cursor').setup{ stiffness = 0.8, trailing_stiffness = 0.6, damping = 0.95 }
 
-
 require("blink.cmp").setup({
     keymap = { preset = "none",
         ['<tab>'] = {'snippet_forward', 'select_next', 'fallback'},
@@ -136,6 +135,8 @@ vim.keymap.set("n", "v", "V")
 vim.keymap.set("n", "V", "v")
 vim.keymap.set("n", "<A-v>", "<C-v>")
 vim.keymap.set("n", "<C-j>", "J")
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
 
 vim.keymap.set("n",  "H", "<C-w>h")
 vim.keymap.set("n",  "J", "<C-w>j")
